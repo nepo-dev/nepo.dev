@@ -1,0 +1,151 @@
+:root {
+  --width-content: 800px;
+  --color-background: #fdfdfd;
+  --color-tech-highlight: #1982ee;
+  --color-cook-highlight: #eea019;
+  --color-game-highlight: #ee3619;
+  --color-text: #090202;
+}
+
+@font-face {
+  font-family: test;
+  src:url(fonts/font.ttf);
+}
+
+@font-face {
+  font-family: OpenSans;
+  src:url(fonts/OpenSans-Regular.ttf);
+}
+
+body {
+  background-color: #343f56;
+  font-family: OpenSans;
+}
+
+.header {
+  width: var(--width-content);
+  height: 200px;
+  margin-left:auto;
+  margin-right: auto;
+  background-color:var(--color-background);
+  border-radius: 2px;
+  box-shadow: 4px 4px 4px var(--color-text),
+              inset 1px 1px var(--color-text),
+              inset -1px -1px var(--color-text),
+              inset 16px 0px var(--color-tech-highlight);
+}
+
+.my-photo {
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+}
+
+.my-description {
+  height: 200px;
+  width: 600px;
+  display: inline-block;
+  position: absolute;
+}
+
+.my-description > p,h1 {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.menu {
+  position:absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.menu > ul {
+  display: flex;
+  height: 40px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-button {
+  width: 100%;
+}
+
+.menu-button > a {
+  display: inline-block;
+  width:100%;
+  line-height:40px;
+  text-align: center;
+  font-size: 30px;
+  font-family: test;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+}
+
+.menu-button > a:hover, .menu-button > a:active {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.tech-highlight {
+  background-color: var(--color-tech-highlight);
+  color: var(--color-background);
+}
+
+.cook-highlight {
+  background-color: var(--color-cook-highlight);
+  color: var(--color-background);
+}
+
+.game-highlight {
+  background-color: var(--color-game-highlight);
+  color: var(--color-background);
+}
+
+.feed {
+  width: var(--width-content);
+  margin: 0 auto;
+}
+
+.container {
+  -webkit-transform: skewY(2deg);
+  -moz-transform: skewY(2deg);
+  -ms-transform: skewY(2deg);
+  -o-transform: skewY(2deg);
+  transform: skewY(2deg);
+  padding: 10px 0 0 10px;
+  background-color: var(--color-background);
+  border-radius: 2px;
+  box-shadow: 4px 4px 4px var(--color-text),
+              inset 1px 1px var(--color-text),
+              inset -1px -1px var(--color-text),
+              inset 16px 0px var(--color-tech-highlight);
+}
+
+.title {
+  display: inline-block;
+  height: auto;
+  margin: 20px 0 20px -40px;
+  padding: 0 16px 0 8px;
+  border-radius: 2px 4px 4px 2px;
+}
+
+.title > h1 {
+  margin: 2px;
+}
+
+.content {
+  -webkit-transform: skewY(-2deg);
+  -moz-transform: skewY(-2deg);
+  -ms-transform: skewY(-2deg);
+  -o-transform: skewY(-2deg);
+  transform: skewY(-2deg);
+  color: var(--color-text);
+  margin-top: -20px;
+  padding: 0 30px 12px 30px;
+}
+
