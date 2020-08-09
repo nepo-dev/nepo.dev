@@ -127,6 +127,10 @@ body {
 }
 
 .title {
+  -webkit-transform: skewY(-2deg);
+  -moz-transform: skewY(-2deg);
+  -ms-transform: skewY(-2deg);
+  -o-transform: skewY(-2deg);
   display: inline-block;
   height: auto;
   margin: 20px 0 20px -40px;
