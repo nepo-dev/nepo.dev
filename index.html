@@ -1,6 +1,16 @@
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="edearth.css">
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+${for(author-meta)}
+  <meta name="author" content="${author-meta}" />
+${endfor}
+${if(keywords)}
+  <meta name="keywords" content="${for(keywords}${keywords}${sep}, ${enfor}" />
+${endif}
+  <title>${pagetitle}</title>
+  <link rel="stylesheet" type="text/css" href="edearth.css" />
 </head>
 <body>
 <div class="header">
@@ -22,19 +32,9 @@
   <div class="feed">
     <article class="container">
       <div class="title tech-highlight">
-        <h1>&gt; Title for a tech article</h1>
+        <h1>&gt; ${title}</h1>
       </div>
-      <div class="content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et elementum ipsum. Aliquam porta, eros vitae imperdiet dictum, arcu risus suscipit dui, in porttitor lorem quam et mi. Praesent blandit, erat nec porta laoreet, enim elit fringilla massa, at tincidunt elit turpis cursus nunc. Nullam sit amet neque nunc. Nunc pellentesque sem non velit pharetra tempor. Curabitur eleifend cursus nibh et aliquet. Fusce vel magna quam. Suspendisse potenti. Morbi sodales viverra turpis quis blandit.</p>
-
-        <p>In non tristique enim. Nam neque mi, porta ut rutrum at, egestas at enim. Nullam gravida luctus mi, sed maximus est pellentesque viverra. Suspendisse leo lectus, mollis vitae aliquam sit amet, pretium non augue. Donec id ex sollicitudin, consectetur justo sit amet, aliquam quam. Integer a lobortis nunc. Sed sed fermentum turpis. Praesent dignissim quis sapien ac suscipit. Sed accumsan aliquam nulla, at rutrum risus semper at.</p>
-
-        <p>Integer venenatis nisl sit amet lorem sodales hendrerit. Duis nec nisi tortor. Maecenas euismod quis tellus sit amet euismod. Ut vel faucibus sapien. Sed feugiat quis ex eu porta. Maecenas massa metus, pretium sit amet felis sed, finibus maximus nunc. Quisque pretium sit amet erat non molestie. Vivamus quis sodales ligula. Phasellus accumsan lobortis nisi, sed sagittis purus congue sed. Mauris eu libero fermentum, viverra nisl sed, iaculis mi. Vivamus vestibulum convallis enim, eu iaculis tortor. Aenean mi nisl, sodales vel aliquet vulputate, sodales vitae elit. Suspendisse lobortis erat eros, a vestibulum nisi accumsan vel. Vivamus non tempor mauris. Pellentesque tincidunt nisl velit, quis volutpat mi imperdiet rhoncus.</p>
-
-        <p>Praesent consectetur arcu eget nunc semper mollis. Quisque in porttitor ante, sed scelerisque felis. Praesent eleifend vitae nunc ut maximus. Etiam at quam id dui condimentum tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ullamcorper dictum justo ac euismod. Morbi lacinia viverra nulla sed bibendum.</p>
-
-        <p>Cras sit amet leo sit amet tortor auctor euismod. Ut at consectetur nisl. In ultrices consequat nibh in eleifend. In gravida orci sit amet leo ultricies volutpat at sit amet velit. In hac habitasse platea dictumst. Aenean vitae sem purus. Etiam pellentesque erat faucibus est ornare, in ultrices arcu hendrerit. Donec tincidunt orci nisl. Proin facilisis at nulla nec fermentum. Nulla efficitur sodales ex nec tincidunt. Mauris vitae lectus ac lectus gravida interdum. Pellentesque accumsan arcu ut malesuada lobortis. Sed consequat turpis erat, quis ullamcorper magna posuere at. Vestibulum placerat ac purus consectetur vulputate. Cras condimentum lorem sit amet sapien maximus, eget luctus lorem pharetra.</p>
-      </div>
+      <div class="content">${body}</div>
     </article>
   </div>
 </body>
