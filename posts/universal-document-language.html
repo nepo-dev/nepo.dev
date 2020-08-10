@@ -1,0 +1,119 @@
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+  <title>A universal document language</title>
+  <link rel="stylesheet" type="text/css" href="edearth.css" />
+</head>
+<body>
+<div class="header">
+  <img class="my-photo" src="./myface.jpg">
+  <div class="my-description">
+    <h1>Juan Antonio Nepormoseno</h1>
+    <p>A spanish developer and tester writing about technology, games, cooking and my life philosophy.</p>
+    <p style="line-height:0px; color:lightgray;">[add icons to github, twitter, linkedin, etc.]</p>
+    <div class="menu">
+      <ul>
+        <li class="menu-button tech-highlight"><a href="#">Tech</a></li>
+        <li class="menu-button cook-highlight"><a href="#">Cooking</a></li>
+        <li class="menu-button game-highlight"><a href="#">Games</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<br><br>
+  <div class="feed">
+    <article class="container">
+      <div class="title tech-highlight">
+        <h1>&gt; A universal document language</h1>
+      </div>
+      <div class="content"><p>I love Markdown. It’s a simple to use, minimalist markup language. It’s completely text based, so it’s very lightweight and it works extremely well when used with a VCS like Git. Here is an example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="an">title:</span><span class="co"> &#39;My document&#39;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="an">author:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co">* John Doe</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="co">---</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>Paragraph</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="ss">* </span>List item 1</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="ss">* </span>List item 2</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="fu">## Section 2</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>Another paragraph</span></code></pre></div>
+<p>And not only can you use it for text files, you can use it to generate other types of documents as well.</p>
+<h2 id="converting-documents">Converting documents</h2>
+<p>There are multiple tools to achieve this, but today I want to talk about <strong><a href="https://pandoc.org/">Pandoc</a></strong>. Pandoc is a <strong>universal document converter</strong>. It allows converting from and to different formats, like from Open/Libre Office’s ODT to Microsoft Word’s DOCX or viceversa. From word processor formats like the previous 2, to HTML, PDF, Slides, Wiki, TeX… and the best of all: it allows converting to and from <strong>Markdown</strong>.</p>
+<p>Why is this good? Well, you can write a document in Markdown and maintain a local git repository for it, so you can keep a <strong>history</strong> of the changes you made. And then you can <strong>convert</strong> it to a <strong>PDF/Word</strong> format, so a colleague can read your notes in visual form. With the same file, you can even convert it to a <strong>slideshow</strong> format, so you can present it in front of people. Need to add this info in a web page? You just convert it to <strong>HTML</strong>. It is <em>extremely</em> flexible. And if you already take notes in Markdown, the process to adapt your notes to another format/document is trivially easy and quick.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># Markdown to ODT</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="ex">pandoc</span> document.md -o </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co"># Markdown to PDF (using xelatex)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="ex">pandoc</span> document.md --pdf-engine=xelatex -o document.pdf</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="co"># Markdown to HTML</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="co"># -s (for standalone) is optional, used to generate tags </span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="co"># like the headers, body, etc. and make a whole HTML file</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a><span class="ex">pandoc</span> document.md -s -o document.html</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="co"># Markdown to slideshow (using Beamer)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a><span class="ex">pandoc</span> document.md -t beamer -o slides.pdf</span></code></pre></div>
+<p>Not convinced yet? What if I told you you could automate the styling of the document? That would allow you to <strong>focus on the content</strong> and leave the formatting to Pandoc. That can be easily achieved with a custom template.</p>
+<h1 id="writing-your-own-template">Writing your own template</h1>
+<p>Writing your own template is easy to do. Let’s take an HTML template as an example. We start by making a dummy HTML:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/css&quot;</span><span class="er">...</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="er">...</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>  <span class="er">&lt;/head</span><span class="kw">&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>    <span class="kw">&lt;h1&gt;</span>Title<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>Lorem ipsum...<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>Then we can use the default template as a reference to start building our own. You can use the <code>-D</code> option to get the standard template for a format, like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">pandoc</span> -D html <span class="op">&gt;</span> template.html</span></code></pre></div>
+<p>From the get go, we see properties like “author-meta”, “date-meta” or “keywords”. To keep this post short I’ll just stick to the “title” and “body”, but you can <a href="https://pandoc.org/MANUAL.html#variables">read the official documentation</a> if you want to see all you can do with it. You can also use conditionals, loops and embed templates on other templates, if you need to do something more complex. But let’s go back to our example.</p>
+<p>To use these properties in our document, we can use either of two formats:</p>
+<ul>
+<li><code>$prop$</code></li>
+<li><code>${prop}</code></li>
+</ul>
+<p>So to add the title and the content of our document to our HTML template, we just need to do:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/css&quot;</span><span class="er">...</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="er">...</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>  <span class="er">&lt;/head</span><span class="kw">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>    <span class="kw">&lt;h1&gt;</span>${title}<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>${body}<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>And, using the example Markdown document at the beginning of the article, the resulting HTML would look like:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/css&quot;</span><span class="er">...</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    <span class="er">...</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>  <span class="er">&lt;/head</span><span class="kw">&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    <span class="kw">&lt;h1&gt;</span>My document<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>Paragraph<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>    <span class="kw">&lt;ul&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>      <span class="kw">&lt;li&gt;</span>List item 1<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>      <span class="kw">&lt;li&gt;</span>List item 2<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>    <span class="kw">&lt;/ul&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>Section 2<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>Another paragraph<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>The best part is that you don’t even need to write your own template. You can just search for more on the Internet. There is a selection of them in <a href="https://github.com/jgm/pandoc/wiki/User-contributed-templates">Pandoc’s official repository</a>.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The key takeaway from this post is this: Markdown emphasizes focusing on the content, not the style. Pandoc allows us to keep these two tasks separated. By using it, we can write our documents in Markdown and rely on our template to apply the style in the end, automatically.</p></div>
+    </article>
+  </div>
+</body>
+</html>
