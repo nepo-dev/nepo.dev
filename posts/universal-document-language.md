@@ -1,10 +1,16 @@
 ---
 title: 'A universal document language'
-author:
+author: 
 - Juan Antonio Nepormoseno Rosales
+date: 2020-08-12
+abstract: 
+ On how to use Markdown and Pandoc to generate documents in multiple formats (HTML, PDF, DOC, PPT, ODT...)
 ---
 
-I love Markdown. It's a simple to use, minimalist markup language. It's completely text based, so it's very lightweight and it works extremely well when used with a VCS like Git. Here is an example:
+I love Markdown.
+It's a simple to use, minimalist markup language.
+It's completely text based, so it's very lightweight and it works extremely well when used with a VCS like Git. 
+Here is an example:
 
 ```md
 ---
@@ -28,9 +34,20 @@ And not only can you use it for text files, you can use it to generate other typ
 
 ## Converting documents
 
-There are multiple tools to achieve this, but today I want to talk about **[Pandoc](https://pandoc.org/)**. Pandoc is a **universal document converter**. It allows converting from and to different formats, like from Open/Libre Office's ODT to Microsoft Word's DOCX or viceversa. From word processor formats like the previous 2, to HTML, PDF, Slides, Wiki, TeX... and the best of all: it allows converting to and from **Markdown**.
+There are multiple tools to achieve this, but today I want to talk about **[Pandoc](https://pandoc.org/)**.
+Pandoc is a **universal document converter**.
+It allows converting from and to different formats, like from Open/Libre Office's ODT to Microsoft Word's DOCX or viceversa.
+From word processor formats like the previous 2, to HTML, PDF, Slides, Wiki, TeX...
+and the best of all: it allows converting to and from **Markdown**.
 
-Why is this good? Well, you can write a document in Markdown and maintain a local git repository for it, so you can keep a **history** of the changes you made. And then you can **convert** it to a **PDF/Word** format, so a colleague can read your notes in visual form. With the same file, you can even convert it to a **slideshow** format, so you can present it in front of people. Need to add this info in a web page? You just convert it to **HTML**. It is _extremely_ flexible. And if you already take notes in Markdown, the process to adapt your notes to another format/document is trivially easy and quick.
+Why is this good?
+Well, you can write a document in Markdown and maintain a local git repository for it, so you can keep a **history** of the changes you made.
+And then you can **convert** it to a **PDF/Word** format, so a colleague can read your notes in visual form.
+With the same file, you can even convert it to a **slideshow** format, so you can present it in front of people.
+Need to add this info in a web page?
+You just convert it to **HTML**.
+It is _extremely_ flexible.
+And if you already take notes in Markdown, the process to adapt your notes to another format/document is trivially easy and quick.
 
 ```sh
 # Markdown to ODT
@@ -48,11 +65,16 @@ pandoc document.md -s -o document.html
 pandoc document.md -t beamer -o slides.pdf
 ```
 
-Not convinced yet? What if I told you you could automate the styling of the document? That would allow you to **focus on the content** and leave the formatting to Pandoc. That can be easily achieved with a custom template.
+Not convinced yet?
+What if I told you you could automate the styling of the document?
+That would allow you to **focus on the content** and leave the formatting to Pandoc.
+That can be easily achieved with a custom template.
 
 # Writing your own template
 
-Writing your own template is easy to do. Let's take an HTML template as an example. We start by making a dummy HTML:
+Writing your own template is easy to do.
+Let's take an HTML template as an example.
+We start by making a dummy HTML:
 
 ```html
 <html>
@@ -67,13 +89,17 @@ Writing your own template is easy to do. Let's take an HTML template as an examp
 </html>
 ```
 
-Then we can use the default template as a reference to start building our own. You can use the `-D` option to get the standard template for a format, like this:
+Then we can use the default template as a reference to start building our own.
+You can use the `-D` option to get the standard template for a format, like this:
 
 ```sh
 pandoc -D html > template.html
 ```
 
-From the get go, we see properties like "author-meta", "date-meta" or "keywords". To keep this post short I'll just stick to the "title" and "body", but you can [read the official documentation](https://pandoc.org/MANUAL.html#variables) if you want to see all you can do with it. You can also use conditionals, loops and embed templates on other templates, if you need to do something more complex. But let's go back to our example.
+From the get go, we see properties like "author-meta", "date-meta" or "keywords".
+To keep this post short I'll just stick to the "title" and "body", but you can [read the official documentation](https://pandoc.org/MANUAL.html#variables) if you want to see all you can do with it.
+You can also use conditionals, loops and embed templates on other templates, if you need to do something more complex.
+But let's go back to our example.
 
 To use these properties in our document, we can use either of two formats:
 
@@ -116,8 +142,13 @@ And, using the example Markdown document at the beginning of the article, the re
 </html>
 ```
 
-The best part is that you don't even need to write your own template. You can just search for more on the Internet. There is a selection of them in [Pandoc's official repository](https://github.com/jgm/pandoc/wiki/User-contributed-templates).
+The best part is that you don't even need to write your own template.
+You can just search for more on the Internet.
+There is a selection of them in [Pandoc's official repository](https://github.com/jgm/pandoc/wiki/User-contributed-templates).
 
 # Conclusion
 
-The key takeaway from this post is this: Markdown emphasizes focusing on the content, not the style. Pandoc allows us to keep these two tasks separated. By using it, we can write our documents in Markdown and rely on our template to apply the style in the end, automatically.
+The key takeaway from this post is this:
+Markdown emphasizes focusing on the content, not the style.
+Pandoc allows us to keep these two tasks separated.
+By using it, we can write our documents in Markdown and rely on our template to apply the style in the end, automatically.
