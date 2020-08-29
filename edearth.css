@@ -119,6 +119,7 @@ body {
   -o-transform: skewY(2deg);
   transform: skewY(2deg);
   padding: 10px 0 40px 10px;
+  margin: 0 0 20px 0;
   background-color: var(--color-background);
   border-radius: 2px;
   box-shadow: 4px 4px 4px var(--color-text),
@@ -152,6 +153,10 @@ body {
   color: var(--color-text);
   margin-top: -20px;
   padding: 0 30px 0 30px;
+}
+
+.title-date {
+  float: right;
 }
 
 pre {

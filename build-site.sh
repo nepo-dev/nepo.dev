@@ -24,8 +24,7 @@ get_ordered_post_list() {
 generate_index_preview() {
   pandoc "$POST_FOLDER/$1" --template "$PREVIEW_TEMPLATE" >> "$INDEX_CONTENT_TEMP_FILE"
   post_url="$POST_FOLDER/${1%.*}.html"
-  #sed -e "s#<\!--URL-->#$post_url#" temp.html > temp.html
-  sed -ie "s#<!--URL-->#$post_url#" "$INDEX_CONTENT_TEMP_FILE"
+  sed -i "s#<!--URL-->#$post_url#" "$INDEX_CONTENT_TEMP_FILE"
 }
 
 generate_article() {
