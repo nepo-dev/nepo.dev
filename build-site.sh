@@ -6,6 +6,10 @@ PREVIEW_TEMPLATE_REPLACE_KEYWORD="<!--URL-->"
 INDEX_TEMPLATE="templates/index.html"
 INDEX_CONTENT_TEMP_FILE="temp.html"
 INDEX_TEMPLATE_REPLACE_KEYWORD="<!--CONTENT-->"
+BASE_URL="https://edearth.github.io"
+BASE_URL="file:///home/edearth/dev/newpage/"
+BASE_URL_REPLACE_KEYWORD='$BASE_URL$'
+BASE_URL_REPLACE_KEYWORD_REGEX='\$BASE_URL\$'
 INDEX_FILE="index.html"
 POST_FOLDER="posts"
 
@@ -28,7 +32,7 @@ generate_index_preview() {
 }
 
 generate_article() {
-  pandoc -s "$POST_FOLDER/$1" --template "$ARTICLE_TEMPLATE" -o "$POST_FOLDER/${1%.*}.html"
+  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_FOLDER/$1" | pandoc -s --variable=BASE_URL:"$BASE_URL" --template "$ARTICLE_TEMPLATE" -o "$POST_FOLDER/${1%.*}.html"
 }
 
 generate_index() {

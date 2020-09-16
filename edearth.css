@@ -165,6 +165,10 @@ body {
   padding: 0 30px 0 30px;
 }
 
+.content > p > img {
+  max-width: 100%;
+}
+
 .title-date {
   float: right;
   margin: 30px 30px 0 30px;
