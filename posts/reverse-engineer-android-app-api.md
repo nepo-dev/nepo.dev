@@ -1,22 +1,30 @@
 ---
-title: 'Turning bloated mobile interfaces into CLIs'
+title: 'API discovery in Android Apps and task automation'
 author:
 - Juan Antonio Nepormoseno Rosales
-date: 2020-09-14
+date: 2020-09-14 #started 2020-09-14?
 abstract:
  On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.
 ---
 
-Say, have you ever tried that "new cool app" but it lacked some feature that would've really sold it to you?
-Perhaps you didn't understand the UI? Is that even your fault?
-Maybe your phone even struggled to run it because it's really poorly optimized.
-And that download size... omg, it's taking up how much space!?
+I often find myself needing to use an Android app and getting annoyed because:
 
-Wouldn't it be nice to extend or improve that app?
-Well, with it being closed source as it is that might be an utopian dream,
-but we might still have a chance at making our lives easier by reverse engineering it and consuming its API directly.
+* It lacks simple quality of life features like filtering, searching, automating actions, etc.
+* It is really poorly optimized and it takes too long to load or is extremelly laggy.
+* It doesn't show a lot of information in screen, since images and buttons have to be BIG for a smartphone app. Or, the contrary, the interactable elements are too small or don't work well, so the UX is terrible.
+* It takes up too much space on my phone's storage.
+
+Has this ever happened to you?
+I would love to extend or improve that app,
+but with most apps being closed source that might be an utopian dream.
+In any case, we can still attempt to make our lives easier by automating our usage.
+And for that, we can reverse engineer this app and consume its API directly in a script.
 
 ## Overview
+
+> **Summary:** We will perform a MITM attack by installing a custom CA in an Android emualtor. If you understand that, go to the next section already.
+
+//TODO ^this begs for a link!!!!!!!!!!!!!!!!!
 
 What we are going to do is force an Android emulator to send all its network traffic through us.
 Then, we will trick it into thinking we are the server it's trying to reach and that it can trust us.
@@ -27,7 +35,7 @@ This is what is known as a **"Man in the Middle attack"** in cybersecurity (MITM
 
 When we are able to understand what app and backend are saying to each other,
 we will begin investigating the (now exposed) API.
-When we're done, we might even have the chance to automate our daily app usage into a script.
+If we're lucky, we might even have the chance to automate our daily app usage into a script.
 That way we won't even have to open the app again.
 
 This article will be split in 3 parts:
@@ -45,7 +53,7 @@ If you don't have the Android platform tools, we will install them now. I'm usin
 * https://aur.archlinux.org/android-sdk.git
 * https://aur.archlinux.org/android-sdk-platform-tools.git
 
-You can install them like
+You can install them like:
 
 ```sh
 git clone https://aur.archlinux.org/android-sdk.git
@@ -64,7 +72,7 @@ For instance, if you're on Ubuntu, you can just do:
 sudo apt update && sudo apt install android-sdk
 ```
 
-On Mac (assuming you have Brew installed):
+On Mac (assuming you have [Brew](https://brew.sh/) installed):
 
 ```sh
 brew tap caskroom/cask
@@ -77,9 +85,11 @@ Once we have the tools we need, we can download the system image.
 Since we want to download an app from the Play Store,
 we will need that the image we use includes the Google API.
 We want to find a an image containing "google\_apis", but not "google\_apis\_playstore".
-Why not get the one that comes with the Play Store pre-installed?
-Well, those are production builds and you won't be able to root them,
-and we will need rooting them later.
+Why not get the one that comes with the Play Store pre-installed, you ask?
+Well, those are production builds and you won't be able to root them.
+We will need rooting them later.
+
+//TODO review this. Here I refer to the reader as "you", but in the exploitation I'm talking about "we"
 
 I chose the "android-25" one, but you can choose another one if you want.
 
@@ -126,7 +136,7 @@ Wait for the loading to finish.
 As soon as the home screen is shown,
 you can copy the Open GApps folders to your system.
 
-```
+```sh
 adb root
 adb remount
 adb push etc /system
@@ -165,7 +175,7 @@ It can easily be installed in Arch with:
 pacman -Sy mitmproxy
 ```
 
-It seems like on Ubuntu you will need to install pip and then install mitmproxy using pip.
+It seems on Ubuntu you will need to install pip and then install mitmproxy using pip.
 
 ```sh
 sudo apt install python3-pip
@@ -269,73 +279,133 @@ If you try to load a website now, it should load correctly and you should see tr
 Moreover, if you try to open the target app, you should see its traffic too!
 Congratulations!
 
-Don't forget to unroot the device before proceeding.
+Don't forget to unroot the device before you continue.
 
 ```sh
 adb unroot
 ```
-
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-
 
 ## Exploitation
 
 ### Investigating the API
 
 To begin, let's just use the app normally.
+Create an account with username and password
+(avoid authenticating with Google or Facebook for now,
+you don't want to deal with OAuth).
 Log in, search and browse some items...
 We just want to generate some HTTP traffic
 so that we can inspect it later.
 
 Now we can go back to our terminal
-and see what messages mitmproxy caught.
-We are lucky and 2good2go uses JSON responses.
+and check the messages mitmproxy caught.
+We have to locate the traffic from the target app.
+To do so, just browse the captured requests list
+and see if any URL matches the app's domain.
+Alternatively, you could look for endpoints
+that match actions you performed
+(like a login, search, etc.).
+
+If you're lucky,
+your target API will use a
+human-readable document format
+like JSON or XML, instead of protobuf.
+We are lucky and 2good2go uses JSON.
+
+
+
+
+
+
+
+[NOTE: CONTINUE FROM HERE!!!]
+[NOTE: CONTINUE FROM HERE!!!]
+[NOTE: CONTINUE FROM HERE!!!]
+[NOTE: CONTINUE FROM HERE!!!]
+[NOTE: CONTINUE FROM HERE!!!]
+[NOTE: Es muy fácil, mira:
+
+1. Abre el emulador: emulator -avd mitm-emulator
+2. Enciende mitmproxy: mitmproxy
+3. Crea la cuenta con uwait o un throwaway mail.
+4. Haz una búsqueda, saca captura de app + mitmproxy.
+5. Copia 2 o 3 curls de la búsqueda  y testea que funciona en terminal.
+6. Guarda el resultado en un archivo de texto.
+
+No necesitas más. Hacer el script lo puedes hacer luego.
+Si el emulador no te funciona en Linux, prueba en Mac]
 
 [response.png]
 
-That means we can probably use
-If you're lucky, it will use json instead of protobuf.
+This means we can easily replicate that request in the terminal.
 
-enter `w` you will enter export mode.
- If you then type `export.clip curl @focus` to copy curl request to clipboard
+Enter `w`. You will enter export mode.
+If you then type `export.clip curl @focus`,
+your request will be replicated as a curl command
+and it will be copied to your clipboard.
+You can then paste it on your terminal to see if it works.
 
 ### Automating queries
 
+From this point on,
+it's just like a matter of exploring
+and seeing what can you do
+with the endpoints you discover.
+It's just like learning a regular API.
+
+For example,
+I wanted to automate a search for a restaurant.
+It has to be near me (<1km),
+it cannot be a bakery and
+I just want to know the name, price and pickup time.
+
 ```sh
-curl asdasdasdasd > coso
-cat coso | jq '.groupings[].discover_bucket.items[]' \
-| jq 'select(.distance < 1)' #filter out stores further than 1 km away
-| jq 'select(.item.item_category != "BAKED_GOODS")' #filter out unwanted store categories
+function get_store_list() {
+  curl https://x.x.x.x/get_store_list?...
+}
+
+result=$(get_store_list \
+| jq '.groupings[].discover_bucket.items[]' # get all stores
+| jq 'select(.distance < 1)' # filter out stores further than 1 km away
+| jq 'select(.item.item_category != "BAKED_GOODS")' # filter out unwanted store categories
 | jq '(.store.store_name +
     " // € " + (.item.price.minor_units/100 | tostring) +
     " // "+ .pickup_interval.start)' # print only the wanted data
-| sort | uniq # show only unique results
+| sort | uniq) # sort and show only unique results
+
+notify-send -t 20000 "$result" # send a notification in Linux desktop
+# or
+termux-notification --content "$result" # send a notification in Android's Termux
 ```
 
-## End and thanks
+This shows a simple list like this one as a notification:
 
-This article is just an amalgamation of information I found online.
- I would like to thank the writers of those articles.
+```plaintext
+store_name_1 // € price // time
+store_name_2 // € price // time
+store_name_3 // € price // time
+store_name_4 // € price // time
+```
 
-If you want to know more about this topic, I encourage you to follow these links and search for more information.
+It can be then saved as a script
+and ran as a cron job
+everyday at certain time (lunchtime?).
+This will notify me about
+available stores to get food from.
 
-* Export curl from mitmproxy, Marc Betts (2019 Jul 20): [https://howdoitestthat.com/export-curl-from-mitm-proxy/]
+Do once.
+Run forever.
+Ok, run until the API changes,
+but still it's less worrysome than
+opening the app and searching manually.
+
+## Links of interest
+
+If you want to know more about this topic,
+I encourage you to follow these links
+and search for more information.
+
 * Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr 3): [https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium]
 * Installing Open GApps, Daishi Kato (2017 Mar 6): [https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1]
 * Why you need a Google API image, "oenpelli" on StackOverflow (2014 Jul 18): [https://stackoverflow.com/a/24817495]
-
-// Ideas
-;
-;
-In my case, this app has random offers and I want to find the nearest.
-
-
-
-
-
-
-
+* mitmproxy docs: [https://docs.mitmproxy.org/stable/]
