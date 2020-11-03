@@ -32,7 +32,7 @@ generate_index_preview() {
 }
 
 generate_article() {
-  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_FOLDER/$1" | pandoc -s --variable=BASE_URL:"$BASE_URL" --template "$ARTICLE_TEMPLATE" -o "$POST_FOLDER/${1%.*}.html"
+  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_FOLDER/$1" | pandoc -s --variable=BASE_URL:"$BASE_URL" --template "$ARTICLE_TEMPLATE" --highlight-style=zenburn -o "$POST_FOLDER/${1%.*}.html"
 }
 
 generate_index() {

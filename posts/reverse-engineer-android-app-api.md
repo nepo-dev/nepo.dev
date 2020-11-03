@@ -20,11 +20,9 @@ but with most apps being closed source that might be an utopian dream.
 In any case, we can still attempt to make our lives easier by automating our usage.
 And for that, we can reverse engineer this app and consume its API directly in a script.
 
-## Overview
+### Overview
 
-> **Summary:** We will perform a MITM attack by installing a custom CA in an Android emualtor. If you understand that, go to the next section already.
-
-//TODO ^this begs for a link!!!!!!!!!!!!!!!!!
+> **Summary:** We will perform a MITM attack by installing a custom CA in an Android emualtor. If you understand that, go to the [next section](#setting-up-emulator-and-app) already.
 
 What we are going to do is force an Android emulator to send all its network traffic through us.
 Then, we will trick it into thinking we are the server it's trying to reach and that it can trust us.
@@ -93,7 +91,7 @@ We will need rooting them later.
 
 I chose the "android-25" one, but you can choose another one if you want.
 
-```sh
+```bash
 sdkmanager --list | grep "google_apis" #select another image from this list if you want
 sudo sdkmanager --install "system-images;android-25;google_apis;x86_64"
 ```
@@ -102,13 +100,13 @@ sudo sdkmanager --install "system-images;android-25;google_apis;x86_64"
 
 After accepting the license and waiting for the download to finish, we can finally create our AVD.
 
-```sh
+```bash
 avdmanager create avd --name "mitm-emulator" --package "system-images;android-25;google_apis;x86_64"
 ```
 
 And open it with:
 
-```sh
+```bash
 emulator -avd mitm-emulator &
 ```
 
@@ -117,7 +115,7 @@ emulator -avd mitm-emulator &
 Download the Open GApps file for your system image from [https://opengapps.org/].
 You can extract it with:
 
-```sh
+```bash
 unzip open_gapps-*.zip 'Core/*'
 rm Core/setup*
 lzip -d Core/*.lz
@@ -128,7 +126,7 @@ done
 
 Then run your emulator and install the packages:
 
-```sh
+```bash
 emulator -avd "mitm-emulator" -writable-system &
 ```
 
@@ -136,7 +134,7 @@ Wait for the loading to finish.
 As soon as the home screen is shown,
 you can copy the Open GApps folders to your system.
 
-```sh
+```bash
 adb root
 adb remount
 adb push etc /system
@@ -147,7 +145,7 @@ adb push priv-app /system
 
 We can now restart the emulator.
 
-```sh
+```bash
 adb shell stop
 adb shell start
 ```
@@ -171,20 +169,20 @@ We will be using **[mitmproxy](https://mitmproxy.org)**, an MIT licensed open so
 
 It can easily be installed in Arch with:
 
-```sh
+```bash
 pacman -Sy mitmproxy
 ```
 
 It seems on Ubuntu you will need to install pip and then install mitmproxy using pip.
 
-```sh
+```bash
 sudo apt install python3-pip
 sudo pip3 install mitmproxy
 ```
 
 On Mac, just use brew:
 
-```sh
+```bash
 brew install mitmproxy
 ```
 
@@ -195,11 +193,11 @@ select the **Proxy tab**
 and configure to use `http://0.0.0.0:8080` as a proxy,
 like in the image below.
 
-![]($BASE_URL$/imgs/reveng/emulator_proxy_config.png)
+![a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080]($BASE_URL$/imgs/reveng/emulator_proxy_config.png)
 
 Run mitmproxy with no arguments, like this:
 
-```sh
+```bash
 mitmproxy
 ```
 
@@ -208,16 +206,16 @@ You will see it's almost as if your device lost connection,
 and if you try to use a web browser,
 a warning about your connection not being private will appear.
 
-![]($BASE_URL$/imgs/reveng/mitm_no_cert00.png){ height=400px }
+![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reveng/mitm_no_cert00.png){ height=400px }
 
 This happens because mitmproxy signs HTTPS traffic with its own certificate.
 Since the emulator doesn't trust that certificate, it won't even accept that response!
 If you go to the terminal where you launched mitmproxy, you should see something like this.
 Notice all the traffic is HTTP, there are no HTTPS messages.
 
-![]($BASE_URL$/imgs/reveng/mitm_no_cert01.png)
+![a screenshot shows a get request to http google, redirected to https]($BASE_URL$/imgs/reveng/mitm_no_cert01.png)
 
-![]($BASE_URL$/imgs/reveng/mitm_no_cert02.png)
+![a screenshot shows more detail on the get request to http google]($BASE_URL$/imgs/reveng/mitm_no_cert02.png)
 
 To continue, we will need to make the emulator trust mitmproxy's Certificate Authority.
 
@@ -242,7 +240,7 @@ we need to install it as a **system certificate**.
 We will need root privileges for that.
 So we will launch the emulator specifying:
 
-```sh
+```bash
 emulator -avd mitm-emulator -writable-system &
 adb root
 adb remount
@@ -252,8 +250,8 @@ Now we need to find our certificate file.
 If you are using Linux, it will be in the `~/.mitmproxy/` folder.
 Let's save it to a variable named "CA":
 
-```sh
-CA="~/.mitmproxy/mitmproxy-ca-cert.pem"
+```bash
+CA=~/.mitmproxy/mitmproxy-ca-cert.pem
 ```
 
 We just need to copy that file into the emulator's trusted CAs folder,
@@ -261,17 +259,17 @@ but it needs to be named with a special value.
 The filename must be the hash of the certificate itself.
 You can calculate it with the following command:
 
-```sh
+```bash
 HASH=$(openssl x509 -noout -subject_hash_old -in "$CA")
 ```
 
 But since mitmproxy uses the same default certificate everywhere,
- we know the value should be `c8750f0d`, so you can skip this step and just use that value.
- You can always come back and recalculate the value if it does not work 😛
+we know the value should be `c8750f0d`, so you can skip this step and just use that value.
+You can always come back and use that line to recalculate the value if it doesn't work 😛
 
 So you can just do:
 
-```sh
+```bash
 adb push "$CA" /system/etc/security/cacerts/c8750f0d.0
 ```
 
@@ -281,7 +279,7 @@ Congratulations!
 
 Don't forget to unroot the device before you continue.
 
-```sh
+```bash
 adb unroot
 ```
 
@@ -312,30 +310,7 @@ human-readable document format
 like JSON or XML, instead of protobuf.
 We are lucky and 2good2go uses JSON.
 
-
-
-
-
-
-
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: CONTINUE FROM HERE!!!]
-[NOTE: Es muy fácil, mira:
-
-1. Abre el emulador: emulator -avd mitm-emulator
-2. Enciende mitmproxy: mitmproxy
-3. Crea la cuenta con uwait o un throwaway mail.
-4. Haz una búsqueda, saca captura de app + mitmproxy.
-5. Copia 2 o 3 curls de la búsqueda  y testea que funciona en terminal.
-6. Guarda el resultado en un archivo de texto.
-
-No necesitas más. Hacer el script lo puedes hacer luego.
-Si el emulador no te funciona en Linux, prueba en Mac]
-
-[response.png]
+![a screenshot shows how an intercepted response looks in mitmproxy]($BASE_URL$/imgs/reveng/response_censored.png)
 
 This means we can easily replicate that request in the terminal.
 
@@ -344,6 +319,11 @@ If you then type `export.clip curl @focus`,
 your request will be replicated as a curl command
 and it will be copied to your clipboard.
 You can then paste it on your terminal to see if it works.
+
+For my particular case I had to perform 2 changes for it to work:
+
+* Remove the `:authority` pseudo-header that looked like `-H ':authority: domainname.com'`.
+* Change the IP address for it's domain name in the URL (`https://1.2.3.4/v1/endpoint` => `https://domainname.com/v1/endpoint`).
 
 ### Automating queries
 
@@ -359,18 +339,18 @@ It has to be near me (<1km),
 it cannot be a bakery and
 I just want to know the name, price and pickup time.
 
-```sh
+```bash
 function get_store_list() {
   curl https://x.x.x.x/get_store_list?...
 }
 
-result=$(get_store_list \
-| jq '.groupings[].discover_bucket.items[]' # get all stores
-| jq 'select(.distance < 1)' # filter out stores further than 1 km away
-| jq 'select(.item.item_category != "BAKED_GOODS")' # filter out unwanted store categories
-| jq '(.store.store_name +
-    " // € " + (.item.price.minor_units/100 | tostring) +
-    " // "+ .pickup_interval.start)' # print only the wanted data
+result=$(get_store_list\
+| jq '.groupings[].discover_bucket.items[]' \ # get all stores
+| jq 'select(.distance < 1)' \ # filter out stores further than 1 km away
+| jq 'select(.item.item_category != "BAKED_GOODS")' \ # filter out unwanted store categories
+| jq '(.store.store_name + ", "
++ (.item.price.minor_units/100 | tostring) + "€, "
++ .pickup_interval.start)' \ # print just the wanted data: store name, price and pickup time
 | sort | uniq) # sort and show only unique results
 
 notify-send -t 20000 "$result" # send a notification in Linux desktop
@@ -380,24 +360,21 @@ termux-notification --content "$result" # send a notification in Android's Termu
 
 This shows a simple list like this one as a notification:
 
-```plaintext
-store_name_1 // € price // time
-store_name_2 // € price // time
-store_name_3 // € price // time
-store_name_4 // € price // time
+```csv
+"Store name 1, 3.99€, 2020-11-04T19:00:00Z"
+"Store name 2, 4.99€, 2020-11-04T15:00:00Z"
+"Store name 3, 4.99€, 2020-11-04T15:00:00Z"
+"Store name 4, 2.99€, 2020-11-04T19:00:00Z"
+...
 ```
 
-It can be then saved as a script
-and ran as a cron job
+It can be then saved as a script and ran as a cron job
 everyday at certain time (lunchtime?).
-This will notify me about
-available stores to get food from.
+This will notify me about available stores to get food from.
 
-Do once.
-Run forever.
-Ok, run until the API changes,
-but still it's less worrysome than
-opening the app and searching manually.
+Do once. Run forever.
+Ok, run until the API changes or something breaks, but still,
+it's less worrysome than opening the app and searching manually.
 
 ## Links of interest
 
@@ -405,7 +382,7 @@ If you want to know more about this topic,
 I encourage you to follow these links
 and search for more information.
 
-* Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr 3): [https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium]
-* Installing Open GApps, Daishi Kato (2017 Mar 6): [https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1]
-* Why you need a Google API image, "oenpelli" on StackOverflow (2014 Jul 18): [https://stackoverflow.com/a/24817495]
-* mitmproxy docs: [https://docs.mitmproxy.org/stable/]
+* Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr 3): \[[Link](https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium)\]
+* Installing Open GApps, Daishi Kato (2017 Mar 6): \[[Link](https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1)\]
+* Why you need a Google API image, "oenpelli" on StackOverflow (2014 Jul 18): \[[Link](https://stackoverflow.com/a/24817495)\]
+* mitmproxy docs: \[[Link](https://docs.mitmproxy.org/stable/)\]

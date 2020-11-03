@@ -10,6 +10,9 @@ ${if(keywords)}
   <meta name="keywords" content="${for(keywords)}${keywords}${sep}, ${endfor}" />
 ${endif}
   <title>${pagetitle}</title>
+  <style>
+    $styles.html()$
+  </style>
   <link rel="stylesheet" type="text/css" href="$BASE_URL$/edearth.css" />
 </head>
 <body>

@@ -165,8 +165,16 @@ body {
   padding: 0 30px 0 30px;
 }
 
-.content > p > img {
+figure {
+  margin: 0;
+}
+
+figure > img {
   max-width: 100%;
+}
+
+figure > figcaption {
+  display: none;
 }
 
 .title-date {
@@ -175,7 +183,7 @@ body {
 }
 
 pre {
-  background-color: var(--color-box-background);
+/*  background-color: var(--color-box-background);*/
   display: block;
   padding: 1em;
   overflow-x: auto;
@@ -185,11 +193,12 @@ pre {
 code {
   font-size: 1.2em;
   padding: 0 0.5em;
-  background-color: var(--color-box-background);
+  color: #cccccc;
+  background-color: #303030;
   white-space: pre-wrap; }
 
 pre > code {
   padding: 0;
-  background-color: transparent;
+/*  background-color: transparent;*/
   white-space: pre; }
 
