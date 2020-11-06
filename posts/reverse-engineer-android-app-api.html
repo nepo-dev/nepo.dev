@@ -75,7 +75,7 @@
     code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" type="text/css" href="file:///home/edearth/dev/newpage//edearth.css" />
+  <link rel="stylesheet" type="text/css" href="https://edearth.github.io/edearth.css" />
 </head>
 <body>
 <div class="header">
@@ -202,20 +202,20 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="ex">brew</span> install mitmproxy</span></code></pre></div>
 <p>To test it out, let’s start the emulator and open its settings by clicking on the 3 dots button. Then, navigate to the <strong>settings</strong> section, select the <strong>Proxy tab</strong> and configure to use <code>http://0.0.0.0:8080</code> as a proxy, like in the image below.</p>
 <figure>
-<img src="file:///home/edearth/dev/newpage//imgs/reveng/emulator_proxy_config.png" alt="a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080" /><figcaption aria-hidden="true">a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080</figcaption>
+<img src="https://edearth.github.io/imgs/reveng/emulator_proxy_config.png" alt="a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080" /><figcaption aria-hidden="true">a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080</figcaption>
 </figure>
 <p>Run mitmproxy with no arguments in a terminal, like this:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ex">mitmproxy</span></span></code></pre></div>
 <p>We can now go back to the emulator and navigate anywhere. You will see it’s almost as if your device lost connection, and if you try to use a web browser, a warning about your connection not being private will appear.</p>
 <figure>
-<img src="file:///home/edearth/dev/newpage//imgs/reveng/mitm_no_cert00.png" height="400" alt="a screenshot shows chrome browser warning the user its connection is not private" /><figcaption aria-hidden="true">a screenshot shows chrome browser warning the user its connection is not private</figcaption>
+<img src="https://edearth.github.io/imgs/reveng/mitm_no_cert00.png" height="400" alt="a screenshot shows chrome browser warning the user its connection is not private" /><figcaption aria-hidden="true">a screenshot shows chrome browser warning the user its connection is not private</figcaption>
 </figure>
 <p>This happens because mitmproxy signs HTTPS traffic with its own certificate. (note: i need to double check this //TODO ) Since the emulator doesn’t trust that certificate (yet), it won’t even accept that response! If you go to the terminal where you launched mitmproxy, you should see something like this. Notice all the traffic is HTTP, there are no HTTPS messages.</p>
 <figure>
-<img src="file:///home/edearth/dev/newpage//imgs/reveng/mitm_no_cert01.png" alt="a screenshot shows a get request to http google, redirected to https" /><figcaption aria-hidden="true">a screenshot shows a get request to http google, redirected to https</figcaption>
+<img src="https://edearth.github.io/imgs/reveng/mitm_no_cert01.png" alt="a screenshot shows a get request to http google, redirected to https" /><figcaption aria-hidden="true">a screenshot shows a get request to http google, redirected to https</figcaption>
 </figure>
 <figure>
-<img src="file:///home/edearth/dev/newpage//imgs/reveng/mitm_no_cert02.png" alt="a screenshot shows more detail on the get request to http google" /><figcaption aria-hidden="true">a screenshot shows more detail on the get request to http google</figcaption>
+<img src="https://edearth.github.io/imgs/reveng/mitm_no_cert02.png" alt="a screenshot shows more detail on the get request to http google" /><figcaption aria-hidden="true">a screenshot shows more detail on the get request to http google</figcaption>
 </figure>
 <p>To continue, we will need to make the emulator trust mitmproxy’s Certificate Authority.</p>
 <h3 id="install-the-certificate-authority">Install the Certificate Authority</h3>
@@ -241,7 +241,7 @@
 <p>Now we can go back to our terminal and check the messages mitmproxy caught. We have to locate the traffic from the target app. To do so, just browse the captured requests list and see if any URL matches the app’s domain. Alternatively, you could look for endpoints that match actions you performed (like a login, search, etc.).</p>
 <p>If you’re lucky, your target API will use a human-readable document format like JSON or XML, instead of protobuf. We are lucky and 2good2go uses JSON.</p>
 <figure>
-<img src="file:///home/edearth/dev/newpage//imgs/reveng/response_censored.png" alt="a screenshot shows how an intercepted response looks in mitmproxy" /><figcaption aria-hidden="true">a screenshot shows how an intercepted response looks in mitmproxy</figcaption>
+<img src="https://edearth.github.io/imgs/reveng/response_censored.png" alt="a screenshot shows how an intercepted response looks in mitmproxy" /><figcaption aria-hidden="true">a screenshot shows how an intercepted response looks in mitmproxy</figcaption>
 </figure>
 <p>This means we can easily replicate that request in the terminal.</p>
 <p>Enter <code>w</code>. You will enter export mode. If you then type <code>export.clip curl @focus</code>, your request will be replicated as a curl command and it will be copied to your clipboard. You can then paste it on your terminal to see if it works.</p>
