@@ -110,33 +110,38 @@
         <h1>&gt; API discovery in Android Apps and task automation</h1>
       </div>
       <p class="title-date">2020-09-14</p>
-      <div class="content"><p>I often find myself needing to use an Android app and getting annoyed because:</p>
+      <div class="content"><p>Have you ever felt frustrated when using a mobile app because of any of the following reasons?</p>
 <ul>
 <li>It lacks simple quality of life features like filtering, searching, automating actions, etc.</li>
-<li>It is really poorly optimized and it takes too long to load or is extremelly laggy.</li>
-<li>It doesn’t show a lot of information in screen, since images and buttons have to be BIG for a smartphone app. Or, the contrary, the interactable elements are too small or don’t work well, so the UX is terrible.</li>
-<li>It takes up too much space on my phone’s storage.</li>
+<li>It is poorly optimized and it is extremely laggy. Or maybe it takes too long to load.</li>
+<li>It doesn’t show a lot of information on screen, since images and buttons have to be BIG for a mobile app. Or the complete opposite, the interactable elements are too small or don’t work well. The UX is terrible in both cases.</li>
+<li>It takes up too much space on the phone’s storage.</li>
 </ul>
-<p>Has this ever happened to you? I would love to extend or improve that app, but with most apps being closed source that might be an utopian dream. In any case, we can still attempt to make our lives easier by automating our usage. And for that, we can reverse engineer this app and consume its API directly in a script.</p>
+<p>If you can relate with any of those reasons, I’m right there with you. You could ditch that application, but if you really want to use it, I’ve got good news: there is a way around it. It involves learning about cyber-security, reverse engineering an API and automating nearly anything that matters in an app.</p>
 <h3 id="overview">Overview</h3>
 <blockquote>
-<p><strong>Summary:</strong> We will perform a MITM attack by installing a custom CA in an Android emualtor. If you understand that, go to the <a href="#setting-up-emulator-and-app">next section</a> already.</p>
+<p><strong>Summary:</strong> We will perform a MITM attack by installing a custom CA in an Android emulator and scripting the API requests we intercept. If you understand that, go to the <a href="#setting-up-emulator-and-app">next section</a> already.</p>
 </blockquote>
-<p>What we are going to do is force an Android emulator to send all its network traffic through us. Then, we will trick it into thinking we are the server it’s trying to reach and that it can trust us. This way, we will be able to understand the encrypted HTTPS messages the app sends and receives. This is what is known as a <strong>“Man in the Middle attack”</strong> in cybersecurity (MITM from now on).</p>
-<p>[Drawing of man in the middle]</p>
-<p>When we are able to understand what app and backend are saying to each other, we will begin investigating the (now exposed) API. If we’re lucky, we might even have the chance to automate our daily app usage into a script. That way we won’t even have to open the app again.</p>
-<p>This article will be split in 3 parts:</p>
+<p>Normally we can’t see the traffic coming out of an App. It’s <strong>encrypted</strong>, and therefore it looks like random garbage to us. This keeps your information safe, at least during the transaction (what each ends does with the information and how they protect it is a different matter).</p>
+<p>You might have heard about <strong>digital certificates</strong>. They are what make this encryption possible, and in order to know what certificates you can trust or not your devices depend on a <strong>Certificate Authority</strong> (CA). These are actors that can create digital certificates</p>
+<p>But anyone can <em>be</em> a CA, or they can create one at least, so how do we know which CAs can we trust or not? Usually, your devices/applications come with a hardcoded set of CAs that they trust by default. This is a <em>good enough</em> measure that <em>mostly works</em>, although these CAs then become very high value targets for hackers and you can believe some have been compromised before.</p>
+<p>So, back to our little project. We want to be able to snoop into what our target app and their backend are talking about. In order to do that, we are going to force an Android emulator into sending all its network traffic through us and then make it think it can trust us. How we will do that is by installing our own certificate as one of those default CAs. This way, we will be able to understand the encrypted HTTPS messages any app sends and receives. This is what is known as a <strong>“Man in the Middle attack”</strong> (MITM) in cyber-security.</p>
+<figure>
+<img src="" alt="Drawing of man in the middle" /><figcaption aria-hidden="true">Drawing of man in the middle</figcaption>
+</figure>
+<p>When we are able to understand what app and backend are saying to each other, we will begin investigating the now exposed API. If we’re lucky, we might even have the chance to automate our daily app usage into a script. That way we won’t even have to open the app again.</p>
+<p>This post will be split in 3 parts:</p>
 <ul>
-<li>Setting up the tools and emulator</li>
-<li>Configuring the MITM proxy</li>
-<li>Investigating the API and automating</li>
+<li><a href="#setting-up-emulator-and-app">Setting up the emulator</a></li>
+<li><a href="#setting-up-the-proxy">Configuring MITM proxy</a></li>
+<li><a href="#exploitation">Investigating the API and automating</a></li>
 </ul>
 <h2 id="setting-up-emulator-and-app">Setting up emulator and app</h2>
 <h3 id="install-the-tools">Install the tools</h3>
 <p>If you don’t have the Android platform tools, we will install them now. I’m using Arch, so I will use these AUR packages:</p>
 <ul>
-<li>https://aur.archlinux.org/android-sdk.git</li>
-<li>https://aur.archlinux.org/android-sdk-platform-tools.git</li>
+<li>[https://aur.archlinux.org/android-sdk.git]</li>
+<li>[https://aur.archlinux.org/android-sdk-platform-tools.git]</li>
 </ul>
 <p>You can install them like:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="fu">git</span> clone https://aur.archlinux.org/android-sdk.git</span>
@@ -152,8 +157,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">brew</span> tap caskroom/cask</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="ex">brew</span> cask install android-sdk</span></code></pre></div>
 <h3 id="install-the-system-image">Install the system image</h3>
-<p>Once we have the tools we need, we can download the system image. Since we want to download an app from the Play Store, we will need that the image we use includes the Google API. We want to find a an image containing “google_apis”, but not “google_apis_playstore”. Why not get the one that comes with the Play Store pre-installed, you ask? Well, those are production builds and you won’t be able to root them. We will need rooting them later.</p>
-<p>//TODO review this. Here I refer to the reader as “you”, but in the exploitation I’m talking about “we”</p>
+<p>Once we have the tools we need, we can download the system image. Since we want to download an app from the Play Store, we will need that the image we use includes the Google API. We want to find a an image containing “google_apis”, but not “google_apis_playstore”. Why not get the one that comes with the Play Store pre-installed, you ask? Well, those are production builds and we won’t be able to root them. We will need rooting them later.</p>
 <p>I chose the “android-25” one, but you can choose another one if you want.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">sdkmanager</span> --list <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;google_apis&quot;</span> <span class="co">#select another image from this list if you want</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="fu">sudo</span> sdkmanager --install <span class="st">&quot;system-images;android-25;google_apis;x86_64&quot;</span></span></code></pre></div>
@@ -163,16 +167,16 @@
 <p>And open it with:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd mitm-emulator <span class="kw">&amp;</span></span></code></pre></div>
 <h3 id="installing-google-play">Installing Google Play</h3>
-<p>Download the Open GApps file for your system image from [https://opengapps.org/]. You can extract it with:</p>
+<p>Download Open GApps for your system image from [https://opengapps.org/]. We will need them to download the target app from the Play Store. We can extract it with:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="fu">unzip</span> open_gapps-*.zip <span class="st">&#39;Core/*&#39;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="fu">rm</span> Core/setup*</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="ex">lzip</span> -d Core/*.lz</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">f</span> in <span class="va">$(</span><span class="fu">ls</span> Core/*.tar<span class="va">)</span><span class="kw">;</span> <span class="kw">do</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>  <span class="fu">tar</span> -x --strip-components 2 -f <span class="va">$f</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="kw">done</span></span></code></pre></div>
-<p>Then run your emulator and install the packages:</p>
+<p>Then, we run our emulator and install the packages:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd <span class="st">&quot;mitm-emulator&quot;</span> -writable-system <span class="kw">&amp;</span></span></code></pre></div>
-<p>Wait for the loading to finish. As soon as the home screen is shown, you can copy the Open GApps folders to your system.</p>
+<p>Wait for the loading to finish. As soon as the home screen is shown, copy the Open GApps folders to your system.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ex">adb</span> root</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="ex">adb</span> remount</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="ex">adb</span> push etc /system</span>
@@ -182,31 +186,31 @@
 <p>We can now restart the emulator.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ex">adb</span> shell stop</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="ex">adb</span> shell start</span></code></pre></div>
-<p>After the loading finished, you will see the Play Store in your home screen. Now you can open it, log in and install the target app normally.</p>
+<p>After the loading finishes, you will see the Play Store in your home screen.</p>
 <h3 id="install-the-target-app">Install the target app</h3>
 <p>This should be the easiest step. Just login to the Play Store and download your target app.</p>
 <p>Make sure you can open it before proceeding.</p>
 <h2 id="setting-up-the-proxy">Setting up the proxy</h2>
 <h3 id="install-mitm-proxy">Install MITM proxy</h3>
-<p>Now we will install and configure our proxy. We will be using <strong><a href="https://mitmproxy.org">mitmproxy</a></strong>, an MIT licensed open source tool built just for this.</p>
-<p>It can easily be installed in Arch with:</p>
+<p>Now we will install and configure our proxy. We will be using <strong><a href="https://mitmproxy.org">mitmproxy</a></strong>, an MIT licensed open source tool built just for MITM attacks.</p>
+<p>It can easily be installed from Arch’s official repositories with:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ex">pacman</span> -Sy mitmproxy</span></code></pre></div>
-<p>It seems on Ubuntu you will need to install pip and then install mitmproxy using pip.</p>
+<p>It seems on Ubuntu you will need to install pip and then install mitmproxy using it.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="fu">sudo</span> apt install python3-pip</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="fu">sudo</span> pip3 install mitmproxy</span></code></pre></div>
-<p>On Mac, just use brew:</p>
+<p>On Mac, just use brew again:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="ex">brew</span> install mitmproxy</span></code></pre></div>
 <p>To test it out, let’s start the emulator and open its settings by clicking on the 3 dots button. Then, navigate to the <strong>settings</strong> section, select the <strong>Proxy tab</strong> and configure to use <code>http://0.0.0.0:8080</code> as a proxy, like in the image below.</p>
 <figure>
 <img src="file:///home/edearth/dev/newpage//imgs/reveng/emulator_proxy_config.png" alt="a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080" /><figcaption aria-hidden="true">a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080</figcaption>
 </figure>
-<p>Run mitmproxy with no arguments, like this:</p>
+<p>Run mitmproxy with no arguments in a terminal, like this:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ex">mitmproxy</span></span></code></pre></div>
 <p>We can now go back to the emulator and navigate anywhere. You will see it’s almost as if your device lost connection, and if you try to use a web browser, a warning about your connection not being private will appear.</p>
 <figure>
 <img src="file:///home/edearth/dev/newpage//imgs/reveng/mitm_no_cert00.png" height="400" alt="a screenshot shows chrome browser warning the user its connection is not private" /><figcaption aria-hidden="true">a screenshot shows chrome browser warning the user its connection is not private</figcaption>
 </figure>
-<p>This happens because mitmproxy signs HTTPS traffic with its own certificate. Since the emulator doesn’t trust that certificate, it won’t even accept that response! If you go to the terminal where you launched mitmproxy, you should see something like this. Notice all the traffic is HTTP, there are no HTTPS messages.</p>
+<p>This happens because mitmproxy signs HTTPS traffic with its own certificate. (note: i need to double check this //TODO ) Since the emulator doesn’t trust that certificate (yet), it won’t even accept that response! If you go to the terminal where you launched mitmproxy, you should see something like this. Notice all the traffic is HTTP, there are no HTTPS messages.</p>
 <figure>
 <img src="file:///home/edearth/dev/newpage//imgs/reveng/mitm_no_cert01.png" alt="a screenshot shows a get request to http google, redirected to https" /><figcaption aria-hidden="true">a screenshot shows a get request to http google, redirected to https</figcaption>
 </figure>
@@ -216,7 +220,7 @@
 <p>To continue, we will need to make the emulator trust mitmproxy’s Certificate Authority.</p>
 <h3 id="install-the-certificate-authority">Install the Certificate Authority</h3>
 <p>The way mitmproxy works is it has its own Certificate Authority. It uses it to generate certificates on the fly for whatever external resource the emulator asks for. It then uses those certificates to encrypt the messages sent to it, making it seem like the emulator is talking with the real server. In reality, though, it is decrypting and encrypting all the messages, so it knows <strong>everything</strong> the client and server are talking about. And neither of them knows it is spying on them.</p>
-<p>If you read the documention for mitmproxy you will see there are official instructions on how to install the certificate on mobile devices: you visit “<code>mitm.it</code>” in the browser, download the certificate and install it. Then you can see HTTPS traffic normally… but just in the browser.</p>
+<p>If you read the documentation for mitmproxy you will see there are official instructions on how to install the certificate on mobile devices: you visit “<code>mitm.it</code>” in the browser, download the certificate and install it. Then you can see HTTPS traffic normally… but just in the browser.</p>
 <p>If we want to read HTTPS traffic from native apps, we need to install it as a <strong>system certificate</strong>. We will need root privileges for that. So we will launch the emulator specifying:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd mitm-emulator -writable-system <span class="kw">&amp;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a><span class="ex">adb</span> root</span>
@@ -254,11 +258,11 @@
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a><span class="kw">}</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true"></a><span class="va">result=$(</span><span class="ex">get_store_list</span><span class="kw">\</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;.groupings[].discover_bucket.items[]&#39;</span> <span class="dt">\ </span># get all stores</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;.stores[]&#39;</span> <span class="dt">\ </span># get all stores</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.distance &lt; 1)&#39;</span> <span class="dt">\ </span># filter out stores further than 1 km away</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.item.item_category != &quot;BAKED_GOODS&quot;)&#39;</span> <span class="dt">\ </span># filter out unwanted store categories</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;(.store.store_name + &quot;, &quot;</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true"></a><span class="st">+ (.item.price.minor_units/100 | tostring) + &quot;€, &quot;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.category != &quot;BAKED_GOODS&quot;)&#39;</span> <span class="dt">\ </span># filter out unwanted store categories</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;(.store_name + &quot;, &quot;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true"></a><span class="st">+ (.price.minor_units/100 | tostring) + &quot;€, &quot;</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true"></a><span class="st">+ .pickup_interval.start)&#39;</span> <span class="dt">\ </span># print just the wanted data: store name, price and pickup time</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true"></a><span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span><span class="va">)</span> # <span class="fu">sort</span> and show only unique results</span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true"></a></span>
@@ -272,7 +276,7 @@
 &quot;Store name 4, 2.99€, 2020-11-04T19:00:00Z&quot;
 ...</code></pre>
 <p>It can be then saved as a script and ran as a cron job everyday at certain time (lunchtime?). This will notify me about available stores to get food from.</p>
-<p>Do once. Run forever. Ok, run until the API changes or something breaks, but still, it’s less worrysome than opening the app and searching manually.</p>
+<p>Do once. Run forever. Ok, run until the API changes or something breaks, but still, it’s less worrisome than opening the app and searching manually.</p>
 <h2 id="links-of-interest">Links of interest</h2>
 <p>If you want to know more about this topic, I encourage you to follow these links and search for more information.</p>
 <ul>

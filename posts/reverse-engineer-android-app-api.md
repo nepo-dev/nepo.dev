@@ -7,49 +7,85 @@ abstract:
  On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.
 ---
 
-I often find myself needing to use an Android app and getting annoyed because:
+Have you ever felt frustrated when using a mobile app because of any of the following reasons?
 
-* It lacks simple quality of life features like filtering, searching, automating actions, etc.
-* It is really poorly optimized and it takes too long to load or is extremelly laggy.
-* It doesn't show a lot of information in screen, since images and buttons have to be BIG for a smartphone app. Or, the contrary, the interactable elements are too small or don't work well, so the UX is terrible.
-* It takes up too much space on my phone's storage.
+* It lacks simple quality of life features
+like filtering, searching, automating actions, etc.
+* It is poorly optimized and it is extremely laggy.
+Or maybe it takes too long to load.
+* It doesn't show a lot of information on screen,
+since images and buttons have to be BIG for a mobile app.
+Or the complete opposite,
+the interactable elements are too small
+or don't work well.
+The UX is terrible in both cases.
+* It takes up too much space on the phone's storage.
 
-Has this ever happened to you?
-I would love to extend or improve that app,
-but with most apps being closed source that might be an utopian dream.
-In any case, we can still attempt to make our lives easier by automating our usage.
-And for that, we can reverse engineer this app and consume its API directly in a script.
+If you can relate with any of those reasons, I'm right there with you.
+You could ditch that application,
+but if you really want to use it,
+I've got good news: there is a way around it.
+It involves learning about cyber-security,
+reverse engineering an API
+and automating nearly anything that matters in an app.
 
 ### Overview
 
-> **Summary:** We will perform a MITM attack by installing a custom CA in an Android emualtor. If you understand that, go to the [next section](#setting-up-emulator-and-app) already.
+> **Summary:** We will perform a MITM attack
+> by installing a custom CA
+> in an Android emulator
+> and scripting the API requests we intercept.
+> If you understand that, go to the [next section](#setting-up-emulator-and-app) already.
 
-What we are going to do is force an Android emulator to send all its network traffic through us.
-Then, we will trick it into thinking we are the server it's trying to reach and that it can trust us.
-This way, we will be able to understand the encrypted HTTPS messages the app sends and receives.
-This is what is known as a **"Man in the Middle attack"** in cybersecurity (MITM from now on).
+Normally we can't see the traffic coming out of an App.
+It's **encrypted**, and therefore it looks like random garbage to us.
+This keeps your information safe, at least during the transaction
+(what each ends does with the information and how they protect it is a different matter).
 
-[Drawing of man in the middle]
+You might have heard about **digital certificates**.
+They are what make this encryption possible,
+and in order to know what certificates you can trust or not
+your devices depend on a **Certificate Authority** (CA).
+These are actors that can create digital certificates
+
+But anyone can _be_ a CA, or they can create one at least,
+so how do we know which CAs can we trust or not?
+Usually, your devices/applications come with a hardcoded set of CAs that they trust by default.
+This is a _good enough_ measure that _mostly works_,
+although these CAs then become very high value targets for hackers
+and you can believe some have been compromised before.
+
+So, back to our little project.
+We want to be able to snoop into what our target app and their backend are talking about.
+In order to do that, we are going to
+force an Android emulator into sending all its network traffic through us
+and then make it think it can trust us.
+How we will do that is by installing our own certificate as one of those default CAs.
+This way, we will be able to understand the encrypted HTTPS messages any app sends and receives.
+This is what is known as a **"Man in the Middle attack"** (MITM) in cyber-security.
+
+![Drawing of man in the middle]()
 
 When we are able to understand what app and backend are saying to each other,
-we will begin investigating the (now exposed) API.
+we will begin investigating the now exposed API.
 If we're lucky, we might even have the chance to automate our daily app usage into a script.
 That way we won't even have to open the app again.
 
-This article will be split in 3 parts:
+This post will be split in 3 parts:
 
-* Setting up the tools and emulator
-* Configuring the MITM proxy
-* Investigating the API and automating
+* [Setting up the emulator](#setting-up-emulator-and-app)
+* [Configuring MITM proxy](#setting-up-the-proxy)
+* [Investigating the API and automating](#exploitation)
 
 ## Setting up emulator and app
 
 ### Install the tools
 
-If you don't have the Android platform tools, we will install them now. I'm using Arch, so I will use these AUR packages:
+If you don't have the Android platform tools, we will install them now.
+I'm using Arch, so I will use these AUR packages:
 
-* https://aur.archlinux.org/android-sdk.git
-* https://aur.archlinux.org/android-sdk-platform-tools.git
+* [https://aur.archlinux.org/android-sdk.git]
+* [https://aur.archlinux.org/android-sdk-platform-tools.git]
 
 You can install them like:
 
@@ -84,10 +120,8 @@ Since we want to download an app from the Play Store,
 we will need that the image we use includes the Google API.
 We want to find a an image containing "google\_apis", but not "google\_apis\_playstore".
 Why not get the one that comes with the Play Store pre-installed, you ask?
-Well, those are production builds and you won't be able to root them.
+Well, those are production builds and we won't be able to root them.
 We will need rooting them later.
-
-//TODO review this. Here I refer to the reader as "you", but in the exploitation I'm talking about "we"
 
 I chose the "android-25" one, but you can choose another one if you want.
 
@@ -112,8 +146,9 @@ emulator -avd mitm-emulator &
 
 ### Installing Google Play
 
-Download the Open GApps file for your system image from [https://opengapps.org/].
-You can extract it with:
+Download Open GApps for your system image from [https://opengapps.org/].
+We will need them to download the target app from the Play Store.
+We can extract it with:
 
 ```bash
 unzip open_gapps-*.zip 'Core/*'
@@ -124,7 +159,7 @@ for f in $(ls Core/*.tar); do
 done
 ```
 
-Then run your emulator and install the packages:
+Then, we run our emulator and install the packages:
 
 ```bash
 emulator -avd "mitm-emulator" -writable-system &
@@ -132,7 +167,7 @@ emulator -avd "mitm-emulator" -writable-system &
 
 Wait for the loading to finish.
 As soon as the home screen is shown,
-you can copy the Open GApps folders to your system.
+copy the Open GApps folders to your system.
 
 ```bash
 adb root
@@ -150,8 +185,7 @@ adb shell stop
 adb shell start
 ```
 
-After the loading finished, you will see the Play Store in your home screen.
-Now you can open it, log in and install the target app normally.
+After the loading finishes, you will see the Play Store in your home screen.
 
 ### Install the target app
 
@@ -165,22 +199,23 @@ Make sure you can open it before proceeding.
 ### Install MITM proxy
 
 Now we will install and configure our proxy.
-We will be using **[mitmproxy](https://mitmproxy.org)**, an MIT licensed open source tool built just for this.
+We will be using **[mitmproxy](https://mitmproxy.org)**,
+an MIT licensed open source tool built just for MITM attacks.
 
-It can easily be installed in Arch with:
+It can easily be installed from Arch's official repositories with:
 
 ```bash
 pacman -Sy mitmproxy
 ```
 
-It seems on Ubuntu you will need to install pip and then install mitmproxy using pip.
+It seems on Ubuntu you will need to install pip and then install mitmproxy using it.
 
 ```bash
 sudo apt install python3-pip
 sudo pip3 install mitmproxy
 ```
 
-On Mac, just use brew:
+On Mac, just use brew again:
 
 ```bash
 brew install mitmproxy
@@ -195,7 +230,7 @@ like in the image below.
 
 ![a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080]($BASE_URL$/imgs/reveng/emulator_proxy_config.png)
 
-Run mitmproxy with no arguments, like this:
+Run mitmproxy with no arguments in a terminal, like this:
 
 ```bash
 mitmproxy
@@ -208,8 +243,8 @@ a warning about your connection not being private will appear.
 
 ![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reveng/mitm_no_cert00.png){ height=400px }
 
-This happens because mitmproxy signs HTTPS traffic with its own certificate.
-Since the emulator doesn't trust that certificate, it won't even accept that response!
+This happens because mitmproxy signs HTTPS traffic with its own certificate. (note: i need to double check this //TODO )
+Since the emulator doesn't trust that certificate (yet), it won't even accept that response!
 If you go to the terminal where you launched mitmproxy, you should see something like this.
 Notice all the traffic is HTTP, there are no HTTPS messages.
 
@@ -230,7 +265,7 @@ In reality, though, it is decrypting and encrypting all the messages,
 so it knows **everything** the client and server are talking about.
 And neither of them knows it is spying on them.
 
-If you read the documention for mitmproxy you will see there are
+If you read the documentation for mitmproxy you will see there are
 official instructions on how to install the certificate on mobile devices:
 you visit "`mitm.it`" in the browser, download the certificate and install it.
 Then you can see HTTPS traffic normally... but just in the browser.
@@ -345,11 +380,11 @@ function get_store_list() {
 }
 
 result=$(get_store_list\
-| jq '.groupings[].discover_bucket.items[]' \ # get all stores
+| jq '.stores[]' \ # get all stores
 | jq 'select(.distance < 1)' \ # filter out stores further than 1 km away
-| jq 'select(.item.item_category != "BAKED_GOODS")' \ # filter out unwanted store categories
-| jq '(.store.store_name + ", "
-+ (.item.price.minor_units/100 | tostring) + "€, "
+| jq 'select(.category != "BAKED_GOODS")' \ # filter out unwanted store categories
+| jq '(.store_name + ", "
++ (.price.minor_units/100 | tostring) + "€, "
 + .pickup_interval.start)' \ # print just the wanted data: store name, price and pickup time
 | sort | uniq) # sort and show only unique results
 
@@ -374,7 +409,7 @@ This will notify me about available stores to get food from.
 
 Do once. Run forever.
 Ok, run until the API changes or something breaks, but still,
-it's less worrysome than opening the app and searching manually.
+it's less worrisome than opening the app and searching manually.
 
 ## Links of interest
 
