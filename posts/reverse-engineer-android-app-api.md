@@ -344,13 +344,14 @@ If you're lucky,
 your target API will use a
 human-readable document format
 like JSON or XML, instead of protobuf.
-We are lucky and 2good2go uses JSON.
+We are lucky and our target uses JSON.
 
 ![a screenshot shows how an intercepted response looks in mitmproxy]($BASE_URL$/imgs/reveng/response_censored.png)
 
 This means we can easily replicate that request in the terminal.
 
-Enter `w`. You will enter export mode.
+In the terminal running mitmproxy, enter `w`.
+You will enter export mode.
 If you then type `export.clip curl @focus`,
 your request will be replicated as a curl command
 and it will be copied to your clipboard.
@@ -389,7 +390,7 @@ result=$(get_store_list\
 + .pickup_interval.start)' \ # print just the wanted data: store name, price and pickup time
 | sort | uniq) # sort and show only unique results
 
-notify-send -t 20000 "$result" # send a notification in Linux desktop
+notify-send -t 30000 "$result" # send a notification in Linux desktop
 # or
 termux-notification --content "$result" # send a notification in Android's Termux
 ```

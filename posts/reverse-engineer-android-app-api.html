@@ -79,9 +79,9 @@
 </head>
 <body>
 <div class="header">
-  <img class="my-photo" src="https://edearth.github.io/imgs/myface.jpg">
+  <a href="https://edearth.github.io/index.html"><img class="my-photo" src="https://edearth.github.io/imgs/myface.jpg"></a>
   <div class="my-description">
-    <h1>Juan Antonio Nepormoseno</h1>
+    <h1><a href="https://edearth.github.io/index.html" class="hide-hyperlink-highlight">Juan Antonio Nepormoseno</a></h1>
     <p>A spanish developer and tester writing about technology, games, cooking and my life philosophy.</p>
     <div class="menu icon-tray">
       <a class="menu-button" href="https://github.com/edearth/">
@@ -96,9 +96,9 @@
     </div>
     <div class="menu">
       <ul>
-        <li class="menu-button tech-highlight"><a href="#">Tech</a></li>
-        <li class="menu-button cook-highlight"><a href="#">Food</a></li>
-        <li class="menu-button game-highlight"><a href="#">Life</a></li>
+        <li class="menu-button tech-highlight"><a href="https://edearth.github.io/index.html">Tech</a></li>
+        <li class="menu-button cook-highlight"><a href="https://edearth.github.io/index.html">Food</a></li>
+        <li class="menu-button game-highlight"><a href="https://edearth.github.io/index.html">Life</a></li>
       </ul>
     </div>
   </div>
@@ -239,12 +239,12 @@
 <h3 id="investigating-the-api">Investigating the API</h3>
 <p>To begin, let’s just use the app normally. Create an account with username and password (avoid authenticating with Google or Facebook for now, you don’t want to have to deal with OAuth). Log in, search and browse some items… We just want to generate some traffic so that we can inspect it later.</p>
 <p>Now we can go back to our terminal and check the messages mitmproxy caught. We have to locate the traffic from the target app. To do so, just browse the captured requests list and see if any URL matches the app’s domain. Alternatively, you could look for endpoints that match actions you performed (like a login, search, etc.).</p>
-<p>If you’re lucky, your target API will use a human-readable document format like JSON or XML, instead of protobuf. We are lucky and 2good2go uses JSON.</p>
+<p>If you’re lucky, your target API will use a human-readable document format like JSON or XML, instead of protobuf. We are lucky and our target uses JSON.</p>
 <figure>
 <img src="https://edearth.github.io/imgs/reveng/response_censored.png" alt="a screenshot shows how an intercepted response looks in mitmproxy" /><figcaption aria-hidden="true">a screenshot shows how an intercepted response looks in mitmproxy</figcaption>
 </figure>
 <p>This means we can easily replicate that request in the terminal.</p>
-<p>Enter <code>w</code>. You will enter export mode. If you then type <code>export.clip curl @focus</code>, your request will be replicated as a curl command and it will be copied to your clipboard. You can then paste it on your terminal to see if it works.</p>
+<p>In the terminal running mitmproxy, enter <code>w</code>. You will enter export mode. If you then type <code>export.clip curl @focus</code>, your request will be replicated as a curl command and it will be copied to your clipboard. You can then paste it on your terminal to see if it works.</p>
 <p>For my particular case I had to make 2 changes for it to work:</p>
 <ul>
 <li>Remove the <code>:authority</code> pseudo-header that looked like <code>-H ':authority: domainname.com'</code>.</li>
@@ -266,7 +266,7 @@
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true"></a><span class="st">+ .pickup_interval.start)&#39;</span> <span class="dt">\ </span># print just the wanted data: store name, price and pickup time</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true"></a><span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span><span class="va">)</span> # <span class="fu">sort</span> and show only unique results</span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true"></a><span class="ex">notify-send</span> -t 20000 <span class="st">&quot;</span><span class="va">$result</span><span class="st">&quot;</span> # send a notification in Linux desktop</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true"></a><span class="ex">notify-send</span> -t 30000 <span class="st">&quot;</span><span class="va">$result</span><span class="st">&quot;</span> # send a notification in Linux desktop</span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true"></a><span class="co"># or</span></span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true"></a><span class="ex">termux-notification</span> --content <span class="st">&quot;</span><span class="va">$result</span><span class="st">&quot;</span> # send a notification in Android<span class="st">&#39;s Termux</span></span></code></pre></div>
 <p>This shows a simple list like this one as a notification:</p>
