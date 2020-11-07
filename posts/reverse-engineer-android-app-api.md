@@ -2,7 +2,7 @@
 title: 'API discovery in Android Apps and task automation'
 author:
 - Juan Antonio Nepormoseno Rosales
-date: 2020-09-14 #started 2020-09-14?
+date: 2020-11-06
 abstract:
  On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.
 ---
@@ -50,7 +50,7 @@ These are actors that can create digital certificates
 
 But anyone can _be_ a CA, or they can create one at least,
 so how do we know which CAs can we trust or not?
-Usually, your devices/applications come with a hardcoded set of CAs that they trust by default.
+Usually, your devices/applications come with a hardcoded set of CAs they trust by default.
 This is a _good enough_ measure that _mostly works_,
 although these CAs then become very high value targets for hackers
 and you can believe some have been compromised before.
@@ -64,7 +64,7 @@ How we will do that is by installing our own certificate as one of those default
 This way, we will be able to understand the encrypted HTTPS messages any app sends and receives.
 This is what is known as a **"Man in the Middle attack"** (MITM) in cyber-security.
 
-![Drawing of man in the middle]()
+![Drawing of man in the middle attack]($BASE_URL$/imgs/reveng/mitm_diagram.jpg)
 
 When we are able to understand what app and backend are saying to each other,
 we will begin investigating the now exposed API.
@@ -84,8 +84,8 @@ This post will be split in 3 parts:
 If you don't have the Android platform tools, we will install them now.
 I'm using Arch, so I will use these AUR packages:
 
-* [https://aur.archlinux.org/android-sdk.git]
-* [https://aur.archlinux.org/android-sdk-platform-tools.git]
+* [https://aur.archlinux.org/android-sdk.git](https://aur.archlinux.org/android-sdk.git)
+* [https://aur.archlinux.org/android-sdk-platform-tools.git](https://aur.archlinux.org/android-sdk-platform-tools.git)
 
 You can install them like:
 
@@ -121,7 +121,7 @@ we will need that the image we use includes the Google API.
 We want to find a an image containing "google\_apis", but not "google\_apis\_playstore".
 Why not get the one that comes with the Play Store pre-installed, you ask?
 Well, those are production builds and we won't be able to root them.
-We will need rooting them later.
+We will need rooting our emulator later.
 
 I chose the "android-25" one, but you can choose another one if you want.
 
@@ -146,7 +146,7 @@ emulator -avd mitm-emulator &
 
 ### Installing Google Play
 
-Download Open GApps for your system image from [https://opengapps.org/].
+Download Open GApps for your system image from [https://opengapps.org/](https://opengapps.org/).
 We will need them to download the target app from the Play Store.
 We can extract it with:
 
@@ -190,7 +190,7 @@ After the loading finishes, you will see the Play Store in your home screen.
 ### Install the target app
 
 This should be the easiest step.
-Just login to the Play Store and download your target app.
+Just log into the Play Store and download the target app.
 
 Make sure you can open it before proceeding.
 
@@ -215,7 +215,7 @@ sudo apt install python3-pip
 sudo pip3 install mitmproxy
 ```
 
-On Mac, just use brew again:
+On Mac, just use Brew again:
 
 ```bash
 brew install mitmproxy
@@ -225,15 +225,15 @@ To test it out, let's start the emulator
 and open its settings by clicking on the 3 dots button.
 Then, navigate to the **settings** section,
 select the **Proxy tab**
-and configure to use `http://0.0.0.0:8080` as a proxy,
+and configure it to use `http://127.0.0.1:8080` as a proxy,
 like in the image below.
 
-![a screenshot shows the emulator proxy configured to use http://0.0.0.0:8080]($BASE_URL$/imgs/reveng/emulator_proxy_config.png)
+![a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080]($BASE_URL$/imgs/reveng/emulator_proxy_config.png)
 
-Run mitmproxy with no arguments in a terminal, like this:
+Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like this:
 
 ```bash
-mitmproxy
+mitmproxy --listen-host 127.0.0.1 --listen-port 8080
 ```
 
 We can now go back to the emulator and navigate anywhere.
@@ -243,7 +243,7 @@ a warning about your connection not being private will appear.
 
 ![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reveng/mitm_no_cert00.png){ height=400px }
 
-This happens because mitmproxy signs HTTPS traffic with its own certificate. (note: i need to double check this //TODO )
+This happens because mitmproxy signs HTTPS traffic with its own certificate.
 Since the emulator doesn't trust that certificate (yet), it won't even accept that response!
 If you go to the terminal where you launched mitmproxy, you should see something like this.
 Notice all the traffic is HTTP, there are no HTTPS messages.
@@ -261,19 +261,20 @@ It uses it to generate certificates on the fly for whatever
 external resource the emulator asks for.
 It then uses those certificates to encrypt the messages sent to it,
 making it seem like the emulator is talking with the real server.
-In reality, though, it is decrypting and encrypting all the messages,
+In reality, though, it is decrypting and encrypting all the messages with its own certificates,
 so it knows **everything** the client and server are talking about.
 And neither of them knows it is spying on them.
 
 If you read the documentation for mitmproxy you will see there are
 official instructions on how to install the certificate on mobile devices:
 you visit "`mitm.it`" in the browser, download the certificate and install it.
-Then you can see HTTPS traffic normally... but just in the browser.
+Then you can see decrypted HTTPS traffic in mitmproxy...
+but just the traffic generated by the browser.
 
 If we want to read HTTPS traffic from native apps,
 we need to install it as a **system certificate**.
-We will need root privileges for that.
-So we will launch the emulator specifying:
+We will need root privileges for that,
+so we will launch the emulator specifying:
 
 ```bash
 emulator -avd mitm-emulator -writable-system &
@@ -300,7 +301,7 @@ HASH=$(openssl x509 -noout -subject_hash_old -in "$CA")
 
 But since mitmproxy uses the same default certificate everywhere,
 we know the value should be `c8750f0d`, so you can skip this step and just use that value.
-You can always come back and use that line to recalculate the value if it doesn't work 😛
+You can always come back and use the previous line to recalculate the value if it doesn't work 😛
 
 So you can just do:
 
@@ -325,9 +326,9 @@ adb unroot
 To begin, let's just use the app normally.
 Create an account with username and password
 (avoid authenticating with Google or Facebook for now,
-you don't want to deal with OAuth).
+you don't want to have to deal with OAuth).
 Log in, search and browse some items...
-We just want to generate some HTTP traffic
+We just want to generate some traffic
 so that we can inspect it later.
 
 Now we can go back to our terminal
@@ -355,7 +356,7 @@ your request will be replicated as a curl command
 and it will be copied to your clipboard.
 You can then paste it on your terminal to see if it works.
 
-For my particular case I had to perform 2 changes for it to work:
+For my particular case I had to make 2 changes for it to work:
 
 * Remove the `:authority` pseudo-header that looked like `-H ':authority: domainname.com'`.
 * Change the IP address for it's domain name in the URL (`https://1.2.3.4/v1/endpoint` => `https://domainname.com/v1/endpoint`).
@@ -363,10 +364,10 @@ For my particular case I had to perform 2 changes for it to work:
 ### Automating queries
 
 From this point on,
-it's just like a matter of exploring
+it's just a matter of exploring
 and seeing what can you do
 with the endpoints you discover.
-It's just like learning a regular API.
+It's just like learning any regular new API.
 
 For example,
 I wanted to automate a search for a restaurant.
@@ -380,11 +381,11 @@ function get_store_list() {
 }
 
 result=$(get_store_list\
-| jq '.stores[]' \ # get all stores
+| jq '.groupings[].items[]' \ # get all stores
 | jq 'select(.distance < 1)' \ # filter out stores further than 1 km away
-| jq 'select(.category != "BAKED_GOODS")' \ # filter out unwanted store categories
-| jq '(.store_name + ", "
-+ (.price.minor_units/100 | tostring) + "€, "
+| jq 'select(.item.item_category != "BAKED_GOODS")' \ # filter out unwanted store categories
+| jq '(.store.store_name + ", "
++ (.item.price.minor_units/100 | tostring) + "€, "
 + .pickup_interval.start)' \ # print just the wanted data: store name, price and pickup time
 | sort | uniq) # sort and show only unique results
 
@@ -403,7 +404,7 @@ This shows a simple list like this one as a notification:
 ...
 ```
 
-It can be then saved as a script and ran as a cron job
+It can be then saved as a script and run as a cron job
 everyday at certain time (lunchtime?).
 This will notify me about available stores to get food from.
 
