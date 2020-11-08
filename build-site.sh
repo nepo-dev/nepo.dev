@@ -23,8 +23,8 @@ generate_article() {
   BASE_URL_REPLACE_KEYWORD_REGEX='\$BASE_URL\$'
   post="$1"
 
-  #pandoc doesn't replace the variables in the file we want to convert,
-  #only on the template. So it has to be done manually
+  # pandoc doesn't replace the variables in the file we want to convert,
+  # only on the template. So it has to be done manually
   sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_SRC_FOLDER/$post" \
     | pandoc -s \
       --variable="$BASE_URL_REPLACE_KEYWORD":"$BASE_URL" \
@@ -33,8 +33,8 @@ generate_article() {
       -o "$POST_BUILD_FOLDER/${post%.*}.html"
 }
 
-#in reality this is generating+adding index_preview to a temporal file
-generate_index_preview() {
+# in reality this is generating+adding the article preview to a temporary file
+generate_article_preview() {
   PREVIEW_TEMPLATE="templates/preview.html"
   PREVIEW_TEMPLATE_REPLACE_KEYWORD='ARTICLE_URL'
   post="$1"
@@ -55,9 +55,9 @@ generate_index() {
   temp_file_with_article_list="$1"
 
   cp "$INDEX_TEMPLATE" "$INDEX_FILE"
-  #add contents from temporal file
+  # add contents from temporary file
   sed -i -e "/$INDEX_TEMPLATE_REPLACE_KEYWORD/{ r $temp_file_with_article_list" -e "d}" "$INDEX_FILE"
-  #manually replace $BASE_URL$
+  # manually replace $BASE_URL$
   sed -i "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$INDEX_FILE"
 }
 
@@ -66,7 +66,7 @@ main() {
   for post in $(get_ordered_post_list); do
     echo "Generating ${post%.*}.html"
     generate_article "$post"
-    generate_index_preview "$post" "$INDEX_CONTENT_TEMP_FILE"
+    generate_article_preview "$post" "$INDEX_CONTENT_TEMP_FILE"
   done
 
   echo "Generating index.html"
