@@ -2,7 +2,7 @@
 
 INDEX_CONTENT_TEMP_FILE="temp.html"
 BASE_URL="https://edearth.github.io"
-BASE_URL="file:///home/edearth/dev/newpage"
+#BASE_URL="file:///home/edearth/dev/newpage"
 POST_SRC_FOLDER="src"
 POST_BUILD_FOLDER="posts"
 
