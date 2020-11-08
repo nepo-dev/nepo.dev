@@ -3,11 +3,12 @@
 INDEX_CONTENT_TEMP_FILE="temp.html"
 BASE_URL="https://edearth.github.io"
 BASE_URL="file:///home/edearth/dev/newpage"
-POST_FOLDER="posts"
+POST_SRC_FOLDER="src"
+POST_BUILD_FOLDER="posts"
 
 get_posts_with_date() {
-  for post in $(ls $POST_FOLDER | grep '.md'); do
-    date=$(grep -Po '(?<=date:)\s?\d{4}-\d{2}-\d{2}' $POST_FOLDER/$post | sed -e 's/^[ \t]*//')
+  for post in $(ls $POST_SRC_FOLDER | grep '.md'); do
+    date=$(grep -Po '(?<=date:)\s?\d{4}-\d{2}-\d{2}' $POST_SRC_FOLDER/$post | sed -e 's/^[ \t]*//')
     echo "$date $post"
   done
 }
@@ -24,12 +25,12 @@ generate_article() {
 
   #pandoc doesn't replace the variables in the file we want to convert,
   #only on the template. So it has to be done manually
-  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_FOLDER/$post" \
+  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_SRC_FOLDER/$post" \
     | pandoc -s \
       --variable="$BASE_URL_REPLACE_KEYWORD":"$BASE_URL" \
       --template "$ARTICLE_TEMPLATE" \
       --highlight-style=zenburn \
-      -o "$POST_FOLDER/${post%.*}.html"
+      -o "$POST_BUILD_FOLDER/${post%.*}.html"
 }
 
 #in reality this is generating+adding index_preview to a temporal file
@@ -38,12 +39,12 @@ generate_index_preview() {
   PREVIEW_TEMPLATE_REPLACE_KEYWORD='ARTICLE_URL'
   post="$1"
   temp_file="$2"
-  generated_post_url="$POST_FOLDER/${post%.*}.html"
+  generated_post_url="$POST_BUILD_FOLDER/${post%.*}.html"
   
   pandoc \
     --variable="$PREVIEW_TEMPLATE_REPLACE_KEYWORD":"$generated_post_url" \
     --template "$PREVIEW_TEMPLATE" \
-    "$POST_FOLDER/$post" >> "$temp_file"
+    "$POST_SRC_FOLDER/$post" >> "$temp_file"
 }
 
 generate_index() {
@@ -61,6 +62,7 @@ generate_index() {
 }
 
 main() {
+  mkdir -p "$POST_BUILD_FOLDER"
   for post in $(get_ordered_post_list); do
     echo "Generating ${post%.*}.html"
     generate_article "$post"
