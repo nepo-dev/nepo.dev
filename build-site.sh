@@ -2,13 +2,12 @@
 
 ARTICLE_TEMPLATE="templates/article.html"
 PREVIEW_TEMPLATE="templates/preview.html"
-PREVIEW_TEMPLATE_REPLACE_KEYWORD="<!--URL-->"
+PREVIEW_TEMPLATE_REPLACE_KEYWORD='ARTICLE_URL'
 INDEX_TEMPLATE="templates/index.html"
 INDEX_CONTENT_TEMP_FILE="temp.html"
-INDEX_TEMPLATE_REPLACE_KEYWORD="<!--CONTENT-->"
 BASE_URL="https://edearth.github.io"
-#BASE_URL="file:///home/edearth/dev/newpage"
-BASE_URL_REPLACE_KEYWORD='$BASE_URL$'
+BASE_URL="file:///home/edearth/dev/newpage"
+BASE_URL_REPLACE_KEYWORD='BASE_URL'
 BASE_URL_REPLACE_KEYWORD_REGEX='\$BASE_URL\$'
 INDEX_FILE="index.html"
 POST_FOLDER="posts"
@@ -25,29 +24,42 @@ get_ordered_post_list() {
   get_posts_with_date | sort -r | awk '{print $2}'
 }
 
+#in reality this is adding index_preview to a temporal file
 generate_index_preview() {
-  pandoc "$POST_FOLDER/$1" --template "$PREVIEW_TEMPLATE" >> "$INDEX_CONTENT_TEMP_FILE"
-  post_url="$POST_FOLDER/${1%.*}.html"
-  sed -i "s#<!--URL-->#$post_url#" "$INDEX_CONTENT_TEMP_FILE"
+  post="$1"
+  temp_file="$2"
+  generated_post_url="$POST_FOLDER/${post%.*}.html"
+  
+  pandoc --variable="$PREVIEW_TEMPLATE_REPLACE_KEYWORD":"$generated_post_url" --template "$PREVIEW_TEMPLATE" "$POST_FOLDER/$post" >> "$temp_file"
 }
 
 generate_article() {
-  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_FOLDER/$1" | pandoc -s --variable=BASE_URL:"$BASE_URL" --template "$ARTICLE_TEMPLATE" --highlight-style=zenburn -o "$POST_FOLDER/${1%.*}.html"
+  post="$1"
+
+  #pandoc doesn't replace the variables in the file to convert, so it has to be done manually
+  sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_FOLDER/$post" \
+    | pandoc -s --variable=BASE_URL:"$BASE_URL" --template "$ARTICLE_TEMPLATE" --highlight-style=zenburn -o "$POST_FOLDER/${post%.*}.html"
 }
 
 generate_index() {
+  INDEX_TEMPLATE_REPLACE_KEYWORD='\$CONTENT\$'
+  temp_file_with_article_list="$1"
+
   cp "$INDEX_TEMPLATE" "$INDEX_FILE"
-  sed -i "/^$INDEX_TEMPLATE_REPLACE_KEYWORD/ r $INDEX_CONTENT_TEMP_FILE" "$INDEX_FILE"
+  #add contents from temporal file
+  sed -i -e "/$INDEX_TEMPLATE_REPLACE_KEYWORD/{ r $temp_file_with_article_list" -e "d}" "$INDEX_FILE"
+  #manually replace $BASE_URL$
+  sed -i "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$INDEX_FILE"
 }
 
 for post in $(get_ordered_post_list); do
   echo "Generating ${post%.*}.html"
   generate_article "$post"
-  generate_index_preview "$post"
+  generate_index_preview "$post" "$INDEX_CONTENT_TEMP_FILE"
 done
 
 echo "Generating index.html"
-generate_index 
+generate_index "$INDEX_CONTENT_TEMP_FILE"
 rm "$INDEX_CONTENT_TEMP_FILE"
 echo "Build finished ✅"
 
