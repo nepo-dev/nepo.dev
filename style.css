@@ -1,0 +1,155 @@
+
+:root {
+  --color-tech-highlight: #1982ee;
+  --color-cook-highlight: #eea019;
+	--color-game-highlight: #ee3619;
+
+	--background-body: #343f56;;
+  --content-background: #fdfdfd;
+/*
+  --background: ;
+  --background-alt: ;
+  --selection: ;
+  --text-main: ;
+  --text-bright: ;
+  --text-muted: ;
+  --links: ;
+  --focus: ;
+  --border: ;
+  --code: ;
+  --animation-duration: ;
+  --button-hover: ;
+  --scrollbar-thumb: ;
+  --scrollbar-thumb-hover: ;
+  --form-placeholder: ;
+  --form-text: ;
+  --variable: ;
+  --highlight: ;
+  --select-arrow: ;
+*/
+}
+
+@font-face {
+  font-family: Cascadia;
+  src:url(fonts/Cascadia.ttf);
+}
+
+@font-face {
+  font-family: OpenSans;
+  src:url(fonts/OpenSans-Regular.ttf);
+}
+
+body {
+  font-family: OpenSans;
+}
+
+/* DESCRIPTION */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.description-photo-container {
+  flex: 30%;
+  display: grid;
+	place-items: left;
+	background-color: var(--content-background);
+}
+
+.description-photo {
+  width: 200px;
+  height: 200px;
+  background-image: url("./imgs/myface.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.description-text-container {
+	flex: 70%;
+  display: grid;
+	place-items: center;
+	min-width: 200px;
+	word-wrap: anywhere;
+	background-color: var(--content-background);
+}
+
+/*MENU, CATEGORY BUTTONS*/
+
+.menu-button {
+	flex: 30%;
+
+	text-decoration: none;
+  line-height:40px;
+	text-align: center;
+  font-size: 1.6em;
+  font-family: Cascadia;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.tech-highlight {
+	background-color: var(--color-tech-highlight);
+	color: var(--content-background);
+}
+
+.cook-highlight {
+	background-color: var(--color-cook-highlight);
+	color: var(--content-background);
+}
+
+.game-highlight {
+	background-color: var(--color-game-highlight);
+	color: var(--content-background);
+}
+
+/*ARTICLE*/
+
+article {
+	background-color: var(--content-background);
+}
+
+.title {
+	padding: 4px;
+}
+
+.article-date {
+  font-size: 0.8em;
+	text-align: right;
+	margin-right: 20px;
+	float: right;
+}
+
+.article-content {
+	padding: 0 20px 20px 20px;
+}
+
+div.sourceCode {
+	background-color: var(--content-background); /*override Pandoc's background visible in the corner of code blocks*/
+}
+
+figcaption {
+	display: none; /*do not show Pandoc's image captions*/
+}
+
+footer > p {
+	float: left;
+}
+
+/* Responsive layout - makes a one column layout (100%) instead of a two-column/multiple-column layout */
+@media (max-width: 700px) {
+  .description-photo-container, .description-text-container {
+    flex: 100%;
+	}
+	.description-photo-container {
+		place-items: center;
+	}
+
+	.description-photo {
+		border-radius: 50%;
+	}
+
+	.menu-button {
+		flex: 100%;
+	}
+}
