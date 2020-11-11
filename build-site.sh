@@ -2,7 +2,7 @@
 
 INDEX_CONTENT_TEMP_FILE="temp.html"
 BASE_URL="https://edearth.github.io"
-#BASE_URL="file:///home/edearth/dev/newpage"
+BASE_URL="file:///home/edearth/dev/newpage"
 POST_SRC_FOLDER="src"
 POST_BUILD_FOLDER="posts"
 
@@ -27,9 +27,10 @@ generate_article() {
   # only on the template. So it has to be done manually
   sed "s%$BASE_URL_REPLACE_KEYWORD_REGEX%$BASE_URL%g" "$POST_SRC_FOLDER/$post" \
     | pandoc -s \
+      -M document-css=false \
       --variable="$BASE_URL_REPLACE_KEYWORD":"$BASE_URL" \
       --template "$ARTICLE_TEMPLATE" \
-      --highlight-style=zenburn \
+      --highlight-style=kate \
       -o "$POST_BUILD_FOLDER/${post%.*}.html"
 }
 
