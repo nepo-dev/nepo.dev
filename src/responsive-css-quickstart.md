@@ -74,7 +74,7 @@ In my initial search for modern responsive techniques,
 I came across this video by Una Kravets ([\@una](https://twitter.com/una))
 where she talks about flexbox and grid layouts.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qm0IfG1GyZU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube-nocookie.com/embed/qm0IfG1GyZU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Watch it from beginning 'til end, it's worth your time.
 There is also [this website version](https://1linelayouts.glitch.me/)
