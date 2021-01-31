@@ -42,7 +42,8 @@ so it should be quick to iterate until you find a design you're comfortable with
 
 A friend introduced me to this wonderful tool.
 It's a ready-made collection of styles
-that make HTML elements responsive by default.
+that make HTML elements look good
+while keeping them responsive.
 To put it simply:
 instead of painstakingly going over every element on your site
 and writing CSS to make sure they scale well,
