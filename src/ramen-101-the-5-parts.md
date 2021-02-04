@@ -6,10 +6,13 @@ date: 2021-01-31
 category: 'food'
 tags: 'ramen'
 abstract:
- First part on a guide to understand ramen and how to make it at home.
+ First part on a series to understand ramen and how to make it at home. In this section we talk about the 5 basic parts: broth, tare, oil, noodles and toppings. We will learn how they come together in a bowl and we will try our hands at our first, very simple ramen. Itadakimasu!
 ---
 
 ^Note for self, these metadata variables can be used in templates like $title$.
+
+Irasshai, ramen otaku!
+Welcome, ramen aficionado!
 
 ## The 5 parts of ramen
 
