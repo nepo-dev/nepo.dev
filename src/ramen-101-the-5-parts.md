@@ -50,6 +50,9 @@ If you are making a vegetarian and you want it to be thick,
 you might want to experiment with other thickening agents
 (like roux, agar-agar...).
 
+You can never go wrong starting with the basic
+mirepoix ingredients (carrot, celery and onion).
+
 ### Oil:
 
 Often forgotten in _amateur_ recipes,
