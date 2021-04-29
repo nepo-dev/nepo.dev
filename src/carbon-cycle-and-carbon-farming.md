@@ -46,7 +46,22 @@ and we're "muddying" it with CO2.
 Just as Kurtis had trouble breathing and thinking,
 so may we when the CO2 concentration gets higher.
 
-# What is a carbon farm?
+# What is carbon farming?
+
+essentially it's a carbon battery
+
+microbes + fungi transfer that carbon
+into the soil it came from
+which in turns makes it easier
+for other plants to grow and store more carbon
+
+benefits lost if threes chopped / burned
+carbon is released to the atmosphere again
+fruit+nut trees serve another purpose too,
+so it's easier to justify not cutting them
+
+
+
 # What can _I_ do?
 
 How to make your goverment protect forests
