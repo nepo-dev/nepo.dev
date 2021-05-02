@@ -13,45 +13,45 @@ Back away now if you'd like to avoid cringing 😄
 Last year I made a small exercise.
 I was dealing with feelings of inadequacy,
 since I have a tendency to those.
+In other words: I often feel insecure.
 I remembered how a friend of mine told me
-how I don't value my successes
+that I don't value my successes
 and I delve too much on my failures.
 So I decided to get external input
 and I asked some friends and colleagues for feedback.
 The questions were:
 
 * When was the last time I _helped you_?
-* In which way / doing _what_?
+* In which way / doing what?
 * What are the 3 things _you value_ most from me?
 
-I was surprised by the result.
-What these people were seeing was nothing like how I saw myself!
+I was surprised by the result:
+what these people were seeing was nothing like how I saw myself!
 
-Where they saw a fun, loyal, unjudging friend that cared,
+Where they saw a fun, loyal, unjudging friend that cared about them,
 I saw a guy with boring conversation,
 that couldn't return the affection others showed him.
 Where they saw honesty,
 I was painfully aware of all the things I didn't say in the past
 to avoid hurting someone or because of fear of judgment.
 Where they saw a critical-thinking engineer and growth potential,
-I thought back on all the times I had to ask for help
-or learn something new to do my work
+I thought back on all the times I was slow to finish a task
+or that I had to ask for help/learn something new to do my work
 (as in "I don't have the knowledge/level I need to do this").
 How could it be _they_ were so wrong?
 And most importantly:
-_what will they do when they find out?_
+what will they do when they _find out_?
 
-Of course, I knew they all couldn't be wrong
-and that maybe (just maybe) my own self-image was skewed.
+Of course, I knew they all couldn't be wrong,
+and that maybe (just maybe) my own self-image was _skewed_.
 Since then, I started noticing when I was judging myself
-and applying a generous serving of **doubt**
-to those thoughts.
+and applying a generous serving of **doubt** to those thoughts.
 
-This allowed me to clear my mind of those intrusive thoughts
+This allowed me to clear my mind of those intrusive judgements
 and focus on the real cause of my insecurity.
-I stopped accepting those thoughts just as they popped up,
-and instead I questioned them
-and I think what I would tell someone else if they were in my position.
+I stopped accepting those thoughts just as they popped up.
+Instead I questioned them and thought
+"what would I tell **someone else** if they were in this position?".
 For instance:
 
 * When I'm talking with friends and I think
@@ -64,19 +64,25 @@ I'm sure I'm wrong for trying to decide for them.
 I remind myself this is my first time doing this.
 No one was born knowing.
 It isn't my fault and it's perfectly fine.
-I will be better when I'm done reading
+I will be better when I'm done reading,
 and next time I won't need so much time.
-* When I see successful people and think I haven't done anything,
+* When I see successful people and think I haven't done anything with my life,
 I remind myself of all the people that keep in touch with me,
 of my career and how much it has made me grow,
 of all those little projects after work,
 of all the things I _do_ know instead of the ones I don't,
 of this little blog...
+all those things _I_ care about.
 
 It might seem like I'm constantly defusing bombs in my head, but far from it.
-Repeatedly refuting the negative thoughts
-improved my self-image and diminished my insecurities.
-_It gets easier_.
+Refuting the negative judgements slowly improved my self-image.
+I was more kind to myself and so the thoughts appeared less frequently. 
+In time it got easier.
+My fears became smaller and easier to manage.
+I still have them, but at least I'm not struggling with them.
+And lately gratitude has been replacing them.
+Gratitude for friends spending time with me,
+or for being fortunate enough to learn at work.
 
 If you're struggling with insecurities yourself,
 try avoiding judgement and find out where that fear comes from.
