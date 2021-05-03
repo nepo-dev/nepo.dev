@@ -2,9 +2,9 @@
 :root {
   --color-tech-highlight: #1982ee;
   --color-cook-highlight: #eea019;
-	--color-game-highlight: #ee3619;
+  --color-game-highlight: #ee3619;
 
-	--background-body: #343f56;;
+  --background-body: #343f56;;
   --content-background: #fdfdfd;
 /*
   --background: ;
@@ -50,10 +50,10 @@ body {
 }
 
 .description-photo-container {
-  flex: 30%;
+  flex: 20%;
   display: grid;
-	place-items: left;
-	background-color: var(--content-background);
+  place-items: left;
+  background-color: var(--content-background);
 }
 
 .description-photo {
@@ -66,22 +66,26 @@ body {
 }
 
 .description-text-container {
-	flex: 70%;
+  flex: 70%;
   display: grid;
-	place-items: center;
-	min-width: 200px;
-	word-wrap: anywhere;
-	background-color: var(--content-background);
+  place-items: center;
+  min-width: 200px;
+  word-wrap: anywhere;
+  background-color: var(--content-background);
+}
+
+.description-text-container > p {
+  padding: 0 10px 0 10px;
 }
 
 /*MENU, CATEGORY BUTTONS*/
 
 .menu-button {
-	flex: 30%;
+  flex: 30%;
 
-	text-decoration: none;
+  text-decoration: none;
   line-height:40px;
-	text-align: center;
+  text-align: center;
   font-size: 1.6em;
   font-family: Cascadia;
   text-transform: uppercase;
@@ -89,67 +93,83 @@ body {
 }
 
 .tech-highlight {
-	background-color: var(--color-tech-highlight);
-	color: var(--content-background);
+  background-color: var(--color-tech-highlight);
+  color: var(--content-background);
 }
 
 .cook-highlight {
-	background-color: var(--color-cook-highlight);
-	color: var(--content-background);
+  background-color: var(--color-cook-highlight);
+  color: var(--content-background);
 }
 
 .game-highlight {
-	background-color: var(--color-game-highlight);
-	color: var(--content-background);
+  background-color: var(--color-game-highlight);
+  color: var(--content-background);
 }
 
 /*ARTICLE*/
 
 article {
-	background-color: var(--content-background);
+  background-color: var(--content-background);
 }
 
 .title {
-	padding: 4px;
+  padding: 4px;
 }
 
 .article-date {
   font-size: 0.8em;
-	text-align: right;
-	margin-right: 20px;
-	float: right;
+  text-align: right;
+  margin-right: 20px;
+  float: right;
 }
 
 .article-content {
-	padding: 0 20px 20px 20px;
+  padding: 0 20px 20px 20px;
 }
 
 div.sourceCode {
-	background-color: var(--content-background); /*override Pandoc's background visible in the corner of code blocks*/
+  background-color: var(--content-background); /*override Pandoc's background visible in the corner of code blocks*/
 }
 
 figcaption {
-	display: none; /*do not show Pandoc's image captions*/
+  display: none; /*do not show Pandoc's image captions*/
 }
 
 footer > p {
-	float: left;
+  float: left;
 }
 
 /* Responsive layout - makes a one column layout (100%) instead of a two-column/multiple-column layout */
 @media (max-width: 700px) {
   .description-photo-container, .description-text-container {
     flex: 100%;
-	}
-	.description-photo-container {
-		place-items: center;
-	}
+  }
 
-	.description-photo {
-		border-radius: 50%;
-	}
+  .description-photo-container {
+    place-items: center;
+  }
 
-	.menu-button {
-		flex: 100%;
-	}
+  .description-photo {
+    margin-top: 12px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .description-text-container {
+    font-size: xx-small;
+  }
+
+  .description-text-container > h1 {
+    margin-top: 12px;
+  }
+
+  .description-text-container > p {
+    display: none;
+  }
+
+  .menu-button {
+    display: none;
+  }
 }
