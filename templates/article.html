@@ -2,9 +2,27 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
-	<meta name="description" content="${abstract}" />
+
+	<!-- Primary Meta Tags -->
 	<title>${title} — Nepo</title>
+	<meta name="title" content="${title} — Nepo">
+	<meta name="description" content="${abstract}" />
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="$BASE_URL$/$outputfile$">
+	<meta property="og:title" content="${title}">
+	<meta property="og:description" content="${abstract}">
+	<meta property="og:image" content="$BASE_URL$/imgs/myface.jpg">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="$BASE_URL$/$outputfile$">
+	<meta property="twitter:title" content="${title}">
+	<meta property="twitter:description" content="${abstract}">
+	<meta property="twitter:image" content="$BASE_URL$/imgs/myface.jpg">
+
 	<style>
 		$styles.html()$
 	</style>
