@@ -1,10 +1,11 @@
 ---
+id: insecurity-and-self-narrative
 title: 'On insecurity and self-narrative'
-author:
-- Juan Antonio Nepormoseno Rosales
+author: Juan Antonio Nepormoseno Rosales
 date: 2021-05-03
-abstract:
- A personal anecdote and a reflection on how our own narrative affects how we feel
+last-update: 2021-05-03
+abstract: A personal anecdote and a reflection on how our own narrative affects how we feel
+
 ---
 
 **Be warned:** this post will be quite personal.

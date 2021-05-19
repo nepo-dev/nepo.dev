@@ -1,10 +1,11 @@
 ---
+id: responsive-css-quickstart
 title: 'Painless responsive CSS: water, flexboxes and grids'
-author:
-- Juan Antonio Nepormoseno Rosales
+author: Juan Antonio Nepormoseno Rosales
 date: 2021-01-31
-abstract:
- A quickstart guide on how to style the layout of a website while keeping it simple.
+last-update: 2021-01-31
+abstract: A quickstart guide on how to style the layout of a website while keeping it simple.
+
 ---
 
 When I started this blog I had no idea of how to write modern CSS,

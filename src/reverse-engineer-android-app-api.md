@@ -1,10 +1,11 @@
 ---
+id: reverse-engineer-android-app-api
 title: 'API discovery in Android Apps and task automation'
-author:
-- Juan Antonio Nepormoseno Rosales
+author: Juan Antonio Nepormoseno Rosales
 date: 2020-11-06
-abstract:
- On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.
+last-update: 2020-11-06
+abstract: On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.
+
 ---
 
 Have you ever felt frustrated when using a mobile app because of any of the following reasons?
