@@ -8,22 +8,8 @@ POST_SRC_FOLDER="src"
 POST_BUILD_FOLDER="posts"
 
 #TODO:
-# X Main loops on ./get-posts.sh output
-# * calls /build-post.sh to generate post
-# * calls /build-preview to generate preview in temp folder
-# * append preview to index -> from build/temp to inde
-# * append preview to RSS -> from build/temp to RSS
-
-get_posts_with_date() {
-  for post in $(ls $POST_SRC_FOLDER | grep '.md'); do
-    date=$(grep -Po '(?<=date:)\s?\d{4}-\d{2}-\d{2}' $POST_SRC_FOLDER/$post | sed -e 's/^[ \t]*//')
-    echo "$date $post"
-  done
-}
-
-get_ordered_post_list() {
-  get_posts_with_date | sort -r | awk '{print $2}'
-}
+# * generate_article() -> build folder
+# * generate preview() -> build/temp folder
 
 generate_article() {
   ARTICLE_TEMPLATE="templates/article.html"
@@ -71,8 +57,10 @@ generate_index() {
 }
 
 main() {
-  #mkdir -p "$POST_BUILD_FOLDER"
-  for post in $(bash -c "$CWD/get-posts.sh"); do
+  mkdir -p "$POST_BUILD_FOLDER"
+
+  for post in $($CWD/get-property.sh $CWD/$POST_SRC_FOLDER/$file id
+); do
     echo "Generating ${post%.*}.html"
     #generate_article "$post"
     #generate_article_preview "$post" "$INDEX_CONTENT_TEMP_FILE"
