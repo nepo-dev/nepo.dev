@@ -1,9 +1,10 @@
 ---
 id: universal-document-language
+uuid: 708e86b3-a0ce-4bab-b9d7-312c602478f8
 title: 'A universal document language'
 author: Juan Antonio Nepormoseno Rosales
-date: 2020-08-12
-last-update: 2020-08-12
+date: 2020-08-12T00:00:00Z
+last-update: 2020-08-12T00:00:00Z
 abstract: On how to use Markdown and Pandoc to generate documents in multiple formats (HTML, PDF, DOC, PPT, ODT...)
 
 ---
