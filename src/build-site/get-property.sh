@@ -17,7 +17,7 @@ get_metadata () {
 
 get_property () {
   while read -r line; do
-    echo "$line" | grep -Po "^$1:.*" | cut -d: -f2 | trim_whitespace
+    echo "$line" | grep -Po "^$1:.*" | cut -d: -f2- | trim_whitespace
   done
 }
 
