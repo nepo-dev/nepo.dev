@@ -5,19 +5,20 @@
 #  exit 1
 #fi
 
-CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PATH="$PATH:$SCRIPT_FOLDER"
 POST_SRC_FOLDER="../posts"
 
 list_posts() {
-  for file in $(ls "$CWD/$POST_SRC_FOLDER"); do
-    $CWD/get-property.sh $CWD/$POST_SRC_FOLDER/$file id
+  for file in $(ls "$SCRIPT_FOLDER/$POST_SRC_FOLDER"); do
+    get-property.sh $SCRIPT_FOLDER/$POST_SRC_FOLDER/$file id
   done
 }
 
 list_posts_ordered_by_property() {
-  for post in $(list_posts); do
-    date="$(bash -c "$CWD/get-property.sh $CWD/$POST_SRC_FOLDER/$post.md $1")"
-    echo "$date $post"
+  for post in $(ls "$POST_SRC_FOLDER"); do
+    date="$(get-property.sh $POST_SRC_FOLDER/$post $1)"
+    echo "$date $POST_SRC_FOLDER/$post"
   done | sort -r | awk '{print $2}'
 }
 
