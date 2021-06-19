@@ -1,0 +1,12 @@
+  <entry>
+    <title>${title}</title>
+    <link href="$BASE_URL$/posts/${id}.html"/>
+    <id>urn:uuid:${uuid}</id>
+    <published>${date}</published>
+    <updated>${last-update}</updated>
+    <summary>${abstract}</summary>
+    <content type="html">
+$CONTENT$
+    </content>
+  </entry>
+

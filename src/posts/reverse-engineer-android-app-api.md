@@ -1,9 +1,10 @@
 ---
 id: reverse-engineer-android-app-api
+uuid: dcab5a71-98f5-45df-93ba-1db36cdead74
 title: 'API discovery in Android Apps and task automation'
 author: Juan Antonio Nepormoseno Rosales
-date: 2020-11-06
-last-update: 2020-11-06
+date: 2020-11-06T00:00:00Z
+last-update: 2020-11-06T00:00:00Z
 abstract: On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.
 
 ---

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>Nepo's blog</title>
+  <link href="$BASE_URL$"/>
+  <updated>$LAST_UPDATED_DATE$</updated>
+  <author>
+    <name>Juan Antonio Nepormoseno Rosales</name>
+  </author>
+  <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
+
+$CONTENT$
+</feed>
+

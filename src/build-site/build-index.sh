@@ -8,8 +8,7 @@ BASE_URL="https://edearth.github.io"
 
 gen_index_content() {
   while read -r post; do
-    post_url="$(realpath --relative-to=. "posts/$(get-property.sh "$post" id).html")"
-    build-preview.sh "$post" "$post_url"
+    build-preview.sh "$post"
   done
 }
 
