@@ -10,7 +10,6 @@ generate_article_preview() {
   PREVIEW_TEMPLATE_REPLACE_KEYWORD='ARTICLE_URL'
   SIMPLIFIED_DATE_REPLACE_KEYWORD='SIMPLIFIED_DATE'
   post="$1"
-  post_url="$2"
   
   post_id="$(get-property.sh "$post" id)"
   simplified_date="$(date -d "$(get-property.sh "$post" date)" -u +"%Y-%m-%d %H:%M")"
@@ -22,4 +21,4 @@ generate_article_preview() {
     "$post"
 }
 
-generate_article_preview "$1" "$2"
+generate_article_preview "$1"
