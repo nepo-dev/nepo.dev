@@ -138,6 +138,7 @@ figcaption {
 
 footer > p {
   float: left;
+  margin: 0;
 }
 
 /* Responsive layout - makes a one column layout (100%) instead of a two-column/multiple-column layout */
