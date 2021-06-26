@@ -140,7 +140,7 @@
 <p>But anyone can <em>be</em> a CA, or they can create one at least, so how do we know which CAs can we trust or not? Usually, your devices/applications come with a hardcoded set of CAs they trust by default. This is a <em>good enough</em> measure that <em>mostly works</em>, although these CAs then become very high value targets for hackers and you can believe some have been compromised before.</p>
 <p>So, back to our little project. We want to be able to snoop into what our target app and their backend are talking about. In order to do that, we are going to force an Android emulator into sending all its network traffic through us and then make it think it can trust us. How we will do that is by installing our own certificate as one of those default CAs. This way, we will be able to understand the encrypted HTTPS messages any app sends and receives. This is what is known as a <strong>“Man in the Middle attack”</strong> (MITM) in cyber-security.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reveng/mitm_diagram.jpg" alt="Drawing of man in the middle attack" /><figcaption aria-hidden="true">Drawing of man in the middle attack</figcaption>
+<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg" alt="Drawing of man in the middle attack" /><figcaption aria-hidden="true">Drawing of man in the middle attack</figcaption>
 </figure>
 <p>When we are able to understand what app and backend are saying to each other, we will begin investigating the now exposed API. If we’re lucky, we might even have the chance to automate our daily app usage into a script. That way we won’t even have to open the app again.</p>
 <p>This post will be split in 3 parts:</p>
@@ -215,20 +215,20 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install mitmproxy</span></code></pre></div>
 <p>To test it out, let’s start the emulator and open its settings by clicking on the 3 dots button. Then, navigate to the <strong>settings</strong> section, select the <strong>Proxy tab</strong> and configure it to use <code>http://127.0.0.1:8080</code> as a proxy, like in the image below.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reveng/emulator_proxy_config.png" alt="a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080" /><figcaption aria-hidden="true">a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080</figcaption>
+<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png" alt="a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080" /><figcaption aria-hidden="true">a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080</figcaption>
 </figure>
 <p>Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like this:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mitmproxy</span> <span class="at">--listen-host</span> 127.0.0.1 <span class="at">--listen-port</span> 8080</span></code></pre></div>
 <p>We can now go back to the emulator and navigate anywhere. You will see it’s almost as if your device lost connection, and if you try to use a web browser, a warning about your connection not being private will appear.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reveng/mitm_no_cert00.png" style="height:400px;" alt="a screenshot shows chrome browser warning the user its connection is not private" /><figcaption aria-hidden="true">a screenshot shows chrome browser warning the user its connection is not private</figcaption>
+<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png" style="height:400px;" alt="a screenshot shows chrome browser warning the user its connection is not private" /><figcaption aria-hidden="true">a screenshot shows chrome browser warning the user its connection is not private</figcaption>
 </figure>
 <p>This happens because mitmproxy signs HTTPS traffic with its own certificate. Since the emulator doesn’t trust that certificate (yet), it won’t even accept that response! If you go to the terminal where you launched mitmproxy, you should see something like this. Notice all the traffic is HTTP, there are no HTTPS messages.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reveng/mitm_no_cert01.png" alt="a screenshot shows a get request to http google, redirected to https" /><figcaption aria-hidden="true">a screenshot shows a get request to http google, redirected to https</figcaption>
+<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png" alt="a screenshot shows a get request to http google, redirected to https" /><figcaption aria-hidden="true">a screenshot shows a get request to http google, redirected to https</figcaption>
 </figure>
 <figure>
-<img src="https://edearth.github.io/imgs/reveng/mitm_no_cert02.png" alt="a screenshot shows more detail on the get request to http google" /><figcaption aria-hidden="true">a screenshot shows more detail on the get request to http google</figcaption>
+<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png" alt="a screenshot shows more detail on the get request to http google" /><figcaption aria-hidden="true">a screenshot shows more detail on the get request to http google</figcaption>
 </figure>
 <p>To continue, we will need to make the emulator trust mitmproxy’s Certificate Authority.</p>
 <h3 id="install-the-certificate-authority">Install the Certificate Authority</h3>
@@ -254,7 +254,7 @@
 <p>Now we can go back to our terminal and check the messages mitmproxy caught. We have to locate the traffic from the target app. To do so, just browse the captured requests list and see if any URL matches the app’s domain. Alternatively, you could look for endpoints that match actions you performed (like a login, search, etc.).</p>
 <p>If you’re lucky, your target API will use a human-readable document format like JSON or XML, instead of protobuf. We are lucky and our target uses JSON.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reveng/response_censored.png" alt="a screenshot shows how an intercepted response looks in mitmproxy" /><figcaption aria-hidden="true">a screenshot shows how an intercepted response looks in mitmproxy</figcaption>
+<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/response_censored.png" alt="a screenshot shows how an intercepted response looks in mitmproxy" /><figcaption aria-hidden="true">a screenshot shows how an intercepted response looks in mitmproxy</figcaption>
 </figure>
 <p>This means we can easily replicate that request in the terminal.</p>
 <p>In the terminal running mitmproxy, enter <code>w</code>. You will enter export mode. If you then type <code>export.clip curl @focus</code>, your request will be replicated as a curl command and it will be copied to your clipboard. You can then paste it on your terminal to see if it works.</p>

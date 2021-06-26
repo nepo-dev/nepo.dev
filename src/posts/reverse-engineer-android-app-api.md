@@ -66,7 +66,7 @@ How we will do that is by installing our own certificate as one of those default
 This way, we will be able to understand the encrypted HTTPS messages any app sends and receives.
 This is what is known as a **"Man in the Middle attack"** (MITM) in cyber-security.
 
-![Drawing of man in the middle attack]($BASE_URL$/imgs/reveng/mitm_diagram.jpg)
+![Drawing of man in the middle attack]($BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg)
 
 When we are able to understand what app and backend are saying to each other,
 we will begin investigating the now exposed API.
@@ -230,7 +230,7 @@ select the **Proxy tab**
 and configure it to use `http://127.0.0.1:8080` as a proxy,
 like in the image below.
 
-![a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080]($BASE_URL$/imgs/reveng/emulator_proxy_config.png)
+![a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080]($BASE_URL$/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png)
 
 Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like this:
 
@@ -243,16 +243,16 @@ You will see it's almost as if your device lost connection,
 and if you try to use a web browser,
 a warning about your connection not being private will appear.
 
-![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reveng/mitm_no_cert00.png){ style="height:400px;" }
+![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png){ style="height:400px;" }
 
 This happens because mitmproxy signs HTTPS traffic with its own certificate.
 Since the emulator doesn't trust that certificate (yet), it won't even accept that response!
 If you go to the terminal where you launched mitmproxy, you should see something like this.
 Notice all the traffic is HTTP, there are no HTTPS messages.
 
-![a screenshot shows a get request to http google, redirected to https]($BASE_URL$/imgs/reveng/mitm_no_cert01.png)
+![a screenshot shows a get request to http google, redirected to https]($BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png)
 
-![a screenshot shows more detail on the get request to http google]($BASE_URL$/imgs/reveng/mitm_no_cert02.png)
+![a screenshot shows more detail on the get request to http google]($BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png)
 
 To continue, we will need to make the emulator trust mitmproxy's Certificate Authority.
 
@@ -348,7 +348,7 @@ human-readable document format
 like JSON or XML, instead of protobuf.
 We are lucky and our target uses JSON.
 
-![a screenshot shows how an intercepted response looks in mitmproxy]($BASE_URL$/imgs/reveng/response_censored.png)
+![a screenshot shows how an intercepted response looks in mitmproxy]($BASE_URL$/imgs/reverse-engineer-android-app-api/response_censored.png)
 
 This means we can easily replicate that request in the terminal.
 
