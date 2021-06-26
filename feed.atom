@@ -3,12 +3,32 @@
 
   <title>Nepo's blog</title>
   <link href="https://edearth.github.io"/>
-  <updated>2021-06-20T12:02:04Z</updated>
+  <updated>2021-06-26T20:39:27Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>Librarian tools for a more civilized age</title>
+    <link href="https://edearth.github.io/posts/librarian-tools-for-more-civilized-age.html"/>
+    <id>urn:uuid:07b39aed-c9e4-41f8-8cb2-79c70579267c</id>
+    <published>2021-06-26T21:42:00Z</published>
+    <updated>2021-06-26T21:42:00Z</updated>
+    <summary>A thought about digital tools. You wouldn’t trust a plumber that doesn’t know how to use a wrench. As a programmer, do you know your tools?</summary>
+    <content type="html">
+&lt;p&gt;Do you remember how, for a brief moment in human history, you could fix machines by using violence? No university degrees or user manuals required, just a good ole slap o’ the hand to the side or top of the idiot box. And there you go, it works again! This could’ve been caused by a connection error, some faulty wires that didn’t properly transmit the video signal. But the point is you didn’t have to know about that, it used to be a magic solution that sometimes fixed stuff.&lt;/p&gt;
+&lt;p&gt;We don’t have wires anymore, for the most part. Most of our electronics use a PCB with each component attached to it (usually soldered or screwed). They’re so pervasive and easy to produce you could even use them for garage projects! It’s as easy as printing an image, transfering the ink to the board, applying some chemicals and drilling some holes. And they look &lt;em&gt;waaay better&lt;/em&gt; than a mess of cables connecting everything.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/librarian-tools-for-more-civilized-age/cow_tools.jpg&quot; alt=&quot;“Cow tools”, a Far side comic by Gary Larson.&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;“Cow tools”, a &lt;em&gt;Far side&lt;/em&gt; comic by Gary Larson.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;While listening to &lt;a href=&quot;https://cyberpunklibrarian.com/podcast/cyberpunk-librarian-episode-05-charlie-buckets-dad/&quot;&gt;episode 5 (“Charlie Bucket’s dad”)&lt;/a&gt; from Daniel Messer’s (&lt;a href=&quot;https://twitter.com/bibrarian&quot;&gt;@bibrarian&lt;/a&gt;) “Cyberpunk Librarian” podcast, I realized our problems are now mostly digital. We’ve figured if we remove the wires we won’t have faulty wires anymore. But that doesn’t mean we fixed the “connection error” problem. In the digital world we could have an API or program failing because we entered the wrong parameters. Or, if we have a long chain of different pieces (which could be another definition of what a computer or the Internet is), it could be any of those pieces failing.&lt;/p&gt;
+&lt;p&gt;What this means is most of the times we can’t apply a magic solution and hope for the best. Well, turning it off and on again works sometimes, but it won’t fix all problems. We need to really understand the problem in order to fix it. This is captured very well on Julia Evans’ (&lt;a href=&quot;https://twitter.com/b0rk&quot;&gt;@b0rk&lt;/a&gt;) &lt;a href=&quot;https://mysteries.wizardzines.com/&quot;&gt;debugging adventure games&lt;/a&gt;. In these you investigate a problem, finding clues like if it were a Phoenix Wright game, until you find out the root cause and fix it. Bits of knowledge about a digital problem, that we solve with digital tools.&lt;/p&gt;
+&lt;p&gt;Even though “tool” calls up a very physical mental image (like a wrench, hammer or a voltmeter with a display, switch knob and probes), digital problems in digital systems require digital tools to solve. And to use those tools we sometimes need to read documentation, experiment and fix/replace them when they stop working. Just like physical tools!&lt;/p&gt;
+&lt;p&gt;Daniel’s point about familiarizing yourself with your tools is as valid in software development as it is with librarian tools (or physical tools in a physical job 😛). Yet, perhaps because of the amount of tools or their “locality” (eg. Apple ecosystem used just for Apple development), this is a difficult task. But you’re doing yourself a disservice if you don’t. Learning about your tools is a good way to find ways to make your job easier. You stop depending on others to fix things, you grow your knowledge base, you do a more rewarding job and with your own individual background you could find an obvious solution that isn’t obvious to anybody else. Like in the example at the beginning of the post: By understanding the wires were causing the connection problem, we can ask ourselves: can we fix them? Can we use something cheaper without that issue?&lt;/p&gt;
+&lt;p&gt;That’s all. This post was mostly an excuse to share work by some people I like and this stupid realization I had 😄&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>On insecurity and self-narrative</title>
     <link href="https://edearth.github.io/posts/insecurity-and-self-narrative.html"/>
@@ -176,7 +196,7 @@ Example
 &lt;p&gt;But anyone can &lt;em&gt;be&lt;/em&gt; a CA, or they can create one at least, so how do we know which CAs can we trust or not? Usually, your devices/applications come with a hardcoded set of CAs they trust by default. This is a &lt;em&gt;good enough&lt;/em&gt; measure that &lt;em&gt;mostly works&lt;/em&gt;, although these CAs then become very high value targets for hackers and you can believe some have been compromised before.&lt;/p&gt;
 &lt;p&gt;So, back to our little project. We want to be able to snoop into what our target app and their backend are talking about. In order to do that, we are going to force an Android emulator into sending all its network traffic through us and then make it think it can trust us. How we will do that is by installing our own certificate as one of those default CAs. This way, we will be able to understand the encrypted HTTPS messages any app sends and receives. This is what is known as a &lt;strong&gt;“Man in the Middle attack”&lt;/strong&gt; (MITM) in cyber-security.&lt;/p&gt;
 &lt;figure&gt;
-&lt;img src=&quot;$BASE_URL$/imgs/reveng/mitm_diagram.jpg&quot; alt=&quot;Drawing of man in the middle attack&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;Drawing of man in the middle attack&lt;/figcaption&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg&quot; alt=&quot;Drawing of man in the middle attack&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;Drawing of man in the middle attack&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;When we are able to understand what app and backend are saying to each other, we will begin investigating the now exposed API. If we’re lucky, we might even have the chance to automate our daily app usage into a script. That way we won’t even have to open the app again.&lt;/p&gt;
 &lt;p&gt;This post will be split in 3 parts:&lt;/p&gt;
@@ -251,20 +271,20 @@ Example
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb13&quot;&gt;&lt;pre class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb13-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;brew&lt;/span&gt; install mitmproxy&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;To test it out, let’s start the emulator and open its settings by clicking on the 3 dots button. Then, navigate to the &lt;strong&gt;settings&lt;/strong&gt; section, select the &lt;strong&gt;Proxy tab&lt;/strong&gt; and configure it to use &lt;code&gt;http://127.0.0.1:8080&lt;/code&gt; as a proxy, like in the image below.&lt;/p&gt;
 &lt;figure&gt;
-&lt;img src=&quot;$BASE_URL$/imgs/reveng/emulator_proxy_config.png&quot; alt=&quot;a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080&lt;/figcaption&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png&quot; alt=&quot;a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like this:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb14&quot;&gt;&lt;pre class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb14-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;mitmproxy&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;--listen-host&lt;/span&gt; 127.0.0.1 &lt;span class=&quot;at&quot;&gt;--listen-port&lt;/span&gt; 8080&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We can now go back to the emulator and navigate anywhere. You will see it’s almost as if your device lost connection, and if you try to use a web browser, a warning about your connection not being private will appear.&lt;/p&gt;
 &lt;figure&gt;
-&lt;img src=&quot;$BASE_URL$/imgs/reveng/mitm_no_cert00.png&quot; style=&quot;height:400px;&quot; alt=&quot;a screenshot shows chrome browser warning the user its connection is not private&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows chrome browser warning the user its connection is not private&lt;/figcaption&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png&quot; style=&quot;height:400px;&quot; alt=&quot;a screenshot shows chrome browser warning the user its connection is not private&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows chrome browser warning the user its connection is not private&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;This happens because mitmproxy signs HTTPS traffic with its own certificate. Since the emulator doesn’t trust that certificate (yet), it won’t even accept that response! If you go to the terminal where you launched mitmproxy, you should see something like this. Notice all the traffic is HTTP, there are no HTTPS messages.&lt;/p&gt;
 &lt;figure&gt;
-&lt;img src=&quot;$BASE_URL$/imgs/reveng/mitm_no_cert01.png&quot; alt=&quot;a screenshot shows a get request to http google, redirected to https&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows a get request to http google, redirected to https&lt;/figcaption&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png&quot; alt=&quot;a screenshot shows a get request to http google, redirected to https&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows a get request to http google, redirected to https&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;figure&gt;
-&lt;img src=&quot;$BASE_URL$/imgs/reveng/mitm_no_cert02.png&quot; alt=&quot;a screenshot shows more detail on the get request to http google&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows more detail on the get request to http google&lt;/figcaption&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png&quot; alt=&quot;a screenshot shows more detail on the get request to http google&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows more detail on the get request to http google&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;To continue, we will need to make the emulator trust mitmproxy’s Certificate Authority.&lt;/p&gt;
 &lt;h3 id=&quot;install-the-certificate-authority&quot;&gt;Install the Certificate Authority&lt;/h3&gt;
@@ -290,7 +310,7 @@ Example
 &lt;p&gt;Now we can go back to our terminal and check the messages mitmproxy caught. We have to locate the traffic from the target app. To do so, just browse the captured requests list and see if any URL matches the app’s domain. Alternatively, you could look for endpoints that match actions you performed (like a login, search, etc.).&lt;/p&gt;
 &lt;p&gt;If you’re lucky, your target API will use a human-readable document format like JSON or XML, instead of protobuf. We are lucky and our target uses JSON.&lt;/p&gt;
 &lt;figure&gt;
-&lt;img src=&quot;$BASE_URL$/imgs/reveng/response_censored.png&quot; alt=&quot;a screenshot shows how an intercepted response looks in mitmproxy&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows how an intercepted response looks in mitmproxy&lt;/figcaption&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/response_censored.png&quot; alt=&quot;a screenshot shows how an intercepted response looks in mitmproxy&quot; /&gt;&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows how an intercepted response looks in mitmproxy&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;This means we can easily replicate that request in the terminal.&lt;/p&gt;
 &lt;p&gt;In the terminal running mitmproxy, enter &lt;code&gt;w&lt;/code&gt;. You will enter export mode. If you then type &lt;code&gt;export.clip curl @focus&lt;/code&gt;, your request will be replicated as a curl command and it will be copied to your clipboard. You can then paste it on your terminal to see if it works.&lt;/p&gt;
