@@ -3,6 +3,7 @@ id: responsive-css-quickstart
 uuid: cac2f2f8-8116-4d7d-bbb5-566c178bd7a8
 title: 'Painless responsive CSS: water, flexboxes and grids'
 author: Juan Antonio Nepormoseno Rosales
+category: tech
 date: 2021-01-31T00:00:00Z
 last-update: 2021-01-31T00:00:00Z
 abstract: A quickstart guide on how to style the layout of a website while keeping it simple.

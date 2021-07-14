@@ -2,7 +2,7 @@
 :root {
   --color-tech-highlight: #1982ee;
   --color-cook-highlight: #eea019;
-  --color-game-highlight: #ee3619;
+  --color-life-highlight: #ee3619;
 
   --background-body: #343f56;;
   --content-background: #fdfdfd;
@@ -102,8 +102,8 @@ body {
   color: var(--content-background);
 }
 
-.game-highlight {
-  background-color: var(--color-game-highlight);
+.life-highlight {
+  background-color: var(--color-life-highlight);
   color: var(--content-background);
 }
 

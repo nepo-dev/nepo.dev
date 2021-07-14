@@ -3,6 +3,7 @@ id: insecurity-and-self-narrative
 uuid: 7ec3e802-134e-42e9-baf3-9359382f11c7
 title: 'On insecurity and self-narrative'
 author: Juan Antonio Nepormoseno Rosales
+category: life
 date: 2021-05-03T00:00:00Z
 last-update: 2021-05-03T11:00:00Z
 abstract: A personal anecdote and a reflection on how our own narrative affects how we feel

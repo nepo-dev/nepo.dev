@@ -3,6 +3,7 @@ id: librarian-tools-for-more-civilized-age
 uuid: 07b39aed-c9e4-41f8-8cb2-79c70579267c
 title: 'Librarian tools for a more civilized age'
 author: Juan Antonio Nepormoseno Rosales
+category: tech
 date: 2021-06-26T21:42:00Z
 last-update: 2021-06-26T21:42:00Z
 abstract: A thought about digital tools. You wouldn't trust a plumber that doesn't know how to use a wrench. As a programmer, do you know your tools?
