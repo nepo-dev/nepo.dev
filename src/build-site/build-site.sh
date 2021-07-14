@@ -8,6 +8,8 @@ BASE_URL="https://edearth.github.io"
 BUILD_DIR="$SCRIPT_FOLDER/build"
 PROJECT_ROOT="$SCRIPT_FOLDER/../.."
 
+CATEGORIES=(tech food life)
+
 main() {
   # Setup
   rm -rf "$BUILD_DIR"
@@ -25,6 +27,12 @@ main() {
   echo "Generating index.html"
   get-posts.sh | build-index.sh > "$BUILD_DIR/index.html"
 
+  # Build category lists
+  for category in ${CATEGORIES[@]}; do
+    echo "Generating $category.html"
+    get-posts-in-category.sh "$category" | build-index.sh > "$BUILD_DIR/$category.html"
+  done
+
   # Build RSS file
   echo "Generating atom feed"
   get-posts.sh | build-rss-feed.sh > "$BUILD_DIR/feed.atom"
@@ -33,6 +41,10 @@ main() {
   echo "Moving build files to project root"
   rm "$PROJECT_ROOT/index.html" || true
   mv "$BUILD_DIR/index.html" "$PROJECT_ROOT/index.html"
+  for category in ${CATEGORIES[@]}; do
+    rm "$PROJECT_ROOT/$category.html" || true
+    mv "$BUILD_DIR/$category.html" "$PROJECT_ROOT/$category.html"
+  done
   rm "$PROJECT_ROOT/feed.atom" || true
   mv "$BUILD_DIR/feed.atom" "$PROJECT_ROOT/feed.atom"
   rm -rf "$PROJECT_ROOT/posts" || true
