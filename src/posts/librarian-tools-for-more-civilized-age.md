@@ -44,7 +44,7 @@ But that doesn't mean we fixed the "connection error" problem.
 In the digital world we could have an API or program failing
 because we entered the wrong parameters.
 Or, if we have a long chain of different pieces
-(which could be another definition of what a computer or the Internet is),
+(which sounds like a generic definition of what a computer or the Internet is),
 it could be any of those pieces failing.
 
 What this means is most of the times 
@@ -55,25 +55,27 @@ We need to really understand the problem in order to fix it.
 This is captured very well on
 Julia Evans' ([\@b0rk](https://twitter.com/b0rk))
 [debugging adventure games](https://mysteries.wizardzines.com/).
-In these you investigate a problem,
+In these choose-your-own-adventure games you investigate a problem,
 finding clues like if it were a Phoenix Wright game,
 until you find out the root cause and fix it.
-Bits of knowledge about a digital problem,
+Finding bits of knowledge about a digital problem,
 that we solve with digital tools.
 
+And that's what concerns this post: tools.
 Even though "tool" calls up a very physical mental image
 (like a wrench, hammer or a voltmeter with a display, switch knob and probes),
 digital problems in digital systems require digital tools to solve.
 And to use those tools we sometimes need to read documentation,
-experiment and fix/replace them when they stop working.
+experiment, fix and replace them when they stop working.
 Just like physical tools!
 
 Daniel's point about familiarizing yourself with your tools
-is as valid in software development as it is with librarian tools (or physical tools in a physical job 😛).
+is as valid in software development as it is with librarian tools
+(or physical tools in a physical job 😛).
 Yet, perhaps because of the amount of tools
 or their "locality" (eg. Apple ecosystem used just for Apple development),
 this is a difficult task.
-But you're doing yourself a disservice if you don't.
+Nevertheless, you would be doing yourself a disservice if you don't.
 Learning about your tools is a good way to find ways to make your job easier.
 You stop depending on others to fix things,
 you grow your knowledge base,
@@ -82,12 +84,16 @@ and with your own individual background
 you could find an obvious solution
 that isn't obvious to anybody else.
 Like in the example at the beginning of the post:
-By understanding the wires were causing the connection problem,
+by understanding the wires were causing the connection problem,
 we can ask ourselves: can we fix them?
-Can we use something cheaper without that issue?
+Can we replace them with something cheaper
+that doens't have that issue?
 
 That's all.
 This post was mostly an excuse to share 
-work by some people I like and
-this stupid realization I had 😄
-
+work by some people I like.
+I hope you found it useful or interesting in some way.
+Be sure to check the work done by
+Daniel Messer ([\@bibrarian](https://twitter.com/bibrarian))
+Julia Evans ([\@b0rk](https://twitter.com/b0rk)),
+it's really good! 😄
