@@ -57,8 +57,13 @@ body {
 }
 
 .description-photo {
-  width: 200px;
-  height: 200px;
+  display: block;
+  margin-left: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
   background-image: url("./imgs/myface.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -72,6 +77,13 @@ body {
   min-width: 200px;
   word-wrap: anywhere;
   background-color: var(--content-background);
+}
+
+.description-text-container > h1 {
+  position: relative;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-30%);
 }
 
 .description-text-container > p {
@@ -154,6 +166,7 @@ footer > p {
 
   .description-photo {
     margin-top: 12px;
+    margin-bottom: 0px;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -164,6 +177,8 @@ footer > p {
   }
 
   .description-text-container > h1 {
+    position: initial;
+    margin: auto;
     margin-top: 12px;
   }
 
