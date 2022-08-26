@@ -5,98 +5,109 @@
 
 	<!-- Primary Meta Tags -->
 	<title>API discovery in Android Apps and task automation — Nepo</title>
-	<meta name="title" content="API discovery in Android Apps and task automation — Nepo">
-	<meta name="description" content="On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development." />
+	<meta name="title" content="API discovery in Android Apps and task
+automation — Nepo">
+	<meta name="description" content="On how to use a Man-in-the-Middle
+proxy to reverse engineer an otherwise hidden Android App API, and what
+to do with that. This is not a post about app development." />
 	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://edearth.github.io/posts/reverse-engineer-android-app-api.html">
-	<meta property="og:title" content="API discovery in Android Apps and task automation">
-	<meta property="og:description" content="On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.">
+	<meta property="og:title" content="API discovery in Android Apps and
+task automation">
+	<meta property="og:description" content="On how to use a
+Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android
+App API, and what to do with that. This is not a post about app
+development.">
 	<meta property="og:image" content="https://edearth.github.io/imgs/myface.jpg">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:url" content="https://edearth.github.io/posts/reverse-engineer-android-app-api.html">
-	<meta property="twitter:title" content="API discovery in Android Apps and task automation">
-	<meta property="twitter:description" content="On how to use a Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android App API, and what to do with that. This is not a post about app development.">
+	<meta property="twitter:title" content="API discovery in Android Apps
+and task automation">
+	<meta property="twitter:description" content="On how to use a
+Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android
+App API, and what to do with that. This is not a post about app
+development.">
 	<meta property="twitter:image" content="https://edearth.github.io/imgs/myface.jpg">
 
 	<style>
 		code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-  pre > code.sourceCode { white-space: pre; position: relative; }
-  pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-  pre > code.sourceCode > span:empty { height: 1.2em; }
-  .sourceCode { overflow: visible; }
-  code.sourceCode > span { color: inherit; text-decoration: inherit; }
-  div.sourceCode { margin: 1em 0; }
-  pre.sourceCode { margin: 0; }
-  @media screen {
-  div.sourceCode { overflow: auto; }
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
   }
-  @media print {
-  pre > code.sourceCode { white-space: pre-wrap; }
-  pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-  }
-  pre.numberSource code
-    { counter-reset: source-line 0; }
-  pre.numberSource code > span
-    { position: relative; left: -4em; counter-increment: source-line; }
-  pre.numberSource code > span > a:first-child::before
-    { content: counter(source-line);
-      position: relative; left: -1em; text-align: right; vertical-align: baseline;
-      border: none; display: inline-block;
-      -webkit-touch-callout: none; -webkit-user-select: none;
-      -khtml-user-select: none; -moz-user-select: none;
-      -ms-user-select: none; user-select: none;
-      padding: 0 4px; width: 4em;
-      background-color: #ffffff;
-      color: #a0a0a0;
-    }
-  pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
-  div.sourceCode
-    { color: #1f1c1b; background-color: #ffffff; }
-  @media screen {
-  pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-  }
-  code span { color: #1f1c1b; } /* Normal */
-  code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
-  code span.an { color: #ca60ca; } /* Annotation */
-  code span.at { color: #0057ae; } /* Attribute */
-  code span.bn { color: #b08000; } /* BaseN */
-  code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
-  code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
-  code span.ch { color: #924c9d; } /* Char */
-  code span.cn { color: #aa5500; } /* Constant */
-  code span.co { color: #898887; } /* Comment */
-  code span.cv { color: #0095ff; } /* CommentVar */
-  code span.do { color: #607880; } /* Documentation */
-  code span.dt { color: #0057ae; } /* DataType */
-  code span.dv { color: #b08000; } /* DecVal */
-  code span.er { color: #bf0303; text-decoration: underline; } /* Error */
-  code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
-  code span.fl { color: #b08000; } /* Float */
-  code span.fu { color: #644a9b; } /* Function */
-  code span.im { color: #ff5500; } /* Import */
-  code span.in { color: #b08000; } /* Information */
-  code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
-  code span.op { color: #1f1c1b; } /* Operator */
-  code span.ot { color: #006e28; } /* Other */
-  code span.pp { color: #006e28; } /* Preprocessor */
-  code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
-  code span.sc { color: #3daee9; } /* SpecialChar */
-  code span.ss { color: #ff5500; } /* SpecialString */
-  code span.st { color: #bf0303; } /* String */
-  code span.va { color: #0057ae; } /* Variable */
-  code span.vs { color: #bf0303; } /* VerbatimString */
-  code span.wa { color: #bf0303; } /* Warning */
-  .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
 	</style>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://edearth.github.io/style.css" />
@@ -116,45 +127,92 @@
 	<div class="flex-container">
 		<a href="https://edearth.github.io/tech.html" class="tech-highlight menu-button">Tech</a>
 		<a href="https://edearth.github.io/food.html" class="cook-highlight menu-button">Food</a>
-		<a href="https://edearth.github.io/life.html" class="game-highlight menu-button">Life</a>
+		<a href="https://edearth.github.io/life.html" class="life-highlight menu-button">Life</a>
 	</div>
   
   <article>
-    <h2 class="title tech-highlight">API discovery in Android Apps and task automation</h2>
+    <h2 class="title tech-highlight">API discovery in Android Apps and
+task automation</h2>
     <p class="article-date">2020-11-06 00:00</p>
     <div class="article-content">
-      <p><p>Have you ever felt frustrated when using a mobile app because of any of the following reasons?</p>
+      <p><p>Have you ever felt frustrated when using a mobile app
+because of any of the following reasons?</p>
 <ul>
-<li>It lacks simple quality of life features like filtering, searching, automating actions, etc.</li>
-<li>It is poorly optimized and it is extremely laggy. Or maybe it takes too long to load.</li>
-<li>It doesn’t show a lot of information on screen, since images and buttons have to be BIG for a mobile app. Or the complete opposite, the interactable elements are too small or don’t work well. The UX is terrible in both cases.</li>
+<li>It lacks simple quality of life features like filtering, searching,
+automating actions, etc.</li>
+<li>It is poorly optimized and it is extremely laggy. Or maybe it takes
+too long to load.</li>
+<li>It doesn’t show a lot of information on screen, since images and
+buttons have to be BIG for a mobile app. Or the complete opposite, the
+interactable elements are too small or don’t work well. The UX is
+terrible in both cases.</li>
 <li>It takes up too much space on the phone’s storage.</li>
 </ul>
-<p>If you can relate with any of those reasons, I’m right there with you. You could ditch that application, but if you really want to use it, I’ve got good news: there is a way around it. It involves learning about cyber-security, reverse engineering an API and automating nearly anything that matters in an app.</p>
+<p>If you can relate with any of those reasons, I’m right there with
+you. You could ditch that application, but if you really want to use it,
+I’ve got good news: there is a way around it. It involves learning about
+cyber-security, reverse engineering an API and automating nearly
+anything that matters in an app.</p>
 <h3 id="overview">Overview</h3>
 <blockquote>
-<p><strong>Summary:</strong> We will perform a MITM attack by installing a custom CA in an Android emulator and scripting the API requests we intercept. If you understand that, go to the <a href="#setting-up-emulator-and-app">next section</a> already.</p>
+<p><strong>Summary:</strong> We will perform a MITM attack by installing
+a custom CA in an Android emulator and scripting the API requests we
+intercept. If you understand that, go to the <a
+href="#setting-up-emulator-and-app">next section</a> already.</p>
 </blockquote>
-<p>Normally we can’t see the traffic coming out of an App. It’s <strong>encrypted</strong>, and therefore it looks like random garbage to us. This keeps your information safe, at least during the transaction (what each ends does with the information and how they protect it is a different matter).</p>
-<p>You might have heard about <strong>digital certificates</strong>. They are what make this encryption possible, and in order to know what certificates you can trust or not your devices depend on a <strong>Certificate Authority</strong> (CA). These are actors that can create digital certificates</p>
-<p>But anyone can <em>be</em> a CA, or they can create one at least, so how do we know which CAs can we trust or not? Usually, your devices/applications come with a hardcoded set of CAs they trust by default. This is a <em>good enough</em> measure that <em>mostly works</em>, although these CAs then become very high value targets for hackers and you can believe some have been compromised before.</p>
-<p>So, back to our little project. We want to be able to snoop into what our target app and their backend are talking about. In order to do that, we are going to force an Android emulator into sending all its network traffic through us and then make it think it can trust us. How we will do that is by installing our own certificate as one of those default CAs. This way, we will be able to understand the encrypted HTTPS messages any app sends and receives. This is what is known as a <strong>“Man in the Middle attack”</strong> (MITM) in cyber-security.</p>
+<p>Normally we can’t see the traffic coming out of an App. It’s
+<strong>encrypted</strong>, and therefore it looks like random garbage
+to us. This keeps your information safe, at least during the transaction
+(what each ends does with the information and how they protect it is a
+different matter).</p>
+<p>You might have heard about <strong>digital certificates</strong>.
+They are what make this encryption possible, and in order to know what
+certificates you can trust or not your devices depend on a
+<strong>Certificate Authority</strong> (CA). These are actors that can
+create digital certificates</p>
+<p>But anyone can <em>be</em> a CA, or they can create one at least, so
+how do we know which CAs can we trust or not? Usually, your
+devices/applications come with a hardcoded set of CAs they trust by
+default. This is a <em>good enough</em> measure that <em>mostly
+works</em>, although these CAs then become very high value targets for
+hackers and you can believe some have been compromised before.</p>
+<p>So, back to our little project. We want to be able to snoop into what
+our target app and their backend are talking about. In order to do that,
+we are going to force an Android emulator into sending all its network
+traffic through us and then make it think it can trust us. How we will
+do that is by installing our own certificate as one of those default
+CAs. This way, we will be able to understand the encrypted HTTPS
+messages any app sends and receives. This is what is known as a
+<strong>“Man in the Middle attack”</strong> (MITM) in
+cyber-security.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg" alt="Drawing of man in the middle attack" /><figcaption aria-hidden="true">Drawing of man in the middle attack</figcaption>
+<img
+src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg"
+alt="Drawing of man in the middle attack" />
+<figcaption aria-hidden="true">Drawing of man in the middle
+attack</figcaption>
 </figure>
-<p>When we are able to understand what app and backend are saying to each other, we will begin investigating the now exposed API. If we’re lucky, we might even have the chance to automate our daily app usage into a script. That way we won’t even have to open the app again.</p>
+<p>When we are able to understand what app and backend are saying to
+each other, we will begin investigating the now exposed API. If we’re
+lucky, we might even have the chance to automate our daily app usage
+into a script. That way we won’t even have to open the app again.</p>
 <p>This post will be split in 3 parts:</p>
 <ul>
-<li><a href="#setting-up-emulator-and-app">Setting up the emulator</a></li>
+<li><a href="#setting-up-emulator-and-app">Setting up the
+emulator</a></li>
 <li><a href="#setting-up-the-proxy">Configuring MITM proxy</a></li>
-<li><a href="#exploitation">Investigating the API and automating</a></li>
+<li><a href="#exploitation">Investigating the API and
+automating</a></li>
 </ul>
 <h2 id="setting-up-emulator-and-app">Setting up emulator and app</h2>
 <h3 id="install-the-tools">Install the tools</h3>
-<p>If you don’t have the Android platform tools, we will install them now. I’m using Arch, so I will use these AUR packages:</p>
+<p>If you don’t have the Android platform tools, we will install them
+now. I’m using Arch, so I will use these AUR packages:</p>
 <ul>
-<li><a href="https://aur.archlinux.org/android-sdk.git">https://aur.archlinux.org/android-sdk.git</a></li>
-<li><a href="https://aur.archlinux.org/android-sdk-platform-tools.git">https://aur.archlinux.org/android-sdk-platform-tools.git</a></li>
+<li><a
+href="https://aur.archlinux.org/android-sdk.git">https://aur.archlinux.org/android-sdk.git</a></li>
+<li><a
+href="https://aur.archlinux.org/android-sdk-platform-tools.git">https://aur.archlinux.org/android-sdk-platform-tools.git</a></li>
 </ul>
 <p>You can install them like:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://aur.archlinux.org/android-sdk.git</span>
@@ -164,109 +222,227 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://aur.archlinux.org/android-sdk-platform-tools.git</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> android-sdk-platform-tools</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">makepkg</span> <span class="at">-si</span></span></code></pre></div>
-<p>It shouldn’t be too difficult to find out how to install them on another platform. For instance, if you’re on Ubuntu, you can just do:</p>
+<p>It shouldn’t be too difficult to find out how to install them on
+another platform. For instance, if you’re on Ubuntu, you can just
+do:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update <span class="kw">&amp;&amp;</span> <span class="fu">sudo</span> apt install android-sdk</span></code></pre></div>
-<p>On Mac (assuming you have <a href="https://brew.sh/">Brew</a> installed):</p>
+<p>On Mac (assuming you have <a href="https://brew.sh/">Brew</a>
+installed):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> tap caskroom/cask</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> cask install android-sdk</span></code></pre></div>
 <h3 id="install-the-system-image">Install the system image</h3>
-<p>Once we have the tools we need, we can download the system image. Since we want to download an app from the Play Store, we will need that the image we use includes the Google API. We want to find a an image containing “google_apis”, but not “google_apis_playstore”. Why not get the one that comes with the Play Store pre-installed, you ask? Well, those are production builds and we won’t be able to root them. We will need rooting our emulator later.</p>
-<p>I chose the “android-25” one, but you can choose another one if you want.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sdkmanager</span> <span class="at">--list</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;google_apis&quot;</span> <span class="co">#select another image from this list if you want</span></span>
+<p>Once we have the tools we need, we can download the system image.
+Since we want to download an app from the Play Store, we will need that
+the image we use includes the Google API. We want to find a an image
+containing “google_apis”, but not “google_apis_playstore”. Why not get
+the one that comes with the Play Store pre-installed, you ask? Well,
+those are production builds and we won’t be able to root them. We will
+need rooting our emulator later.</p>
+<p>I chose the “android-25” one, but you can choose another one if you
+want.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sdkmanager</span> <span class="at">--list</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;google_apis&quot;</span> <span class="co">#select another image from this list if you want</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> sdkmanager <span class="at">--install</span> <span class="st">&quot;system-images;android-25;google_apis;x86_64&quot;</span></span></code></pre></div>
 <h3 id="create-the-avd">Create the AVD</h3>
-<p>After accepting the license and waiting for the download to finish, we can finally create our AVD.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">avdmanager</span> create avd <span class="at">--name</span> <span class="st">&quot;mitm-emulator&quot;</span> <span class="at">--package</span> <span class="st">&quot;system-images;android-25;google_apis;x86_64&quot;</span></span></code></pre></div>
+<p>After accepting the license and waiting for the download to finish,
+we can finally create our AVD.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">avdmanager</span> create avd <span class="at">--name</span> <span class="st">&quot;mitm-emulator&quot;</span> <span class="at">--package</span> <span class="st">&quot;system-images;android-25;google_apis;x86_64&quot;</span></span></code></pre></div>
 <p>And open it with:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emulator</span> <span class="at">-avd</span> mitm-emulator <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emulator</span> <span class="at">-avd</span> mitm-emulator <span class="kw">&amp;</span></span></code></pre></div>
 <h3 id="installing-google-play">Installing Google Play</h3>
-<p>Download Open GApps for your system image from <a href="https://opengapps.org/">https://opengapps.org/</a>. We will need them to download the target app from the Play Store. We can extract it with:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> open_gapps-<span class="pp">*</span>.zip <span class="st">&#39;Core/*&#39;</span></span>
+<p>Download Open GApps for your system image from <a
+href="https://opengapps.org/">https://opengapps.org/</a>. We will need
+them to download the target app from the Play Store. We can extract it
+with:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> open_gapps-<span class="pp">*</span>.zip <span class="st">&#39;Core/*&#39;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> Core/setup<span class="pp">*</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lzip</span> <span class="at">-d</span> Core/<span class="pp">*</span>.lz</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> Core/<span class="pp">*</span>.tar<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tar</span> <span class="at">-x</span> <span class="at">--strip-components</span> 2 <span class="at">-f</span> <span class="va">$f</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>Then, we run our emulator and install the packages:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emulator</span> <span class="at">-avd</span> <span class="st">&quot;mitm-emulator&quot;</span> <span class="at">-writable-system</span> <span class="kw">&amp;</span></span></code></pre></div>
-<p>Wait for the loading to finish. As soon as the home screen is shown, copy the Open GApps folders to your system.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> root</span>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emulator</span> <span class="at">-avd</span> <span class="st">&quot;mitm-emulator&quot;</span> <span class="at">-writable-system</span> <span class="kw">&amp;</span></span></code></pre></div>
+<p>Wait for the loading to finish. As soon as the home screen is shown,
+copy the Open GApps folders to your system.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> root</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> remount</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> push etc /system</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> push framework /system</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> push app /system</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> push priv-app /system</span></code></pre></div>
 <p>We can now restart the emulator.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> shell stop</span>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> shell stop</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> shell start</span></code></pre></div>
-<p>After the loading finishes, you will see the Play Store in your home screen.</p>
+<p>After the loading finishes, you will see the Play Store in your home
+screen.</p>
 <h3 id="install-the-target-app">Install the target app</h3>
-<p>This should be the easiest step. Just log into the Play Store and download the target app.</p>
+<p>This should be the easiest step. Just log into the Play Store and
+download the target app.</p>
 <p>Make sure you can open it before proceeding.</p>
 <h2 id="setting-up-the-proxy">Setting up the proxy</h2>
 <h3 id="install-mitm-proxy">Install MITM proxy</h3>
-<p>Now we will install and configure our proxy. We will be using <strong><a href="https://mitmproxy.org">mitmproxy</a></strong>, an MIT licensed open source tool built just for MITM attacks.</p>
-<p>It can easily be installed from Arch’s official repositories with:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pacman</span> <span class="at">-Sy</span> mitmproxy</span></code></pre></div>
-<p>It seems on Ubuntu you will need to install pip and then install mitmproxy using it.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3-pip</span>
+<p>Now we will install and configure our proxy. We will be using
+<strong><a href="https://mitmproxy.org">mitmproxy</a></strong>, an MIT
+licensed open source tool built just for MITM attacks.</p>
+<p>It can easily be installed from Arch’s official repositories
+with:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pacman</span> <span class="at">-Sy</span> mitmproxy</span></code></pre></div>
+<p>It seems on Ubuntu you will need to install pip and then install
+mitmproxy using it.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3-pip</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pip3 install mitmproxy</span></code></pre></div>
 <p>On Mac, just use Brew again:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install mitmproxy</span></code></pre></div>
-<p>To test it out, let’s start the emulator and open its settings by clicking on the 3 dots button. Then, navigate to the <strong>settings</strong> section, select the <strong>Proxy tab</strong> and configure it to use <code>http://127.0.0.1:8080</code> as a proxy, like in the image below.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install mitmproxy</span></code></pre></div>
+<p>To test it out, let’s start the emulator and open its settings by
+clicking on the 3 dots button. Then, navigate to the
+<strong>settings</strong> section, select the <strong>Proxy tab</strong>
+and configure it to use <code>http://127.0.0.1:8080</code> as a proxy,
+like in the image below.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png" alt="a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080" /><figcaption aria-hidden="true">a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080</figcaption>
+<img
+src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png"
+alt="a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080" />
+<figcaption aria-hidden="true">a screenshot shows the emulator proxy
+configured to use http://127.0.0.1:8080</figcaption>
 </figure>
-<p>Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like this:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mitmproxy</span> <span class="at">--listen-host</span> 127.0.0.1 <span class="at">--listen-port</span> 8080</span></code></pre></div>
-<p>We can now go back to the emulator and navigate anywhere. You will see it’s almost as if your device lost connection, and if you try to use a web browser, a warning about your connection not being private will appear.</p>
+<p>Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like
+this:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mitmproxy</span> <span class="at">--listen-host</span> 127.0.0.1 <span class="at">--listen-port</span> 8080</span></code></pre></div>
+<p>We can now go back to the emulator and navigate anywhere. You will
+see it’s almost as if your device lost connection, and if you try to use
+a web browser, a warning about your connection not being private will
+appear.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png" style="height:400px;" alt="a screenshot shows chrome browser warning the user its connection is not private" /><figcaption aria-hidden="true">a screenshot shows chrome browser warning the user its connection is not private</figcaption>
+<img
+src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png"
+style="height:400px;"
+alt="a screenshot shows chrome browser warning the user its connection is not private" />
+<figcaption aria-hidden="true">a screenshot shows chrome browser warning
+the user its connection is not private</figcaption>
 </figure>
-<p>This happens because mitmproxy signs HTTPS traffic with its own certificate. Since the emulator doesn’t trust that certificate (yet), it won’t even accept that response! If you go to the terminal where you launched mitmproxy, you should see something like this. Notice all the traffic is HTTP, there are no HTTPS messages.</p>
+<p>This happens because mitmproxy signs HTTPS traffic with its own
+certificate. Since the emulator doesn’t trust that certificate (yet), it
+won’t even accept that response! If you go to the terminal where you
+launched mitmproxy, you should see something like this. Notice all the
+traffic is HTTP, there are no HTTPS messages.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png" alt="a screenshot shows a get request to http google, redirected to https" /><figcaption aria-hidden="true">a screenshot shows a get request to http google, redirected to https</figcaption>
+<img
+src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png"
+alt="a screenshot shows a get request to http google, redirected to https" />
+<figcaption aria-hidden="true">a screenshot shows a get request to http
+google, redirected to https</figcaption>
 </figure>
 <figure>
-<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png" alt="a screenshot shows more detail on the get request to http google" /><figcaption aria-hidden="true">a screenshot shows more detail on the get request to http google</figcaption>
+<img
+src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png"
+alt="a screenshot shows more detail on the get request to http google" />
+<figcaption aria-hidden="true">a screenshot shows more detail on the get
+request to http google</figcaption>
 </figure>
-<p>To continue, we will need to make the emulator trust mitmproxy’s Certificate Authority.</p>
-<h3 id="install-the-certificate-authority">Install the Certificate Authority</h3>
-<p>The way mitmproxy works is it has its own Certificate Authority. It uses it to generate certificates on the fly for whatever external resource the emulator asks for. It then uses those certificates to encrypt the messages sent to it, making it seem like the emulator is talking with the real server. In reality, though, it is decrypting and encrypting all the messages with its own certificates, so it knows <strong>everything</strong> the client and server are talking about. And neither of them knows it is spying on them.</p>
-<p>If you read the documentation for mitmproxy you will see there are official instructions on how to install the certificate on mobile devices: you visit “<code>mitm.it</code>” in the browser, download the certificate and install it. Then you can see decrypted HTTPS traffic in mitmproxy… but just the traffic generated by the browser.</p>
-<p>If we want to read HTTPS traffic from native apps, we need to install it as a <strong>system certificate</strong>. We will need root privileges for that, so we will launch the emulator specifying:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emulator</span> <span class="at">-avd</span> mitm-emulator <span class="at">-writable-system</span> <span class="kw">&amp;</span></span>
+<p>To continue, we will need to make the emulator trust mitmproxy’s
+Certificate Authority.</p>
+<h3 id="install-the-certificate-authority">Install the Certificate
+Authority</h3>
+<p>The way mitmproxy works is it has its own Certificate Authority. It
+uses it to generate certificates on the fly for whatever external
+resource the emulator asks for. It then uses those certificates to
+encrypt the messages sent to it, making it seem like the emulator is
+talking with the real server. In reality, though, it is decrypting and
+encrypting all the messages with its own certificates, so it knows
+<strong>everything</strong> the client and server are talking about. And
+neither of them knows it is spying on them.</p>
+<p>If you read the documentation for mitmproxy you will see there are
+official instructions on how to install the certificate on mobile
+devices: you visit “<code>mitm.it</code>” in the browser, download the
+certificate and install it. Then you can see decrypted HTTPS traffic in
+mitmproxy… but just the traffic generated by the browser.</p>
+<p>If we want to read HTTPS traffic from native apps, we need to install
+it as a <strong>system certificate</strong>. We will need root
+privileges for that, so we will launch the emulator specifying:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emulator</span> <span class="at">-avd</span> mitm-emulator <span class="at">-writable-system</span> <span class="kw">&amp;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> root</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> remount</span></code></pre></div>
-<p>Now we need to find our certificate file. If you are using Linux, it will be in the <code>~/.mitmproxy/</code> folder. Let’s save it to a variable named “CA”:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">CA</span><span class="op">=</span>~/.mitmproxy/mitmproxy-ca-cert.pem</span></code></pre></div>
-<p>We just need to copy that file into the emulator’s trusted CAs folder, but it needs to be named with a special value. The filename must be the hash of the certificate itself. You can calculate it with the following command:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">HASH</span><span class="op">=</span><span class="va">$(</span><span class="ex">openssl</span> x509 <span class="at">-noout</span> <span class="at">-subject_hash_old</span> <span class="at">-in</span> <span class="st">&quot;</span><span class="va">$CA</span><span class="st">&quot;</span><span class="va">)</span></span></code></pre></div>
-<p>But since mitmproxy uses the same default certificate everywhere, we know the value should be <code>c8750f0d</code>, so you can skip this step and just use that value. You can always come back and use the previous line to recalculate the value if it doesn’t work 😛</p>
+<p>Now we need to find our certificate file. If you are using Linux, it
+will be in the <code>~/.mitmproxy/</code> folder. Let’s save it to a
+variable named “CA”:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">CA</span><span class="op">=</span>~/.mitmproxy/mitmproxy-ca-cert.pem</span></code></pre></div>
+<p>We just need to copy that file into the emulator’s trusted CAs
+folder, but it needs to be named with a special value. The filename must
+be the hash of the certificate itself. You can calculate it with the
+following command:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">HASH</span><span class="op">=</span><span class="va">$(</span><span class="ex">openssl</span> x509 <span class="at">-noout</span> <span class="at">-subject_hash_old</span> <span class="at">-in</span> <span class="st">&quot;</span><span class="va">$CA</span><span class="st">&quot;</span><span class="va">)</span></span></code></pre></div>
+<p>But since mitmproxy uses the same default certificate everywhere, we
+know the value should be <code>c8750f0d</code>, so you can skip this
+step and just use that value. You can always come back and use the
+previous line to recalculate the value if it doesn’t work 😛</p>
 <p>So you can just do:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> push <span class="st">&quot;</span><span class="va">$CA</span><span class="st">&quot;</span> /system/etc/security/cacerts/c8750f0d.0</span></code></pre></div>
-<p>If you try to load a website now, it should load correctly and you should see traffic being detected by mitmproxy. Moreover, if you try to open the target app, you should see its traffic too! Congratulations!</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> push <span class="st">&quot;</span><span class="va">$CA</span><span class="st">&quot;</span> /system/etc/security/cacerts/c8750f0d.0</span></code></pre></div>
+<p>If you try to load a website now, it should load correctly and you
+should see traffic being detected by mitmproxy. Moreover, if you try to
+open the target app, you should see its traffic too!
+Congratulations!</p>
 <p>Don’t forget to unroot the device before you continue.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> unroot</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">adb</span> unroot</span></code></pre></div>
 <h2 id="exploitation">Exploitation</h2>
 <h3 id="investigating-the-api">Investigating the API</h3>
-<p>To begin, let’s just use the app normally. Create an account with username and password (avoid authenticating with Google or Facebook for now, you don’t want to have to deal with OAuth). Log in, search and browse some items… We just want to generate some traffic so that we can inspect it later.</p>
-<p>Now we can go back to our terminal and check the messages mitmproxy caught. We have to locate the traffic from the target app. To do so, just browse the captured requests list and see if any URL matches the app’s domain. Alternatively, you could look for endpoints that match actions you performed (like a login, search, etc.).</p>
-<p>If you’re lucky, your target API will use a human-readable document format like JSON or XML, instead of protobuf. We are lucky and our target uses JSON.</p>
+<p>To begin, let’s just use the app normally. Create an account with
+username and password (avoid authenticating with Google or Facebook for
+now, you don’t want to have to deal with OAuth). Log in, search and
+browse some items… We just want to generate some traffic so that we can
+inspect it later.</p>
+<p>Now we can go back to our terminal and check the messages mitmproxy
+caught. We have to locate the traffic from the target app. To do so,
+just browse the captured requests list and see if any URL matches the
+app’s domain. Alternatively, you could look for endpoints that match
+actions you performed (like a login, search, etc.).</p>
+<p>If you’re lucky, your target API will use a human-readable document
+format like JSON or XML, instead of protobuf. We are lucky and our
+target uses JSON.</p>
 <figure>
-<img src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/response_censored.png" alt="a screenshot shows how an intercepted response looks in mitmproxy" /><figcaption aria-hidden="true">a screenshot shows how an intercepted response looks in mitmproxy</figcaption>
+<img
+src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/response_censored.png"
+alt="a screenshot shows how an intercepted response looks in mitmproxy" />
+<figcaption aria-hidden="true">a screenshot shows how an intercepted
+response looks in mitmproxy</figcaption>
 </figure>
 <p>This means we can easily replicate that request in the terminal.</p>
-<p>In the terminal running mitmproxy, enter <code>w</code>. You will enter export mode. If you then type <code>export.clip curl @focus</code>, your request will be replicated as a curl command and it will be copied to your clipboard. You can then paste it on your terminal to see if it works.</p>
+<p>In the terminal running mitmproxy, enter <code>w</code>. You will
+enter export mode. If you then type
+<code>export.clip curl @focus</code>, your request will be replicated as
+a curl command and it will be copied to your clipboard. You can then
+paste it on your terminal to see if it works.</p>
 <p>For my particular case I had to make 2 changes for it to work:</p>
 <ul>
-<li>Remove the <code>:authority</code> pseudo-header that looked like <code>-H ':authority: domainname.com'</code>.</li>
-<li>Change the IP address for it’s domain name in the URL (<code>https://1.2.3.4/v1/endpoint</code> =&gt; <code>https://domainname.com/v1/endpoint</code>).</li>
+<li>Remove the <code>:authority</code> pseudo-header that looked like
+<code>-H ':authority: domainname.com'</code>.</li>
+<li>Change the IP address for it’s domain name in the URL
+(<code>https://1.2.3.4/v1/endpoint</code> =&gt;
+<code>https://domainname.com/v1/endpoint</code>).</li>
 </ul>
 <h3 id="automating-queries">Automating queries</h3>
-<p>From this point on, it’s just a matter of exploring and seeing what can you do with the endpoints you discover. It’s just like learning any regular new API.</p>
-<p>For example, I wanted to automate a search for a restaurant. It has to be near me (&lt;1km), it cannot be a bakery and I just want to know the name, price and pickup time.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> get_store_list()</span> <span class="kw">{</span></span>
+<p>From this point on, it’s just a matter of exploring and seeing what
+can you do with the endpoints you discover. It’s just like learning any
+regular new API.</p>
+<p>For example, I wanted to automate a search for a restaurant. It has
+to be near me (&lt;1km), it cannot be a bakery and I just want to know
+the name, price and pickup time.</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> get_store_list()</span> <span class="kw">{</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">curl</span> https://x.x.x.x/get_store_list<span class="pp">?</span>...</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -288,15 +464,25 @@
 &quot;Store name 3, 4.99€, 2020-11-04T15:00:00Z&quot;
 &quot;Store name 4, 2.99€, 2020-11-04T19:00:00Z&quot;
 ...</code></pre>
-<p>It can be then saved as a script and run as a cron job everyday at certain time (lunchtime?). This will notify me about available stores to get food from.</p>
-<p>Do once. Run forever. Ok, run until the API changes or something breaks, but still, it’s less worrisome than opening the app and searching manually.</p>
+<p>It can be then saved as a script and run as a cron job everyday at
+certain time (lunchtime?). This will notify me about available stores to
+get food from.</p>
+<p>Do once. Run forever. Ok, run until the API changes or something
+breaks, but still, it’s less worrisome than opening the app and
+searching manually.</p>
 <h2 id="links-of-interest">Links of interest</h2>
-<p>If you want to know more about this topic, I encourage you to follow these links and search for more information.</p>
+<p>If you want to know more about this topic, I encourage you to follow
+these links and search for more information.</p>
 <ul>
-<li>Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr 3): [<a href="https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium">Link</a>]</li>
-<li>Installing Open GApps, Daishi Kato (2017 Mar 6): [<a href="https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1">Link</a>]</li>
-<li>Why you need a Google API image, “oenpelli” on StackOverflow (2014 Jul 18): [<a href="https://stackoverflow.com/a/24817495">Link</a>]</li>
-<li>mitmproxy docs: [<a href="https://docs.mitmproxy.org/stable/">Link</a>]</li>
+<li>Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr
+3): [<a
+href="https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium">Link</a>]</li>
+<li>Installing Open GApps, Daishi Kato (2017 Mar 6): [<a
+href="https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1">Link</a>]</li>
+<li>Why you need a Google API image, “oenpelli” on StackOverflow (2014
+Jul 18): [<a href="https://stackoverflow.com/a/24817495">Link</a>]</li>
+<li>mitmproxy docs: [<a
+href="https://docs.mitmproxy.org/stable/">Link</a>]</li>
 </ul></p>
     </div>
   </article>
