@@ -33,7 +33,7 @@ applying some chemicals
 and drilling some holes.
 And they look _waaay better_ than a mess of cables connecting everything.
 
-!["Cow tools", a _Far side_ comic by Gary Larson.]($BASE_URL$/imgs/librarian-tools-for-more-civilized-age/cow_tools.jpg)
+!["Cow tools", a _Far side_ comic by Gary Larson.]($BASE_URL$/imgs/librarian-tools-for-more-civilized-age/cow_tools.jpg){.center}
 
 While listening to
 [episode 5 ("Charlie Bucket's dad")](https://cyberpunklibrarian.com/podcast/cyberpunk-librarian-episode-05-charlie-buckets-dad/)

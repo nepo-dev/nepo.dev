@@ -244,7 +244,7 @@ You will see it's almost as if your device lost connection,
 and if you try to use a web browser,
 a warning about your connection not being private will appear.
 
-![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png){ style="height:400px;" }
+![a screenshot shows chrome browser warning the user its connection is not private]($BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png){ .center style="height:400px;" }
 
 This happens because mitmproxy signs HTTPS traffic with its own certificate.
 Since the emulator doesn't trust that certificate (yet), it won't even accept that response!

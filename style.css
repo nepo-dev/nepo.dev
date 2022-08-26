@@ -175,3 +175,13 @@ footer > p {
     display: none;
   }
 }
+
+/* Reusable classes for article body */
+
+/* Center image */
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
