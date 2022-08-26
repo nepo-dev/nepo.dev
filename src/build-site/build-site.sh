@@ -12,6 +12,7 @@ CATEGORIES=(tech food life)
 
 main() {
   # Setup
+  cd "$SCRIPT_FOLDER"
   rm -rf "$BUILD_DIR"
   mkdir -p "$BUILD_DIR"
   mkdir -p "$BUILD_DIR/posts"
