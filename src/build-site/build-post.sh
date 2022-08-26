@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# TODO make this an environment variable or smth
-BASE_URL="https://edearth.github.io"
 PATH="$PATH:$SCRIPT_FOLDER"
 
 SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

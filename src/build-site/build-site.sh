@@ -3,8 +3,11 @@
 SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PATH="$PATH:$SCRIPT_FOLDER"
 
-# TODO export BASE_URL so scripts called from this one have it
-BASE_URL="https://edearth.github.io"
+if [ -z "$BASE_URL" ]; then
+  BASE_URL="https://edearth.github.io"
+fi
+export BASE_URL
+
 BUILD_DIR="$SCRIPT_FOLDER/build"
 PROJECT_ROOT="$SCRIPT_FOLDER/../.."
 

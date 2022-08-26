@@ -3,9 +3,6 @@
 SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PATH="$PATH:$SCRIPT_FOLDER"
 
-# TODO make this an environment variable or smth
-BASE_URL="https://edearth.github.io"
-
 gen_index_content() {
   while read -r post; do
     build-preview.sh "$post"

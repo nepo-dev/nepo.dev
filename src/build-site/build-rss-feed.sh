@@ -3,9 +3,6 @@
 SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PATH="$PATH:$SCRIPT_FOLDER"
 
-# TODO make this an environment variable or smth
-BASE_URL="https://edearth.github.io"
-
 CONTENT_REPLACE_KEYWORD='\$CONTENT\$'
 
 # Pandoc generates anchors (<a>) for each line in code blocks
