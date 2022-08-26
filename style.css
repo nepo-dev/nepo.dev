@@ -129,12 +129,25 @@ article {
   padding: 4px;
 }
 
+.article-info {
+  display: flex;
+}
+
+.article-info > * {
+  flex: 50%;
+}
+
+.article-info > *:first-child {
+  text-align: left;
+}
+
+.article-info > *:nth-child(2) {
+  text-align: right;
+}
+
 .article-date {
   font-size: 0.8em;
-  text-align: right;
-  margin-right: 20px;
-  margin-left: 20px;
-  float: right;
+  margin: 20px;
 }
 
 .article-content {
