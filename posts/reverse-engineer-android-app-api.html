@@ -14,33 +14,40 @@ to do with that. This is not a post about app development." />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://edearth.github.io/posts/reverse-engineer-android-app-api.html">
+	<meta property="og:url" content="https://blog.jnepo.dev/posts/reverse-engineer-android-app-api.html">
 	<meta property="og:title" content="API discovery in Android Apps and
 task automation">
 	<meta property="og:description" content="On how to use a
 Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android
 App API, and what to do with that. This is not a post about app
 development.">
-	<meta property="og:image" content="https://edearth.github.io/imgs/myface.jpg">
+	<meta property="og:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://edearth.github.io/posts/reverse-engineer-android-app-api.html">
+	<meta property="twitter:url" content="https://blog.jnepo.dev/posts/reverse-engineer-android-app-api.html">
 	<meta property="twitter:title" content="API discovery in Android Apps
 and task automation">
 	<meta property="twitter:description" content="On how to use a
 Man-in-the-Middle proxy to reverse engineer an otherwise hidden Android
 App API, and what to do with that. This is not a post about app
 development.">
-	<meta property="twitter:image" content="https://edearth.github.io/imgs/myface.jpg">
+	<meta property="twitter:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
 
 	<style>
 		code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -107,15 +114,14 @@ code span.st { color: #bf0303; } /* String */
 code span.va { color: #0057ae; } /* Variable */
 code span.vs { color: #bf0303; } /* VerbatimString */
 code span.wa { color: #bf0303; } /* Warning */
-.display.math{display: block; text-align: center; margin: 0.5rem auto;}
 	</style>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
-	<link rel="stylesheet" type="text/css" href="https://edearth.github.io/style.css" />
+	<link rel="stylesheet" type="text/css" href="https://blog.jnepo.dev/style.css" />
 </head>
 <body>
 	<div class="flex-container">
 		<div class="description-photo-container">
-			<a href="https://edearth.github.io/index.html">
+			<a href="https://blog.jnepo.dev/index.html">
 				<div class="description-photo"></div>
 			</a>
 		</div>
@@ -125,16 +131,16 @@ code span.wa { color: #bf0303; } /* Warning */
 		</div>
 	</div>
 	<div class="flex-container">
-		<a href="https://edearth.github.io/tech.html" class="tech-highlight menu-button">Tech</a>
-		<a href="https://edearth.github.io/food.html" class="cook-highlight menu-button">Food</a>
-		<a href="https://edearth.github.io/life.html" class="life-highlight menu-button">Life</a>
+		<a href="https://blog.jnepo.dev/tech.html" class="tech-highlight menu-button">Tech</a>
+		<a href="https://blog.jnepo.dev/food.html" class="cook-highlight menu-button">Food</a>
+		<a href="https://blog.jnepo.dev/life.html" class="life-highlight menu-button">Life</a>
 	</div>
   
   <article>
     <h2 class="title tech-highlight">API discovery in Android Apps and
 task automation</h2>
     <div class="article-info">
-      <a class="article-date" href="https://edearth.github.io/index.html">← back to index</a>
+      <a class="article-date" href="https://blog.jnepo.dev/index.html">← back to index</a>
       <p class="article-date">2020-11-06 00:00</p>
     </div>
     <div class="article-content">
@@ -190,7 +196,7 @@ messages any app sends and receives. This is what is known as a
 cyber-security.</p>
 <figure>
 <img
-src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg"
+src="https://blog.jnepo.dev/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg"
 alt="Drawing of man in the middle attack" />
 <figcaption aria-hidden="true">Drawing of man in the middle
 attack</figcaption>
@@ -312,7 +318,7 @@ and configure it to use <code>http://127.0.0.1:8080</code> as a proxy,
 like in the image below.</p>
 <figure>
 <img
-src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png"
+src="https://blog.jnepo.dev/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png"
 alt="a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080" />
 <figcaption aria-hidden="true">a screenshot shows the emulator proxy
 configured to use http://127.0.0.1:8080</figcaption>
@@ -327,7 +333,7 @@ a web browser, a warning about your connection not being private will
 appear.</p>
 <figure>
 <img
-src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png"
+src="https://blog.jnepo.dev/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png"
 class="center" style="height:400px;"
 alt="a screenshot shows chrome browser warning the user its connection is not private" />
 <figcaption aria-hidden="true">a screenshot shows chrome browser warning
@@ -340,14 +346,14 @@ launched mitmproxy, you should see something like this. Notice all the
 traffic is HTTP, there are no HTTPS messages.</p>
 <figure>
 <img
-src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png"
+src="https://blog.jnepo.dev/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png"
 alt="a screenshot shows a get request to http google, redirected to https" />
 <figcaption aria-hidden="true">a screenshot shows a get request to http
 google, redirected to https</figcaption>
 </figure>
 <figure>
 <img
-src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png"
+src="https://blog.jnepo.dev/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png"
 alt="a screenshot shows more detail on the get request to http google" />
 <figcaption aria-hidden="true">a screenshot shows more detail on the get
 request to http google</figcaption>
@@ -418,7 +424,7 @@ format like JSON or XML, instead of protobuf. We are lucky and our
 target uses JSON.</p>
 <figure>
 <img
-src="https://edearth.github.io/imgs/reverse-engineer-android-app-api/response_censored.png"
+src="https://blog.jnepo.dev/imgs/reverse-engineer-android-app-api/response_censored.png"
 alt="a screenshot shows how an intercepted response looks in mitmproxy" />
 <figcaption aria-hidden="true">a screenshot shows how an intercepted
 response looks in mitmproxy</figcaption>
@@ -491,16 +497,16 @@ href="https://docs.mitmproxy.org/stable/">Link</a>]</li>
   </article>
 
 	<footer>
-		<p>Made by <a href="https://edearth.github.io/index.html">Juan Antonio Nepormoseno</a> 2020-2021 - </p>
+		<p>Made by <a href="https://blog.jnepo.dev/index.html">Juan Antonio Nepormoseno</a> 2020-2021 - </p>
 		<div>
 			<a href="https://github.com/edearth/">
-				<img src="https://edearth.github.io/imgs/icon-github.png"/>
+				<img src="https://blog.jnepo.dev/imgs/icon-github.png"/>
 			</a>
 			<a href="https://twitter.com/JNepormoseno">
-				<img src="https://edearth.github.io/imgs/icon-twitter.png"/>
+				<img src="https://blog.jnepo.dev/imgs/icon-twitter.png"/>
 			</a>
-			<a href="https://edearth.github.io/feed.atom">
-				<img src="https://edearth.github.io/imgs/icon-feed.png"/>
+			<a href="https://blog.jnepo.dev/feed.atom">
+				<img src="https://blog.jnepo.dev/imgs/icon-feed.png"/>
 			</a>
 		</div>
 	</footer>

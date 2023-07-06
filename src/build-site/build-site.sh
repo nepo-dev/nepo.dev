@@ -4,7 +4,7 @@ SCRIPT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PATH="$PATH:$SCRIPT_FOLDER"
 
 if [ -z "$BASE_URL" ]; then
-  BASE_URL="https://edearth.github.io"
+  BASE_URL="https://blog.jnepo.dev"
 fi
 export BASE_URL
 
