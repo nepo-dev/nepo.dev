@@ -4,148 +4,76 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
 	<!-- Primary Meta Tags -->
-	<title>Painless responsive CSS: water, flexboxes and
-grids — Nepo</title>
-	<meta name="title" content="Painless responsive CSS: water, flexboxes
-and grids — Nepo">
-	<meta name="description" content="A quickstart guide on how to style the
-layout of a website while keeping it simple." />
+	<title>Blog — Nepo</title>
+	<meta name="title" content="Blog — Nepo">
 	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="A spanish developer and QA writing about technology, games, cooking and life.">
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://blog.jnepo.dev/posts/responsive-css-quickstart.html">
-	<meta property="og:title" content="Painless responsive CSS: water,
-flexboxes and grids">
-	<meta property="og:description" content="A quickstart guide on how to
-style the layout of a website while keeping it simple.">
+	<meta property="og:url" content="https://edearth.github.io/">
+	<meta property="og:title" content="Blog — Nepo">
+	<meta property="og:description" content="A spanish developer and QA writing about technology, games, cooking and life.">
 	<meta property="og:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://blog.jnepo.dev/posts/responsive-css-quickstart.html">
-	<meta property="twitter:title" content="Painless responsive CSS: water,
-flexboxes and grids">
-	<meta property="twitter:description" content="A quickstart guide on how
-to style the layout of a website while keeping it simple.">
+	<meta property="twitter:url" content="https://edearth.github.io/">
+	<meta property="twitter:title" content="Blog — Nepo">
+	<meta property="twitter:description" content="A spanish developer and QA writing about technology, games, cooking and life.">
 	<meta property="twitter:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
 
-	<style>
-		code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-ul.task-list{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
-  vertical-align: middle;
-}
-.display.math{display: block; text-align: center; margin: 0.5rem auto;}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    background-color: #ffffff;
-    color: #a0a0a0;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
-div.sourceCode
-  { color: #1f1c1b; background-color: #ffffff; }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span { color: #1f1c1b; } /* Normal */
-code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
-code span.an { color: #ca60ca; } /* Annotation */
-code span.at { color: #0057ae; } /* Attribute */
-code span.bn { color: #b08000; } /* BaseN */
-code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
-code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #924c9d; } /* Char */
-code span.cn { color: #aa5500; } /* Constant */
-code span.co { color: #898887; } /* Comment */
-code span.cv { color: #0095ff; } /* CommentVar */
-code span.do { color: #607880; } /* Documentation */
-code span.dt { color: #0057ae; } /* DataType */
-code span.dv { color: #b08000; } /* DecVal */
-code span.er { color: #bf0303; text-decoration: underline; } /* Error */
-code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
-code span.fl { color: #b08000; } /* Float */
-code span.fu { color: #644a9b; } /* Function */
-code span.im { color: #ff5500; } /* Import */
-code span.in { color: #b08000; } /* Information */
-code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
-code span.op { color: #1f1c1b; } /* Operator */
-code span.ot { color: #006e28; } /* Other */
-code span.pp { color: #006e28; } /* Preprocessor */
-code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
-code span.sc { color: #3daee9; } /* SpecialChar */
-code span.ss { color: #ff5500; } /* SpecialString */
-code span.st { color: #bf0303; } /* String */
-code span.va { color: #0057ae; } /* Variable */
-code span.vs { color: #bf0303; } /* VerbatimString */
-code span.wa { color: #bf0303; } /* Warning */
-	</style>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://blog.jnepo.dev/style.css" />
 </head>
-<body>
-	<div class="flex-container">
-		<div class="description-photo-container">
-			<a href="https://blog.jnepo.dev/index.html">
-				<div class="description-photo"></div>
-			</a>
+<body class="holy-grail">
+	<header></header>
+	<div class="sidebar">
+		<div class="description-container">
+			<div class="description-photo-container">
+				<a href="https://blog.jnepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+			<div class="description-text-container">
+				<h4>Hi, I'm Nepo!</h4>
+				<p>I write about games, software, QA, technology, and cooking.</p>
+				<div>
+					<a href="https://github.com/edearth/">
+						<img src="https://blog.jnepo.dev/imgs/icon-github.png"/>
+					</a>
+					<a href="https://twitter.com/JNepormoseno">
+						<img src="https://blog.jnepo.dev/imgs/icon-twitter.png"/>
+					</a>
+					<a href="https://blog.jnepo.dev/feed.atom">
+						<img src="https://blog.jnepo.dev/imgs/icon-feed.png"/>
+					</a>
+				</div>
+			</div>
 		</div>
-		<div class="description-text-container">
-			<h1>Hi, I'm Nepo!</h1>
-			<p>I write about games, software, QA, technology, and cooking.</p>
+		<div class="tag-container">
+			<p><a href="https://blog.jnepo.dev/index.html">Check all posts</a></p>
+			<p>Or browse by tags:</p>
+			<a href="https://blog.jnepo.dev/tech.html" class="tech-highlight menu-button">Tech</a>
+			<!--a href="https://blog.jnepo.dev/food.html" class="cook-highlight menu-button">Food</a-->
+			<a href="https://blog.jnepo.dev/life.html" class="life-highlight menu-button">Life</a>
 		</div>
-	</div>
-	<div class="flex-container">
-		<a href="https://blog.jnepo.dev/tech.html" class="tech-highlight menu-button">Tech</a>
-		<a href="https://blog.jnepo.dev/food.html" class="cook-highlight menu-button">Food</a>
-		<a href="https://blog.jnepo.dev/life.html" class="life-highlight menu-button">Life</a>
-	</div>
-  
-  <article>
-    <h2 class="title tech-highlight">Painless responsive CSS: water,
+	</div> 
+
+<article>
+  <h2 class="title tech-highlight">Painless responsive CSS: water,
 flexboxes and grids</h2>
-    <div class="article-info">
-      <a class="article-date" href="https://blog.jnepo.dev/index.html">← back to index</a>
-      <p class="article-date">2021-01-31 00:00</p>
-    </div>
-    <div class="article-content">
-      <p><p>When I started this blog I had no idea of how to write
-modern CSS, nor did I know the slightest thing about how to make a
-website responsive. I started making a stylesheet with lots of minute
-details, like setting multiple margins in pixels for all classes,
-organizing the layout based on those margins, using weird tricks to
-center divs, etc.</p>
+  <div class="article-info">
+    <a class="article-date" href="https://blog.jnepo.dev/index.html">← back to index</a>
+    <p class="article-date">2021-01-31</p>
+  </div>
+  <div class="article-content">
+    <p><p>When I started this blog I had no idea of how to write modern
+CSS, nor did I know the slightest thing about how to make a website
+responsive. I started making a stylesheet with lots of minute details,
+like setting multiple margins in pixels for all classes, organizing the
+layout based on those margins, using weird tricks to center divs,
+etc.</p>
 <p>Only when I tried making the site responsive I realized I had a huge
 problem. I tried to fix it, but in the end <a
 href="https://github.com/Edearth/edearth.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css">this
@@ -299,22 +227,13 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="
 </details>
 <hr />
 <p>That’s all for now. I hope you found some of this useful!</p></p>
-    </div>
-  </article>
+  </div>
+</article>
 
+
+	<div class="right-sidebar"></div>
 	<footer>
-		<p>Made by <a href="https://blog.jnepo.dev/index.html">Juan Antonio Nepormoseno</a> 2020-2021 - </p>
-		<div>
-			<a href="https://github.com/edearth/">
-				<img src="https://blog.jnepo.dev/imgs/icon-github.png"/>
-			</a>
-			<a href="https://twitter.com/JNepormoseno">
-				<img src="https://blog.jnepo.dev/imgs/icon-twitter.png"/>
-			</a>
-			<a href="https://blog.jnepo.dev/feed.atom">
-				<img src="https://blog.jnepo.dev/imgs/icon-feed.png"/>
-			</a>
-		</div>
+		<p>Go back to <a href="https://blog.jnepo.dev/index.html">article list</a> - 2020-2023</p>
 	</footer>
 </body>
 </html>
