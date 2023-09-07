@@ -21,6 +21,9 @@
 
 body {
   font-family: OpenSans;
+  font-size: 125%;
+  line-height: 1.45em;
+  font-weight: 400;
   max-width: unset !important;
 }
 
@@ -38,9 +41,11 @@ header {
 
 .sidebar {
   grid-column: 1 / 2;
-  grid-row: 2 / -1;
+  grid-row: 2 / span 4;
   margin: 40px;
   border-right: 2px solid var(--links);
+  margin-top: 24px;
+  font-size: 18px;
 }
 
 main {
@@ -58,18 +63,17 @@ footer {
 
 /* DESCRIPTION */
 .description-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   place-items: left;
 }
 
 .description-photo-container {
   align-self: center;
+  grid-row: 2;
 }
 
 .description-photo {
   display: block;
-  margin-left: auto;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -80,10 +84,9 @@ footer {
 }
 
 .description-text-container {
-  flex: 60%;
+  grid-row: 2;
   display: grid;
   place-items: center;
-  text-align: justify;
   word-wrap: anywhere;
 }
 
@@ -96,6 +99,18 @@ footer {
 
 .description-text-container > p {
   padding: 0 10px 0 10px;
+}
+
+.description-name {
+  grid-row: 1;
+  grid-column: span 2;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.description-links {
+  grid-row: 3;
+  grid-column: span 2;
 }
 
 /*MENU, CATEGORY BUTTONS*/
@@ -145,7 +160,9 @@ article {
   margin: 0 20px 0 20px;
 }
 
-.article-content {
+.article-content > p {
+  /*letter-spacing: 1px;*/
+  text-align: justify;
 }
 
 div.sourceCode {
@@ -163,37 +180,7 @@ footer > p {
 
 /* Responsive layout - makes a one column layout (100%) instead of a two-column/multiple-column layout */
 @media (max-width: 700px) {
-  .description-photo-container, .description-text-container {
-    flex: 100%;
-  }
-
-  .description-photo-container {
-    place-items: center;
-  }
-
-  .description-photo {
-    margin-top: 12px;
-    margin-bottom: 0px;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-  }
-
-  .description-text-container {
-    font-size: xx-small;
-  }
-
-  .description-text-container > h1 {
-    position: initial;
-    margin: auto;
-    margin-top: 12px;
-  }
-
-  .description-text-container > p {
-    display: none;
-  }
-
-  .menu-button {
+  .sidebar {
     display: none;
   }
 }
