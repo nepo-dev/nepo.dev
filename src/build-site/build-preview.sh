@@ -9,7 +9,7 @@ generate_article_preview() {
   post="$1"
   
   post_id="$(get-property.sh "$post" id)"
-  simplified_date="$(date -d "$(get-property.sh "$post" date)" -u +"%Y-%m-%d %H:%M")"
+  simplified_date="$(date -d "$(get-property.sh "$post" date)" -u +"%Y-%m-%d")"
 
   pandoc \
     --variable="$PREVIEW_TEMPLATE_REPLACE_KEYWORD":"posts/$post_id.html" \
