@@ -155,9 +155,7 @@ article {
 }
 
 .article-date {
-  float: right;
-  font-size: 0.8em;
-  margin: 0 20px 0 20px;
+  margin: 0;
 }
 
 .article-content > p {
