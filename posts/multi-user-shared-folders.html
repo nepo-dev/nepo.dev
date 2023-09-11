@@ -1,0 +1,155 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<!-- Primary Meta Tags -->
+	<title>Blog — Nepo</title>
+	<meta name="title" content="Blog — Nepo">
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="A spanish developer and QA writing about technology, games, cooking and life.">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://edearth.github.io/">
+	<meta property="og:title" content="Blog — Nepo">
+	<meta property="og:description" content="A spanish developer and QA writing about technology, games, cooking and life.">
+	<meta property="og:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://edearth.github.io/">
+	<meta property="twitter:title" content="Blog — Nepo">
+	<meta property="twitter:description" content="A spanish developer and QA writing about technology, games, cooking and life.">
+	<meta property="twitter:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://blog.jnepo.dev/style.css" />
+</head>
+<body class="holy-grail">
+	<header></header>
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">Hi, I'm Nepo!</h2>
+			<div class="description-photo-container">
+				<a href="https://blog.jnepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+			<div class="description-text-container">
+				<p>I write about games, software, QA, technology, and cooking.</p>
+			</div>
+			<div class="description-links">
+				<a href="https://github.com/edearth/">
+					<img src="https://blog.jnepo.dev/imgs/icon-github.png"/>
+				</a>
+				<a href="https://twitter.com/JNepormoseno">
+					<img src="https://blog.jnepo.dev/imgs/icon-twitter.png"/>
+				</a>
+				<a href="https://blog.jnepo.dev/feed.atom">
+					<img src="https://blog.jnepo.dev/imgs/icon-feed.png"/>
+				</a>
+			</div>
+		</div>
+		<div class="tag-container">
+			<p>Browse by tags:</p>
+			<a href="https://blog.jnepo.dev/tech.html" class="tech-highlight menu-button">Tech</a>
+			<!--a href="https://blog.jnepo.dev/food.html" class="cook-highlight menu-button">Food</a-->
+			<a href="https://blog.jnepo.dev/life.html" class="life-highlight menu-button">Life</a>
+		</div>
+	</div> 
+
+<article>
+  <h2 class="title tech-highlight">Setting up shared folders in
+Linux</h2>
+  <div class="article-info">
+    <a class="article-date" href="https://blog.jnepo.dev/index.html">← back to index</a>
+    <p class="article-date">2023-09-11</p>
+  </div>
+  <div class="article-content">
+    <p><p>I find it difficult to concentrate on personal projects when
+I’m working on my PC. I go to search some documentation online and I see
+social networks tabs, videos and articles with interesting topics I
+saved for later… and I lose my focus.</p>
+<p>Recently I found an article that advocated having separate work and
+personal users in your laptop to avoid this case. That sounds like a
+great idea, but I have my Obsidian second brain in my personal user
+folder and I have Syncthing to share it with other devices. So I need to
+update it to be accessible for both users.</p>
+<h2 id="design">Design</h2>
+<p>I want to create a folder that Syncthing can read and write to. Both
+personal and work users must be able to read and write to that folder as
+well. For that, we will use a <strong>user group</strong> shared by
+Syncthing and the other users.</p>
+<p><img
+src="https://blog.jnepo.dev/imgs/multi-user-shared-folders/syncthing_shared_folder.png" /></p>
+<p>Existing files and folders will need to have its <strong>group and
+permissions updated</strong> to be readable and writable for that user
+group.</p>
+<p>We will also need <strong>new files and folders</strong> to be
+created with specific permissions: - They must be added to the
+<code>syncthing</code> group. - They must have the read and write
+permissions for the group.</p>
+<p>Are there easier ways to do this? Probably, but this is the way I
+wanted to do this.</p>
+<h2 id="setting-it-up">Setting it up</h2>
+<p>Just FYI, you will probably need to use <code>sudo</code> for most of
+the commands. I removed it to make the code less verbose and redundant.
+Just use your common sense: if you’re updating permissions for a
+file/folder not owned by you or you’re creating and assigning groups to
+users, use <code>sudo</code>.</p>
+<h3 id="create-group">Create group</h3>
+<p>With these commands you create a user group called
+<code>syncthing</code> and add <code>personal</code> and
+<code>work</code> users to it.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">groupadd</span> syncthing</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">usermod</span> <span class="at">-a</span> <span class="at">-G</span> syncthing personal</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">usermod</span> <span class="at">-a</span> <span class="at">-G</span> syncthing work</span></code></pre></div>
+<p>At this point, you must reboot your computer for these changes to
+apply. You can verify your user was added to the group when you login
+with these commands:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">groups</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span></span></code></pre></div>
+<h3 id="permission-for-existing-files">Permission for existing
+files</h3>
+<p>Make the entire folder be owned by the group you just created
+with:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chgrp</span> <span class="at">-R</span> syncthing /srv/syncthing</span></code></pre></div>
+<p>Then update the existing files and folders to have read and write
+permissions for the group:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> /srv/syncthing <span class="at">-exec</span> chmod 775 {} +</span></code></pre></div>
+<h3 id="default-group-permissions-for-new-files-and-folders">Default
+group permissions for new files and folders</h3>
+<p>By default, your system might create new files and folders with the
+write permission for the group disabled. In order to change that, you
+need to use Access Control Lists (ACLs). They seem complicated and</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force new files and folders to have the same group as the parent folder</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> g+s /srv/syncthing</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> /var/www <span class="at">-type</span> d <span class="at">-exec</span> chmod g+s {} + <span class="co"># for subdirectories</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Force new files and folders to have the group permissions set to read and write</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">setfacl</span> <span class="at">-m</span> <span class="st">&quot;default:group::rw&quot;</span> /srv/syncthing</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> /srv/syncthing <span class="at">-type</span> d <span class="at">-exec</span> setfacl <span class="at">-m</span> d:g::rw {} + <span class="co"># for subdirectories</span></span></code></pre></div>
+<p>And that should be it.</p>
+<h2 id="testing-it">Testing it</h2>
+<p>In my case I just removed the original folder from Syncthing and
+re-synced again in the new location:
+<code>/srv/syncthing/Obsidian</code>.</p>
+<p>After that, I logged in with my personal user, set up Obsidian to use
+that folder and I can open and write in files. Do the same for the other
+user and it works too ✅</p></p>
+  </div>
+</article>
+
+
+	<div class="right-sidebar"></div>
+	<footer>
+		<p>Go back to <a href="https://blog.jnepo.dev/index.html">article list</a> - 2020-2023</p>
+	</footer>
+</body>
+</html>

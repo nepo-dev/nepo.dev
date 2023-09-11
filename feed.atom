@@ -3,12 +3,100 @@
 
   <title>Nepo's blog</title>
   <link href="https://blog.jnepo.dev"/>
-  <updated>2023-09-07T15:33:55Z</updated>
+  <updated>2023-09-11T20:28:38Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>Setting up shared folders in Linux</title>
+    <link href="https://blog.jnepo.dev/posts/multi-user-shared-folders.html"/>
+    <id>urn:uuid:07b39aed-c9e4-41f8-8cb2-79c70579267c</id>
+    <published>2023-09-11T22:22:00Z</published>
+    <updated>2023-09-11T22:22:00Z</updated>
+    <summary>Recently I found an article that advocated having separate
+work and personal users in your laptop to avoid this case. Here’s how to
+set up shared folders for those users.</summary>
+    <content type="html">
+&lt;p&gt;I find it difficult to concentrate on personal projects when I’m
+working on my PC. I go to search some documentation online and I see
+social networks tabs, videos and articles with interesting topics I
+saved for later… and I lose my focus.&lt;/p&gt;
+&lt;p&gt;Recently I found an article that advocated having separate work and
+personal users in your laptop to avoid this case. That sounds like a
+great idea, but I have my Obsidian second brain in my personal user
+folder and I have Syncthing to share it with other devices. So I need to
+update it to be accessible for both users.&lt;/p&gt;
+&lt;h2 id=&quot;design&quot;&gt;Design&lt;/h2&gt;
+&lt;p&gt;I want to create a folder that Syncthing can read and write to. Both
+personal and work users must be able to read and write to that folder as
+well. For that, we will use a &lt;strong&gt;user group&lt;/strong&gt; shared by
+Syncthing and the other users.&lt;/p&gt;
+&lt;p&gt;&lt;img
+src=&quot;$BASE_URL$/imgs/multi-user-shared-folders/syncthing_shared_folder.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Existing files and folders will need to have its &lt;strong&gt;group and
+permissions updated&lt;/strong&gt; to be readable and writable for that user
+group.&lt;/p&gt;
+&lt;p&gt;We will also need &lt;strong&gt;new files and folders&lt;/strong&gt; to be
+created with specific permissions: - They must be added to the
+&lt;code&gt;syncthing&lt;/code&gt; group. - They must have the read and write
+permissions for the group.&lt;/p&gt;
+&lt;p&gt;Are there easier ways to do this? Probably, but this is the way I
+wanted to do this.&lt;/p&gt;
+&lt;h2 id=&quot;setting-it-up&quot;&gt;Setting it up&lt;/h2&gt;
+&lt;p&gt;Just FYI, you will probably need to use &lt;code&gt;sudo&lt;/code&gt; for most of
+the commands. I removed it to make the code less verbose and redundant.
+Just use your common sense: if you’re updating permissions for a
+file/folder not owned by you or you’re creating and assigning groups to
+users, use &lt;code&gt;sudo&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;create-group&quot;&gt;Create group&lt;/h3&gt;
+&lt;p&gt;With these commands you create a user group called
+&lt;code&gt;syncthing&lt;/code&gt; and add &lt;code&gt;personal&lt;/code&gt; and
+&lt;code&gt;work&lt;/code&gt; users to it.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;groupadd&lt;/span&gt; syncthing&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;usermod&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-G&lt;/span&gt; syncthing personal&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;&lt;span class=&quot;ex&quot;&gt;usermod&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-G&lt;/span&gt; syncthing work&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;At this point, you must reboot your computer for these changes to
+apply. You can verify your user was added to the group when you login
+with these commands:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;groups&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;id&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;permission-for-existing-files&quot;&gt;Permission for existing
+files&lt;/h3&gt;
+&lt;p&gt;Make the entire folder be owned by the group you just created
+with:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;chgrp&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-R&lt;/span&gt; syncthing /srv/syncthing&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then update the existing files and folders to have read and write
+permissions for the group:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;find&lt;/span&gt; /srv/syncthing &lt;span class=&quot;at&quot;&gt;-exec&lt;/span&gt; chmod 775 {} +&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;default-group-permissions-for-new-files-and-folders&quot;&gt;Default
+group permissions for new files and folders&lt;/h3&gt;
+&lt;p&gt;By default, your system might create new files and folders with the
+write permission for the group disabled. In order to change that, you
+need to use Access Control Lists (ACLs). They seem complicated and&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Force new files and folders to have the same group as the parent folder&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;chmod&lt;/span&gt; g+s /srv/syncthing&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;&lt;span class=&quot;fu&quot;&gt;find&lt;/span&gt; /var/www &lt;span class=&quot;at&quot;&gt;-type&lt;/span&gt; d &lt;span class=&quot;at&quot;&gt;-exec&lt;/span&gt; chmod g+s {} + &lt;span class=&quot;co&quot;&gt;# for subdirectories&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-4&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Force new files and folders to have the group permissions set to read and write&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-6&quot;&gt;&lt;span class=&quot;ex&quot;&gt;setfacl&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;default:group::rw&amp;quot;&lt;/span&gt; /srv/syncthing&lt;/span&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;&lt;span class=&quot;fu&quot;&gt;find&lt;/span&gt; /srv/syncthing &lt;span class=&quot;at&quot;&gt;-type&lt;/span&gt; d &lt;span class=&quot;at&quot;&gt;-exec&lt;/span&gt; setfacl &lt;span class=&quot;at&quot;&gt;-m&lt;/span&gt; d:g::rw {} + &lt;span class=&quot;co&quot;&gt;# for subdirectories&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And that should be it.&lt;/p&gt;
+&lt;h2 id=&quot;testing-it&quot;&gt;Testing it&lt;/h2&gt;
+&lt;p&gt;In my case I just removed the original folder from Syncthing and
+re-synced again in the new location:
+&lt;code&gt;/srv/syncthing/Obsidian&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;After that, I logged in with my personal user, set up Obsidian to use
+that folder and I can open and write in files. Do the same for the other
+user and it works too ✅&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>Librarian tools for a more civilized age</title>
     <link href="https://blog.jnepo.dev/posts/librarian-tools-for-more-civilized-age.html"/>
