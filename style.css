@@ -113,6 +113,15 @@ footer {
   grid-column: span 2;
 }
 
+.description-links > a:hover {
+  text-decoration: none;
+}
+
+.description-links > a > img {
+  height: 28px;
+  width: 28px;
+}
+
 /*MENU, CATEGORY BUTTONS*/
 .tag-container {
   display: flex;
