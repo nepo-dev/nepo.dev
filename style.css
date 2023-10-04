@@ -46,6 +46,8 @@ header {
   border-right: 2px solid var(--links);
   margin-top: 24px;
   font-size: 18px;
+  min-width: 256px;
+  max-width: 350px;
 }
 
 main {
