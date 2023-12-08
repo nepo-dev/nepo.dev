@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://blog.jnepo.dev"/>
-  <updated>2023-09-11T20:40:43Z</updated>
+  <updated>2023-12-08T18:09:22Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -298,10 +298,10 @@ make your website aware of the device’s resolution with the
 &lt;code&gt;viewport&lt;/code&gt; tag and import the &lt;code&gt;water.css&lt;/code&gt;
 stylesheet. Like this:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
-class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb1-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;viewport&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb1-3&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;https://cdn.jsdelivr.net/npm/water.css@2/out/water.css&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb1-4&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;meta&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;viewport&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;https://cdn.jsdelivr.net/npm/water.css@2/out/water.css&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-4&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This is just an example. There are other tools similar to this one
 out there. Tailwind, Materialize or Foundation for Apps might be the
 right thing for you. But these are frameworks and they require some
@@ -327,14 +327,14 @@ take care of scaling them for you, and if you add
 &lt;code&gt;flex-wrap: wrap;&lt;/code&gt; to the parent, it will position them in a
 new row when they can’t fit in the screen.&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre
-class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;display: flex;&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb2-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;flex: 60%;&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;display: flex;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;flex: 60%;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb2-3&quot;&gt;    This column takes 60% of the available space.&lt;/span&gt;
-&lt;span id=&quot;cb2-4&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb2-5&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;flex: 30%;&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-4&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-5&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;flex: 30%;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb2-6&quot;&gt;    This one just 30%.&lt;/span&gt;
-&lt;span id=&quot;cb2-7&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb2-8&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id=&quot;cb2-7&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-8&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div style=&quot;display: flex;&quot;&gt;
 &lt;p style=&quot;flex: 70%; background-color: khaki;&quot;&gt;
 This column takes 70% of the available space.
@@ -412,14 +412,14 @@ class=&quot;sourceCode css&quot;&gt;&lt;code class=&quot;sourceCode css&quot;&gt
 &lt;span id=&quot;cb4-9&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;HTML:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
-class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;display: flex; flex-wrap: wrap;&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;display: flex; flex-wrap: wrap;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb5-3&quot;&gt;    This column takes all horizontal space when the container is too small.&lt;/span&gt;
-&lt;span id=&quot;cb5-4&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-5&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-4&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb5-6&quot;&gt;    So this one is being pushed to the next row.&lt;/span&gt;
-&lt;span id=&quot;cb5-7&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-8&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-8&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/details&gt;
 &lt;hr /&gt;
 &lt;p&gt;That’s all for now. I hope you found some of this useful!&lt;/p&gt;
@@ -854,16 +854,16 @@ achieved with a custom template.&lt;/p&gt;
 &lt;p&gt;Writing your own template is easy to do. Let’s take an HTML template
 as an example. We start by making a dummy HTML:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
-class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-3&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-3&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb3-4&quot;&gt;    &lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-5&quot;&gt;  &lt;span class=&quot;er&quot;&gt;&amp;lt;/head&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-6&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-7&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Title&lt;span class=&quot;kw&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-8&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Lorem ipsum...&lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-9&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-10&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id=&quot;cb3-5&quot;&gt;  &lt;span class=&quot;er&quot;&gt;&amp;lt;/head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Title&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Lorem ipsum...&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-9&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-10&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Then we can use the default template as a reference to start building
 our own. You can use the &lt;code&gt;-D&lt;/code&gt; option to get the standard
 template for a format, like this:&lt;/p&gt;
@@ -885,35 +885,35 @@ formats:&lt;/p&gt;
 &lt;p&gt;So to add the title and the content of our document to our HTML
 template, we just need to do:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
-class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-3&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb5-4&quot;&gt;    &lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-5&quot;&gt;  &lt;span class=&quot;er&quot;&gt;&amp;lt;/head&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-6&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-7&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;${title}&lt;span class=&quot;kw&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-8&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;${body}&lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-9&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb5-10&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;  &lt;span class=&quot;er&quot;&gt;&amp;lt;/head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;${title}&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;${body}&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-9&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-10&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And, using the example Markdown document at the beginning of the
 article, the resulting HTML would look like:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb6&quot;&gt;&lt;pre
-class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb6-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-3&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb6-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-3&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;er&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb6-4&quot;&gt;    &lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-5&quot;&gt;  &lt;span class=&quot;er&quot;&gt;&amp;lt;/head&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-6&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-7&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;My document&lt;span class=&quot;kw&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-8&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Paragraph&lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-9&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-10&quot;&gt;      &lt;span class=&quot;kw&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;List item 1&lt;span class=&quot;kw&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-11&quot;&gt;      &lt;span class=&quot;kw&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;List item 2&lt;span class=&quot;kw&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-12&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-13&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;Section 2&lt;span class=&quot;kw&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-14&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Another paragraph&lt;span class=&quot;kw&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-15&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb6-16&quot;&gt;&lt;span class=&quot;kw&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id=&quot;cb6-5&quot;&gt;  &lt;span class=&quot;er&quot;&gt;&amp;lt;/head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;My document&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Paragraph&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-9&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-10&quot;&gt;      &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;List item 1&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-11&quot;&gt;      &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;List item 2&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-12&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-13&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h2&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Section 2&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h2&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-14&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Another paragraph&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-15&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-16&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The best part is that you don’t even need to write your own template.
 You can just search for more on the Internet. There is a selection of
 them in &lt;a
