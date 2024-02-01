@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://blog.jnepo.dev"/>
-  <updated>2024-02-01T02:24:45Z</updated>
+  <updated>2024-02-01T02:30:34Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -56,7 +56,7 @@ qué hay que hacer. Si no entiendes algo, en la &lt;a
 href=&quot;#guía-de-configuración-en-detalle&quot;&gt;guía de configuración que hay
 más abajo&lt;/a&gt; estará explicado 🙂&lt;/p&gt;
 &lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;Copiar &lt;code&gt;.github/workflow/main.yml&lt;/code&gt; a tu repositorio de
+&lt;li&gt;Copiar &lt;code&gt;.github/workflows/main.yml&lt;/code&gt; a tu repositorio de
 GitHub.&lt;/li&gt;
 &lt;li&gt;Cambiar los valores de &lt;a
 href=&quot;https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
@@ -105,8 +105,8 @@ automatización, por si tienes alguna duda o por si tienes curiosidad y
 quieres aprender más 😊&lt;/p&gt;
 &lt;h3 id=&quot;copiar-main.yml&quot;&gt;Copiar main.yml&lt;/h3&gt;
 &lt;p&gt;Lo primero que tienes que hacer es copiar el fichero
-&lt;code&gt;.github/workflow/main.yml&lt;/code&gt; a tu repositorio en GitHub,
-dentro de esas mismas carpetas “.github” y “workflow”.&lt;/p&gt;
+&lt;code&gt;.github/workflows/main.yml&lt;/code&gt; a tu repositorio en GitHub,
+dentro de esas mismas carpetas “.github” y “workflows”.&lt;/p&gt;
 &lt;video muted autoplay loop&gt;
 &lt;source src=&quot;$BASE_URL$/vids/ci-config-para-jams/copy-file.mp4&quot; type=&quot;video/mp4&quot;/&gt;
 &lt;/video&gt;

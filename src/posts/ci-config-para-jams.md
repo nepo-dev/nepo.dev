@@ -29,7 +29,7 @@ Tiene todas las ñapas que podáis esperar de una jam, pero también hay cosas q
 
 Lo que sigue es sólo una lista de instrucciones rápidas si ya sabes qué hay que hacer. Si no entiendes algo, en la [guía de configuración que hay más abajo](#guía-de-configuración-en-detalle) estará explicado 🙂
 
-1. Copiar `.github/workflow/main.yml` a tu repositorio de GitHub.
+1. Copiar `.github/workflows/main.yml` a tu repositorio de GitHub.
 2. Cambiar los valores de [estas variables](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8). Si actualizas la versión de Godot, recuerda actualizar [la versión de la imagen de Docker](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15).
 3. Genera una [API Key de Itch](https://itch.io/user/settings/api-keys) y añádela como secreto en el repositorio (`Settings > Secrets and variables > Repository secrets`).
 4. Abre el proyecto en Godot y genera la configuración para exportar el proyecto a web (`Project > Export... > Add... > Web`). Como nombre de esa configuración deja `Web`, y como export path ponle `build/index.html`.
@@ -65,7 +65,7 @@ Hasta cierto límite. Tenéis [2.000 minutos de ejecución gratuitos](https://do
 En esta guía se explica con pelos y señales cómo funciona esta automatización, por si tienes alguna duda o por si tienes curiosidad y quieres aprender más 😊
 
 ### Copiar main.yml
-Lo primero que tienes que hacer es copiar el fichero `.github/workflow/main.yml` a tu repositorio en GitHub, dentro de esas mismas carpetas ".github" y "workflow".
+Lo primero que tienes que hacer es copiar el fichero `.github/workflows/main.yml` a tu repositorio en GitHub, dentro de esas mismas carpetas ".github" y "workflows".
 
 <video muted autoplay loop>
  <source src="$BASE_URL$/vids/ci-config-para-jams/copy-file.mp4" type="video/mp4"/>
