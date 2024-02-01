@@ -120,17 +120,20 @@ versión de la imagen de Docker</a>.</li>
 de Itch</a> y añádela como secreto en el repositorio
 (<code>Settings &gt; Secrets and variables &gt; Repository secrets</code>).</li>
 <li>Abre el proyecto en Godot y genera la configuración para exportar el
-proyecto a HTML
+proyecto a web
 (<code>Project &gt; Export... &gt; Add... &gt; Web</code>). Como nombre
-de esa configuración, pon <code>html5</code>, y como export path,
+de esa configuración deja <code>Web</code>, y como export path ponle
 <code>build/index.html</code>.</li>
 </ol>
 <p>Sube los cambios al repositorio y ya está listo para usar.</p>
 <h2 id="probando-que-funciona">Probando que funciona</h2>
 <p>Esto puede hacerlo cualquier persona con acceso al repositorio, no
-sólo les programadores: 1. Entra en Actions. 2. Selecciona el workflow
-<code>Build + Deploy</code>. 3. Haz click en
-<code>Run workflow &gt; Run workflow</code>.</p>
+sólo les programadores:</p>
+<ol type="1">
+<li>Entra en Actions.</li>
+<li>Selecciona el workflow <code>Build + Deploy</code>.</li>
+<li>Haz click en <code>Run workflow &gt; Run workflow</code>.</li>
+</ol>
 <video muted autoplay controls loop>
 <source src="https://blog.jnepo.dev/vids/ci-config-para-jams/lanzar_builds.mp4" type="video/mp4"/>
 </video>

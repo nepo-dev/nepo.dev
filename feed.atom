@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://blog.jnepo.dev"/>
-  <updated>2024-02-01T02:05:57Z</updated>
+  <updated>2024-02-01T02:24:45Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -67,17 +67,20 @@ versión de la imagen de Docker&lt;/a&gt;.&lt;/li&gt;
 de Itch&lt;/a&gt; y añádela como secreto en el repositorio
 (&lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;Abre el proyecto en Godot y genera la configuración para exportar el
-proyecto a HTML
+proyecto a web
 (&lt;code&gt;Project &amp;gt; Export... &amp;gt; Add... &amp;gt; Web&lt;/code&gt;). Como nombre
-de esa configuración, pon &lt;code&gt;html5&lt;/code&gt;, y como export path,
+de esa configuración deja &lt;code&gt;Web&lt;/code&gt;, y como export path ponle
 &lt;code&gt;build/index.html&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Sube los cambios al repositorio y ya está listo para usar.&lt;/p&gt;
 &lt;h2 id=&quot;probando-que-funciona&quot;&gt;Probando que funciona&lt;/h2&gt;
 &lt;p&gt;Esto puede hacerlo cualquier persona con acceso al repositorio, no
-sólo les programadores: 1. Entra en Actions. 2. Selecciona el workflow
-&lt;code&gt;Build + Deploy&lt;/code&gt;. 3. Haz click en
-&lt;code&gt;Run workflow &amp;gt; Run workflow&lt;/code&gt;.&lt;/p&gt;
+sólo les programadores:&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Entra en Actions.&lt;/li&gt;
+&lt;li&gt;Selecciona el workflow &lt;code&gt;Build + Deploy&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Haz click en &lt;code&gt;Run workflow &amp;gt; Run workflow&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
 &lt;video muted autoplay controls loop&gt;
 &lt;source src=&quot;$BASE_URL$/vids/ci-config-para-jams/lanzar_builds.mp4&quot; type=&quot;video/mp4&quot;/&gt;
 &lt;/video&gt;

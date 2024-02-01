@@ -32,13 +32,14 @@ Lo que sigue es sólo una lista de instrucciones rápidas si ya sabes qué hay q
 1. Copiar `.github/workflow/main.yml` a tu repositorio de GitHub.
 2. Cambiar los valores de [estas variables](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8). Si actualizas la versión de Godot, recuerda actualizar [la versión de la imagen de Docker](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15).
 3. Genera una [API Key de Itch](https://itch.io/user/settings/api-keys) y añádela como secreto en el repositorio (`Settings > Secrets and variables > Repository secrets`).
-4. Abre el proyecto en Godot y genera la configuración para exportar el proyecto a HTML (`Project > Export... > Add... > Web`). Como nombre de esa configuración, pon `html5`, y como export path, `build/index.html`.
+4. Abre el proyecto en Godot y genera la configuración para exportar el proyecto a web (`Project > Export... > Add... > Web`). Como nombre de esa configuración deja `Web`, y como export path ponle `build/index.html`.
 
 Sube los cambios al repositorio y ya está listo para usar.
 
 ## Probando que funciona
 
 Esto puede hacerlo cualquier persona con acceso al repositorio, no sólo les programadores:
+
 1. Entra en Actions.
 2. Selecciona el workflow `Build + Deploy`.
 3. Haz click en `Run workflow > Run workflow`.
