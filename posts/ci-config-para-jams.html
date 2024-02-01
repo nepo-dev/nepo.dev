@@ -1,0 +1,270 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<!-- Primary Meta Tags -->
+	<title>Blog — Nepo</title>
+	<meta name="title" content="Blog — Nepo">
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="A spanish developer and QA writing about technology, games, cooking and life.">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://edearth.github.io/">
+	<meta property="og:title" content="Blog — Nepo">
+	<meta property="og:description" content="A spanish developer and QA writing about technology, games, cooking and life.">
+	<meta property="og:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://edearth.github.io/">
+	<meta property="twitter:title" content="Blog — Nepo">
+	<meta property="twitter:description" content="A spanish developer and QA writing about technology, games, cooking and life.">
+	<meta property="twitter:image" content="https://blog.jnepo.dev/imgs/myface.jpg">
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://blog.jnepo.dev/style.css" />
+</head>
+<body class="holy-grail">
+	<header></header>
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">Hi, I'm Nepo!</h2>
+			<div class="description-photo-container">
+				<a href="https://blog.jnepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+			<div class="description-text-container">
+				<p>I write about games, software, QA, technology, and cooking.</p>
+			</div>
+			<div class="description-links">
+				<a href="https://github.com/edearth/">
+					<img src="https://blog.jnepo.dev/imgs/icon-github.png"/>
+				</a>
+				<a href="https://gamedev.lgbt/@nepo">
+					<img src="https://blog.jnepo.dev/imgs/icon-mastodon.svg"/>
+				</a>
+				<a href="https://twitter.com/JNepormoseno">
+					<img src="https://blog.jnepo.dev/imgs/icon-twitter.png"/>
+				</a>
+				<a href="https://blog.jnepo.dev/feed.atom">
+					<img src="https://blog.jnepo.dev/imgs/icon-feed.png"/>
+				</a>
+				<a href="https://edearth.itch.io/">
+					<img src="https://blog.jnepo.dev/imgs/icon-itchio.svg"/>
+				</a>
+			</div>
+		</div>
+		<div class="tag-container">
+			<p>Browse by tags:</p>
+			<a href="https://blog.jnepo.dev/tech.html" class="tech-highlight menu-button">Tech</a>
+			<!--a href="https://blog.jnepo.dev/food.html" class="cook-highlight menu-button">Food</a-->
+			<a href="https://blog.jnepo.dev/life.html" class="life-highlight menu-button">Life</a>
+		</div>
+	</div> 
+
+<article>
+  <h2 class="title tech-highlight">Configuración de CI para jams</h2>
+  <div class="article-info">
+    <a class="article-date" href="https://blog.jnepo.dev/index.html">← back to index</a>
+    <p class="article-date">2024-02-01</p>
+  </div>
+  <div class="article-content">
+    <p><p>Hace un par de días <a
+href="https://twitter.com/antimundo21/status/1752454023565705710">liberamos
+el código</a> de dos juegos que hemos hecho en equipo:</p>
+<ul>
+<li><a href="https://github.com/antimundo/rat-and-furrius">Rat and
+Furrius</a>, para la <a
+href="https://itch.io/jam/mermelada-jam">Mermelada Jam</a></li>
+<li><a href="https://github.com/Edearth/falda-montana">La Falda de la
+Montaña</a>, para la <a
+href="https://itch.io/jam/malagajam-weekend-17">MálagaJam Weekend
+17</a></li>
+</ul>
+<p>Tiene todas las ñapas que podáis esperar de una jam, pero también hay
+cosas que os pueden resultar útiles. Entre ellas, un archivo para
+<strong>exportar</strong> un proyecto de Godot a <strong>web</strong> y
+<strong>subirlo a itch.io</strong> automáticamente.</p>
+<p>¿Por qué querrías hacer eso en una jam? Pues porque se hace en 5
+minutos y te permite:</p>
+<ul>
+<li><strong>No bloquear</strong> a une programadore cada vez que quieras
+hacer una build.</li>
+<li><strong>No depender</strong> de une programadore para poder lanzar
+el juego.</li>
+<li>Hacer builds <strong>más frecuentes</strong> para hacer
+<strong>playtesting</strong> de los prototipos más rápido.</li>
+<li>Asegurarte de que <strong>la build siempre será la misma</strong>.
+Que no te habrás equivocado al exportar/subir el proyecto.</li>
+<li>En los últimos 5 minutos de jam, no tienes que estar comprimiendo
+archivos, yendo a una web y subiéndo archivos. Sólo haces <strong>click
+en un botón</strong> y esperas relajadamente 🍹</li>
+</ul>
+<h2 id="configuración">Configuración</h2>
+<p>Lo que sigue es sólo una lista de instrucciones rápidas si ya sabes
+qué hay que hacer. Si no entiendes algo, en la <a
+href="#guía-de-configuración-en-detalle">guía de configuración que hay
+más abajo</a> estará explicado 🙂</p>
+<ol type="1">
+<li>Copiar <code>.github/workflow/main.yml</code> a tu repositorio de
+GitHub.</li>
+<li>Cambiar los valores de <a
+href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8">estas
+variables</a>. Si actualizas la versión de Godot, recuerda actualizar <a
+href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15">la
+versión de la imagen de Docker</a>.</li>
+<li>Genera una <a href="https://itch.io/user/settings/api-keys">API Key
+de Itch</a> y añádela como secreto en el repositorio
+(<code>Settings &gt; Secrets and variables &gt; Repository secrets</code>).</li>
+<li>Abre el proyecto en Godot y genera la configuración para exportar el
+proyecto a HTML
+(<code>Project &gt; Export... &gt; Add... &gt; Web</code>). Como nombre
+de esa configuración, pon <code>html5</code>, y como export path,
+<code>build/index.html</code>.</li>
+</ol>
+<p>Sube los cambios al repositorio y ya está listo para usar.</p>
+<h2 id="probando-que-funciona">Probando que funciona</h2>
+<p>Esto puede hacerlo cualquier persona con acceso al repositorio, no
+sólo les programadores: 1. Entra en Actions. 2. Selecciona el workflow
+<code>Build + Deploy</code>. 3. Haz click en
+<code>Run workflow &gt; Run workflow</code>.</p>
+<video muted autoplay controls loop>
+<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/lanzar_builds.mp4" type="video/mp4"/>
+</video>
+<p>Si todo sale bien, en unos minutos os saldrá la ejecución en verde. Y
+si váis a vuestra página de Itch, os debería aparecer vuestro juego.</p>
+<p><img
+src="https://blog.jnepo.dev/imgs/ci-config-para-jams/successful_run.png" /></p>
+<h2 id="y-esto-es-gratis">¿Y esto es gratis?</h2>
+<p>Hasta cierto límite. Tenéis <a
+href="https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes">2.000
+minutos de ejecución gratuitos</a> por mes en el plan gratis. Para Godot
+y para jams, es difícil de alcanzar. Y la ventaja de no depender
+de/bloquear a une programadore y que siempre se suba el proyecto de la
+misma manera es considerable.</p>
+<p><br /></p>
+<hr />
+<p><br /></p>
+<h2 id="guía-de-configuración-en-detalle">Guía de configuración en
+detalle</h2>
+<p>En esta guía se explica con pelos y señales cómo funciona esta
+automatización, por si tienes alguna duda o por si tienes curiosidad y
+quieres aprender más 😊</p>
+<h3 id="copiar-main.yml">Copiar main.yml</h3>
+<p>Lo primero que tienes que hacer es copiar el fichero
+<code>.github/workflow/main.yml</code> a tu repositorio en GitHub,
+dentro de esas mismas carpetas “.github” y “workflow”.</p>
+<video muted autoplay loop>
+<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/copy-file.mp4" type="video/mp4"/>
+</video>
+<p>Esos son unos directorios especiales que GitHub interpreta como una
+configuración de su <strong>sistema de CI</strong> (Integración
+Continua), las <strong>GitHub Actions</strong>. Este permite automatizar
+todo tipo de procesos: desde las builds y subirlo (deploy) a Itch, hasta
+conversiones de ficheros, ejecución de pruebas, escribir mensajes en
+Discord/redes…</p>
+<p>No puedo explicar en este post cómo funciona en detalle. Pero si te
+interesa aprender más, tienes <a
+href="https://docs.github.com/en/actions">la documentación oficial</a>.
+Recomiendo <a
+href="https://docs.docker.com/guides/get-started/">aprender algo de
+Docker</a> de antemano para entender cómo se configuran las máquinas en
+las que se ejecutan estos procesos. Para esta guía sólo nos hace falta
+saber que una “imagen de Docker” es algo parecido a un ordenador que ya
+viene con cosas instaladas.</p>
+<p>¿Y qué es lo que hace este fichero? Pues define los pasos a seguir
+para generar esa build y subirla a Itch. Si lo abres, verás que tiene
+unos “steps” definidos. A grandes rasgos, esto es lo que hacen:</p>
+<ul>
+<li><strong>Checkout:</strong> se descarga el código del
+repositorio.</li>
+<li><strong>Setup:</strong> prepara las export templates de Godot. La
+imagen de Docker ya incluye esas templates, que a veces pesan ~1GB o
+más, dependiendo de la plataforma.</li>
+<li><strong>Web Build:</strong> usa Godot desde la línea de comandos
+para exportar el proyecto para web.</li>
+<li><strong>Itch.io Deploy:</strong> sube los ficheros exportados a Itch
+para que se puedan jugar.</li>
+</ul>
+<h3 id="editar-las-variables">Editar las variables</h3>
+<h4 id="variables-en-main.yml">Variables en main.yml</h4>
+<p>Una vez copiado, hará falta modificar los valores de <a
+href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8">estas
+variables</a> en <code>main.yml</code> para que sean los de tu
+juego:</p>
+<ul>
+<li><code>ITCHIO_USERNAME</code> y <code>ITCHIO_GAME</code> son tu
+nombre y el de tu juego que aparece en la url. Por ejemplo, para
+<code>https://edearth.itch.io/falda-montana</code> serían
+<code>edearth</code> y <code>falda-montana</code> respectivamente.</li>
+<li><code>GODOT_VERSION</code> es la versión de Godot que estés usando.
+Si la actualizas, tendrás que actualizar también la versión en <a
+href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15">la
+línea que define la imagen de Docker</a>. Puedes consultar las versiones
+disponibles en <a
+href="https://hub.docker.com/r/barichello/godot-ci/tags">este
+enlace</a>.</li>
+<li>La variable <code>BUTLER_API_KEY</code> es especial y está definida
+en otro lugar. No hace falta modificarla aquí. Te lo explico a
+continuación.</li>
+</ul>
+<h4 id="api-key">API Key</h4>
+<p>Una API Key es una <strong>especie de “contraseña”</strong> que
+permitirá a esta GitHub Action <strong>usar vuestra cuenta de
+Itch</strong>. Si te parece peligroso, es porque puede serlo. Por eso no
+podemos guardarla con el resto de variables, porque tiene que mantenerse
+en secreto.</p>
+<p>Para configurarla, accede a
+<code>Settings &gt; Secrets and variables &gt; Actions &gt; Repository secrets</code>
+y cread un nuevo secreto. Dentro, copia la <a
+href="https://itch.io/user/settings/api-keys">API key que generes desde
+itch</a>.</p>
+<video muted autoplay controls loop>
+<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/create_secret.mp4" type="video/mp4"/>
+</video>
+<p>Esta API Key se puede usar con <a
+href="https://itch.io/docs/butler/">Butler</a>, la herramienta para
+línea de comandos de Itch. Permite subir proyectos a Itch de maner super
+rápida, subiendo sólo los ficheros que se modificaron. Y es justo lo que
+nuestra automatización hará.</p>
+<blockquote>
+<p>Es <strong>MUY importante</strong> que mantengas esta <strong>clave
+bien segura</strong>. No la pases por Discord, ni WhatsApp, ni ningún
+sitio. Y si sospechas que se ha filtrado, tienes que ir al <a
+href="https://itch.io/user/settings/api-keys">dashboard</a> y darle a
+“revoke” lo antes posible. Si alguien se hace con ella, puede llegar a
+acceder a tu cuenta de Itch y borrarte los juegos.</p>
+</blockquote>
+<h3 id="export-en-godot">Export en Godot</h3>
+<p>El último paso es decirle a Godot cómo y dónde tiene que generar esa
+build del juego. Para eso, abre el proyecto en Godot y navega hasta
+<code>Project &gt; Export... &gt; Add... &gt; Web</code>. Si es la
+primera vez que vas a exportar tu juego, esta ventana estará vacía como
+en el video. Al darle al botón de <code>Add...</code> y seleccionar
+<code>Web</code> se generará la configuración para exportar el proyecto
+a web.</p>
+<video muted autoplay controls loop>
+<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/config_export.mp4" type="video/mp4"/>
+</video>
+<p>El fichero <code>main.yml</code> está configurado para que la build
+se exporte a una carpeta específica, por lo que tendrás que configurar
+el “export path” para que sea <code>build/index.html</code>. Ahí es
+donde se creará la build. No es por nada que necesite GitHub ni Godot.
+Es que usé ese directorio en <code>main.yml</code> y es más fácil
+dejarlo como está que modificarlo cada vez que crees un nuevo
+proyecto.</p>
+<p>Una vez hecho esto, ya habrás terminado. ¡Lo único que te queda es <a
+href="#probando-que-funciona">probar que funciona</a>!</p></p>
+  </div>
+</article>
+
+
+	<div class="right-sidebar"></div>
+	<footer>
+		<p>Go back to <a href="https://blog.jnepo.dev/index.html">article list</a> - 2020-2023</p>
+	</footer>
+</body>
+</html>
