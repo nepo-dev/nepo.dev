@@ -141,8 +141,8 @@ footer {
 
 /*KOFI DONATIONS*/
 .kofi-donations {
-  position: absolute;
-  bottom: 100;
+  display: block;
+  grid-column: 1 / 3;
 }
 
 .kofi-donations img {
@@ -282,6 +282,10 @@ footer > p {
     grid-column: 2 / 3;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .kofi-donations {
+    display: none;
   }
 }
 
