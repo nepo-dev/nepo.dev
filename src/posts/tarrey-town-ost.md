@@ -12,7 +12,7 @@ abstract: Una carta de amor al tema de Tarrey Town en Breath of the Wild y a las
 
 Voy a tener un momento de apreciación muy random con este tema. Quizá ya lo conocéis y sabéis todo lo que voy a decir (se ha hablado mucho de él y llego _muy_ tarde). Pero es que llevo unos días que no dejo de escucharlo y tengo que sacármelo de la cabeza.
 
-<iframe class="center" width="560" height="315" src="https://www.youtube.com/embed/OdcTAC5LHN4?si=DA1PpLbGkyOBjCpE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe class="center youtube-video-size" src="https://www.youtube.com/embed/OdcTAC5LHN4?si=DA1PpLbGkyOBjCpE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 Si habéis jugado a Breath of the Wild y habéis llegado a este pueblo, sabréis que se llama pueblo Tarrey (Tarrey Town a partir de ahora). Al principio suena esa melodía, tranquila pero muy vacía. Hay un tipo construyendo casas y tal. Un poco aburrido, la verdad.
 
