@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://blog.jnepo.dev"/>
-  <updated>2024-02-04T01:13:56Z</updated>
+  <updated>2024-02-04T03:39:28Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -22,7 +22,7 @@ Wild y a las bandas sonoras adaptativas.</summary>
 ya lo conocéis y sabéis todo lo que voy a decir (se ha hablado mucho de
 él y llego &lt;em&gt;muy&lt;/em&gt; tarde). Pero es que llevo unos días que no dejo
 de escucharlo y tengo que sacármelo de la cabeza.&lt;/p&gt;
-&lt;iframe class=&quot;center&quot; width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/OdcTAC5LHN4?si=DA1PpLbGkyOBjCpE&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;
+&lt;iframe class=&quot;center youtube-video-size&quot; src=&quot;https://www.youtube.com/embed/OdcTAC5LHN4?si=DA1PpLbGkyOBjCpE&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;
 &lt;/iframe&gt;
 &lt;p&gt;Si habéis jugado a Breath of the Wild y habéis llegado a este pueblo,
 sabréis que se llama pueblo Tarrey (Tarrey Town a partir de ahora). Al
@@ -633,7 +633,7 @@ flexbox and grid layout&lt;/h2&gt;
 &lt;p&gt;In my initial search for modern responsive techniques, I came across
 this video by Una Kravets (&lt;a href=&quot;https://twitter.com/una&quot;&gt;@una&lt;/a&gt;)
 where she talks about flexbox and grid layouts.&lt;/p&gt;
-&lt;iframe width=&quot;100%&quot; height=&quot;315&quot; src=&quot;https://www.youtube-nocookie.com/embed/qm0IfG1GyZU&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;
+&lt;iframe class=&quot;center youtube-video-size&quot; src=&quot;https://www.youtube-nocookie.com/embed/qm0IfG1GyZU&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;
 &lt;/iframe&gt;
 &lt;p&gt;Watch it from beginning ’til end, it’s worth your time. There is also
 &lt;a href=&quot;https://1linelayouts.glitch.me/&quot;&gt;this website version&lt;/a&gt; in
