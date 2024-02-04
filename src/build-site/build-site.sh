@@ -31,26 +31,30 @@ main() {
   echo "Generating index.html"
   get-posts.sh | build-index.sh > "$BUILD_DIR/index.html"
 
-  # Build category lists
-  for category in ${CATEGORIES[@]}; do
-    echo "Generating $category.html"
-    get-posts-in-category.sh "$category" | build-index.sh > "$BUILD_DIR/$category.html"
-  done
+  if [ -z "$DEBUG" ]; then
+    # Build category lists
+    for category in ${CATEGORIES[@]}; do
+      echo "Generating $category.html"
+      get-posts-in-category.sh "$category" | build-index.sh > "$BUILD_DIR/$category.html"
+    done
 
-  # Build RSS file
-  echo "Generating atom feed"
-  get-posts.sh | build-rss-feed.sh > "$BUILD_DIR/feed.atom"
+    # Build RSS file
+    echo "Generating atom feed"
+    get-posts.sh | build-rss-feed.sh > "$BUILD_DIR/feed.atom"
+  fi
 
   # Move to root + cleanup
   echo "Moving build files to project root"
   rm "$PROJECT_ROOT/index.html" || true
   mv "$BUILD_DIR/index.html" "$PROJECT_ROOT/index.html"
-  for category in ${CATEGORIES[@]}; do
-    rm "$PROJECT_ROOT/$category.html" || true
-    mv "$BUILD_DIR/$category.html" "$PROJECT_ROOT/$category.html"
-  done
-  rm "$PROJECT_ROOT/feed.atom" || true
-  mv "$BUILD_DIR/feed.atom" "$PROJECT_ROOT/feed.atom"
+  if [ -z "$DEBUG" ]; then
+    for category in ${CATEGORIES[@]}; do
+      rm "$PROJECT_ROOT/$category.html" || true
+      mv "$BUILD_DIR/$category.html" "$PROJECT_ROOT/$category.html"
+    done
+    rm "$PROJECT_ROOT/feed.atom" || true
+    mv "$BUILD_DIR/feed.atom" "$PROJECT_ROOT/feed.atom"
+  fi
   rm -rf "$PROJECT_ROOT/posts" || true
   mv "$BUILD_DIR/posts" "$PROJECT_ROOT/posts"
   
