@@ -3,12 +3,131 @@
 
   <title>Nepo's blog</title>
   <link href="https://blog.jnepo.dev"/>
-  <updated>2024-02-01T02:30:34Z</updated>
+  <updated>2024-02-04T00:04:59Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>Tarrey Town en la OST de Breath of the Wild</title>
+    <link href="https://blog.jnepo.dev/posts/tarrey-town-ost.html"/>
+    <id>urn:uuid:9c72e7fb-2d94-460a-9488-28603826c8e2</id>
+    <published>2024-02-04T00:00:00Z</published>
+    <updated>2024-02-04T11:00:00Z</updated>
+    <summary>Una carta de amor al tema de Tarrey Town en Breath of the
+Wild y a las bandas sonoras adaptativas.</summary>
+    <content type="html">
+&lt;p&gt;Voy a tener un momento de apreciación muy random con este tema. Quizá
+ya lo conocéis y sabéis todo lo que voy a decir (se ha hablado mucho de
+él y llego &lt;em&gt;muy&lt;/em&gt; tarde). Pero es que llevo unos días que no dejo
+de escucharlo y tengo que sacármelo de la cabeza.&lt;/p&gt;
+&lt;iframe class=&quot;center&quot; width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/OdcTAC5LHN4?si=DA1PpLbGkyOBjCpE&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Si habéis jugado a Breath of the Wild y habéis llegado a este pueblo,
+sabréis que se llama pueblo Tarrey (Tarrey Town a partir de ahora). Al
+principio suena esa melodía, tranquila pero muy vacía. Hay un tipo
+construyendo casas y tal. Un poco aburrido, la verdad.&lt;/p&gt;
+&lt;p&gt;El tema es agradable y simpático, y a priori podríamos quedarnos ahí.
+Pero la gracia de este pueblo es que vas “reclutando” a gente para que
+se vaya a vivir ahí. Y dependiendo de a quién invites, aparecen nuevos
+instrumentos.&lt;/p&gt;
+&lt;p&gt;Por ejemplo, el primer personaje que reclutamos es el Goron Greyson,
+que es un bicho grande y que come piedras (y van siempre desnudos o con
+taparrabos, por alguna razon). Como es lo más &lt;strong&gt;bruto&lt;/strong&gt; que
+te puedas imaginar, añade un &lt;strong&gt;trombón super estridente&lt;/strong&gt;
+al tema (1:36).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;$BASE_URL$/imgs/tarrey-town-ost/ocarina-of-time-goron.gif&quot;
+class=&quot;center&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;narrativa&quot;&gt;Narrativa&lt;/h2&gt;
+&lt;p&gt;Lo más interesante es que, al añadir instrumentos, el propio tema
+cambia. Al principio la base y el bajo los lleva un piano. Es el mismo
+instrumento que usan cuando vas paseando por el campo o en caballo. Es
+majestuoso y al sostener las notas da la sensación de espacio abierto y
+vacío. Además, no hay ningún otro pueblo (salvo el &lt;a
+href=&quot;https://www.youtube.com/watch?v=cHcLOLJHlMY&quot;&gt;pueblo Zora&lt;/a&gt;) que
+incluya un piano (&lt;a
+href=&quot;https://www.youtube.com/watch?v=Uj07-YU5cTk&quot;&gt;Hateno&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=0Oxz-LmklV4&quot;&gt;Kakariko&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=oad-1DT5z9I&quot;&gt;Gerudo&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=8J7dNNPxU4w&quot;&gt;Goron City&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=2H84NHErkHE&quot;&gt;Lurelin&lt;/a&gt;), lo cual
+refuerza que el piano sea el &lt;strong&gt;instrumento que caracteriza el
+campo abierto&lt;/strong&gt;, la naturaleza de Hyrule, o a la propia Hyrule en
+sí.&lt;/p&gt;
+&lt;p&gt;Pero en cuanto llega el Zora al pueblo, se empieza a llenar. Ese
+piano desaparece y lo sustituye una &lt;strong&gt;guitarra&lt;/strong&gt; con mucha
+menos reverb (fijaos en el cambio en los bajos alrededor del 6:20). Hace
+que el tema se vuelva más cálido y cercano. Deja de ser majestuoso y con
+eco. Ya no es gente reunida en cuatro chozas en el campo, ahora es una
+&lt;strong&gt;plaza de pueblo bulliciosa&lt;/strong&gt;, con mucha gente distinta y
+de diferentes culturas. Y cada una aporta algo a la canción.&lt;/p&gt;
+&lt;h2 id=&quot;voces&quot;&gt;Voces&lt;/h2&gt;
+&lt;p&gt;Otra cosa interesante que hace este tema es que los acentos de cada
+personaje son como una &lt;strong&gt;conversación&lt;/strong&gt;. Abre uno y
+responde otro. Luego sale un tercero. Luego suenan el primero y segundo
+a la vez, y después les responde el tercero. Es literalmente un “buen
+día, doña Encarni”, “buen día don Miguel”, “¿pasó usted por mi
+casa?”…&lt;/p&gt;
+&lt;p&gt;&lt;a
+href=&quot;https://www.zeldadungeon.net/musical-musings-building-the-themes-of-tarrey-town-from-the-ground-up/&quot;&gt;Este
+post de Matt Pederberg&lt;/a&gt; me ayudó mucho a distinguir las “voces” de
+cada personaje en la canción, los instrumentos que los representan. Ya
+hablamos del Goron y el trombón antes, pero hagamos esa relación ahora
+con el resto de personajes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;El &lt;strong&gt;clarinete&lt;/strong&gt; (00:00) que lleva la melodía es la
+esencia del propio pueblo, del pobre Hudson que está construyendo todo
+solo.&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;trombón&lt;/strong&gt; (1:26) es el Goron Greyson, pero también
+trae un vibráfono.&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;dulcimer&lt;/strong&gt; (3:12) representa a la Gerudo Rhondson.
+Es mucho más sutil que los otros instrumentos, representando el carácter
+aislado de las Gerudo.&lt;/li&gt;
+&lt;li&gt;Hay otro &lt;strong&gt;clarinete&lt;/strong&gt; que hace las notas más altas
+(4:48). Este representa a Fryson, el Rito.&lt;/li&gt;
+&lt;li&gt;La &lt;strong&gt;guitarra&lt;/strong&gt; Zora de Kapson reemplaza al piano
+(6:24) y entran también las &lt;strong&gt;gaitas&lt;/strong&gt; de Hateno traidas
+por Bolson.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Los únicos instrumentos importantes que suenan debajo del resto
+son:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;El &lt;strong&gt;clarinete&lt;/strong&gt; que toca la base, la melodía del
+pueblo.&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;piano&lt;/strong&gt; que toca el bajo con tanto reverb y que
+más tarde desaparece.&lt;/li&gt;
+&lt;li&gt;La &lt;strong&gt;guitarra&lt;/strong&gt; que reemplaza al piano en el bajo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lo cual me parece un poco injusto por el Zora que trae la guitarra,
+que no tiene su momento de poder hablar y que le hagan caso 😆&lt;/p&gt;
+&lt;h2 id=&quot;reactividad&quot;&gt;Reactividad&lt;/h2&gt;
+&lt;p&gt;Todo esto se puede percibir sin tener idea de leitmotivs ni
+&lt;em&gt;movidas chungas&lt;/em&gt; de teoría musical, simplemente fijándose en los
+instrumentos que suenan. Me parece maravilloso y es una de las cosas que
+más me gustan de todo el juego.&lt;/p&gt;
+&lt;p&gt;La jugadora tiene muchas cosas a hacer en este Hyrule tan grande. Por
+lo que seguir esta misión acaba siendo &lt;strong&gt;su decisión&lt;/strong&gt;, no
+la del game designer. Quizá en este caso, la reactividad del entorno,
+estos cambios tan sensoriales como la música y las nuevas casas, se
+suman con el mundo abierto para reforzar &lt;strong&gt;la agencia de la
+jugadora&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;El videojuego es un medio interactivo y pareciera que a veces nos
+olvidamos de eso. Hay opciones obligadas que no son realmente una
+opción, u opciones falsas que no llevan a ningún cambio. O peor, cambios
+en números, pero ningún cambio real en la experiencia de juego. Es algo
+completamente normal y hasta deseable. Si tuviéramos que implementar
+todas las posibilidades que se nos ocurren, el desarrollo de los
+videojuegos tendría costes inasumibles. Y opino que no serían nada
+interesantes.&lt;/p&gt;
+&lt;p&gt;Pero por eso me gusta encontrarme y dar reconocimiento a experiencias
+como esta. Experiencias que deciden dedicarle recursos y tiempo a
+premiar la agencia de quien las juega. Y que haciendo eso, acaban
+funcionando tan bien y cuentan una historia tan &lt;em&gt;wholesome&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Aunque esto es sólo una excusa para hablar de un tema sonoro tan
+super bonico como este ❤️&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>Configuración de CI para jams</title>
     <link href="https://blog.jnepo.dev/posts/ci-config-para-jams.html"/>
