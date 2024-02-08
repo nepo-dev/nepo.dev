@@ -1,6 +1,6 @@
 Hey, somehow you've reached the repo for my personal blog. Hi!
 
-If you're looking for the deployed site it's in https://edearth.github.io/
+If you're looking for the deployed site it's in https://blog.jnepo.dev/
 
 ## Usage
 
