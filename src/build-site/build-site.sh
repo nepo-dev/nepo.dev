@@ -20,16 +20,22 @@ main() {
   mkdir -p "$BUILD_DIR"
   mkdir -p "$BUILD_DIR/posts"
 
+  # Get list of posts ordered by date
+  post_list="$(get-posts.sh)"
+  if [ "$DEBUG" ] && [ "$BUILD_JUST_LAST_ARTICLE" ]; then
+    post_list="$(head -n 1 <<< "$post_list")"
+  fi
+
   # Build posts' content
-  get-posts.sh | while read -r post; do
+  echo "$post_list"| while read -r post; do
     post_id="$(get-property.sh "$post" id)"
     echo "Generating $post_id.html"
     build-post.sh "$post" > "$BUILD_DIR/posts/$post_id.html"
-  done
+  done <<< "$post_list"
 
   # Build index file
   echo "Generating index.html"
-  get-posts.sh | build-index.sh > "$BUILD_DIR/index.html"
+  build-index.sh <<< "$post_list" > "$BUILD_DIR/index.html"
 
   if [ -z "$DEBUG" ]; then
     # Build category lists
