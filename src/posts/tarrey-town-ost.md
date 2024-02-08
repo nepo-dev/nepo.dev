@@ -2,6 +2,7 @@
 id: tarrey-town-ost
 uuid: 9c72e7fb-2d94-460a-9488-28603826c8e2
 title: 'Tarrey Town en la OST de Breath of the Wild'
+preview-image: $BASE_URL$/imgs/tarrey-town-ost/totk_tarrey_town.png
 author: Juan Antonio Nepormoseno Rosales
 category: game-design
 date: 2024-02-04T00:00:00Z

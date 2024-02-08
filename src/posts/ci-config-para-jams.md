@@ -2,6 +2,7 @@
 id: ci-config-para-jams
 uuid: 52ecd52f-1bef-4429-a23f-3fda1aec5855
 title: 'Configuración de CI para jams'
+preview-image: $BASE_URL$/imgs/ci-config-para-jams/preview.jpeg
 author: Juan Antonio Nepormoseno Rosales
 category: tech
 date: 2024-02-01T00:00:00Z
