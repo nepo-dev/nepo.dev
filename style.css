@@ -42,7 +42,6 @@ header {
 
 .sidebar {
   grid-column: 1 / 2;
-  grid-row: 2 / 2;
   margin: 40px;
   border-right: 2px solid var(--links);
   margin-top: 24px;
@@ -54,7 +53,6 @@ header {
 main {
   max-width: 960px;
   grid-column: 2 / 3;
-  grid-row: 2 / span 3;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -157,7 +155,6 @@ footer {
 .kofi-donations {
   display: block;
   grid-column: 1 / 2;
-  grid-row: 3 / 3;
   margin-left: 40px;
 }
 
