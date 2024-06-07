@@ -37,6 +37,10 @@ main() {
   echo "Generating index.html"
   build-index.sh <<< "$post_list" > "$BUILD_DIR/index.html"
 
+  # Build subscribe form file
+  echo "Generating subscribe.html"
+  build-subscribe.sh > "$BUILD_DIR/subscribe.html"
+
   if [ -z "$DEBUG" ]; then
     # Build category lists
     for category in ${CATEGORIES[@]}; do
@@ -53,6 +57,7 @@ main() {
   echo "Moving build files to project root"
   rm "$PROJECT_ROOT/index.html" || true
   mv "$BUILD_DIR/index.html" "$PROJECT_ROOT/index.html"
+  mv "$BUILD_DIR/subscribe.html" "$PROJECT_ROOT/subscribe.html"
   if [ -z "$DEBUG" ]; then
     for category in ${CATEGORIES[@]}; do
       rm "$PROJECT_ROOT/$category.html" || true
