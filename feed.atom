@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title>Nepo's blog</title>
-  <link href="https://blog.jnepo.dev"/>
-  <updated>2024-06-07T09:00:52Z</updated>
+  <link href="https://nepo.dev"/>
+  <updated>2024-10-02T00:30:51Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -11,7 +11,7 @@
 
   <entry>
     <title>Tarrey Town en la OST de Breath of the Wild</title>
-    <link href="https://blog.jnepo.dev/posts/tarrey-town-ost.html"/>
+    <link href="https://nepo.dev/posts/tarrey-town-ost.html"/>
     <id>urn:uuid:9c72e7fb-2d94-460a-9488-28603826c8e2</id>
     <published>2024-02-04T00:00:00Z</published>
     <updated>2024-02-04T11:00:00Z</updated>
@@ -130,7 +130,7 @@ super bonico como este ❤️&lt;/p&gt;
   </entry>
   <entry>
     <title>Configuración de CI para jams</title>
-    <link href="https://blog.jnepo.dev/posts/ci-config-para-jams.html"/>
+    <link href="https://nepo.dev/posts/ci-config-para-jams.html"/>
     <id>urn:uuid:52ecd52f-1bef-4429-a23f-3fda1aec5855</id>
     <published>2024-02-01T00:00:00Z</published>
     <updated>2024-02-01T11:00:00Z</updated>
@@ -331,7 +331,7 @@ href=&quot;#probando-que-funciona&quot;&gt;probar que funciona&lt;/a&gt;!&lt;/p&
   </entry>
   <entry>
     <title>Setting up shared folders in Linux</title>
-    <link href="https://blog.jnepo.dev/posts/multi-user-shared-folders.html"/>
+    <link href="https://nepo.dev/posts/multi-user-shared-folders.html"/>
     <id>urn:uuid:07b39aed-c9e4-41f8-8cb2-79c70579267c</id>
     <published>2023-09-11T22:22:00Z</published>
     <updated>2023-09-11T22:22:00Z</updated>
@@ -419,7 +419,7 @@ user and it works too ✅&lt;/p&gt;
   </entry>
   <entry>
     <title>Librarian tools for a more civilized age</title>
-    <link href="https://blog.jnepo.dev/posts/librarian-tools-for-more-civilized-age.html"/>
+    <link href="https://nepo.dev/posts/librarian-tools-for-more-civilized-age.html"/>
     <id>urn:uuid:07b39aed-c9e4-41f8-8cb2-79c70579267c</id>
     <published>2021-06-26T21:42:00Z</published>
     <updated>2021-06-26T21:42:00Z</updated>
@@ -497,7 +497,7 @@ href=&quot;https://twitter.com/b0rk&quot;&gt;@b0rk&lt;/a&gt;), it’s really goo
   </entry>
   <entry>
     <title>On insecurity and self-narrative</title>
-    <link href="https://blog.jnepo.dev/posts/insecurity-and-self-narrative.html"/>
+    <link href="https://nepo.dev/posts/insecurity-and-self-narrative.html"/>
     <id>urn:uuid:7ec3e802-134e-42e9-baf3-9359382f11c7</id>
     <published>2021-05-03T00:00:00Z</published>
     <updated>2021-05-03T11:00:00Z</updated>
@@ -577,7 +577,7 @@ you do something similar, they might bring one to yours in the future
   </entry>
   <entry>
     <title>Painless responsive CSS: water, flexboxes and grids</title>
-    <link href="https://blog.jnepo.dev/posts/responsive-css-quickstart.html"/>
+    <link href="https://nepo.dev/posts/responsive-css-quickstart.html"/>
     <id>urn:uuid:cac2f2f8-8116-4d7d-bbb5-566c178bd7a8</id>
     <published>2021-01-31T00:00:00Z</published>
     <updated>2021-01-31T00:00:00Z</updated>
@@ -747,7 +747,7 @@ class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&
   </entry>
   <entry>
     <title>API discovery in Android Apps and task automation</title>
-    <link href="https://blog.jnepo.dev/posts/reverse-engineer-android-app-api.html"/>
+    <link href="https://nepo.dev/posts/reverse-engineer-android-app-api.html"/>
     <id>urn:uuid:dcab5a71-98f5-45df-93ba-1db36cdead74</id>
     <published>2020-11-06T00:00:00Z</published>
     <updated>2020-11-06T00:00:00Z</updated>
@@ -1108,7 +1108,7 @@ href=&quot;https://docs.mitmproxy.org/stable/&quot;&gt;Link&lt;/a&gt;]&lt;/li&gt
   </entry>
   <entry>
     <title>A universal document language</title>
-    <link href="https://blog.jnepo.dev/posts/universal-document-language.html"/>
+    <link href="https://nepo.dev/posts/universal-document-language.html"/>
     <id>urn:uuid:708e86b3-a0ce-4bab-b9d7-312c602478f8</id>
     <published>2020-08-12T00:00:00Z</published>
     <updated>2020-08-12T00:00:00Z</updated>

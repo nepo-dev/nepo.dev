@@ -18,7 +18,7 @@ Actions y Godot">
 	<meta property="og:description" content="Una explicación de cómo
 configurar una build y deploys automáticos basada en la que uso en jams,
 con GitHub Actions y Godot">
-		<meta property="og:image" content="https://blog.jnepo.dev/imgs/ci-config-para-jams/preview.jpeg">
+		<meta property="og:image" content="https://nepo.dev/imgs/ci-config-para-jams/preview.jpeg">
 		<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:url" content="https://edearth.github.io/">
@@ -26,23 +26,23 @@ con GitHub Actions y Godot">
 	<meta property="twitter:description" content="Una explicación de cómo
 configurar una build y deploys automáticos basada en la que uso en jams,
 con GitHub Actions y Godot">
-		<meta property="twitter:image" content="https://blog.jnepo.dev/imgs/ci-config-para-jams/preview.jpeg">
+		<meta property="twitter:image" content="https://nepo.dev/imgs/ci-config-para-jams/preview.jpeg">
 	
 
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
-	<link rel="stylesheet" type="text/css" href="https://blog.jnepo.dev/style.css" />
+	<link rel="stylesheet" type="text/css" href="https://nepo.dev/style.css" />
 </head>
 <body class="holy-grail">
 
 <header>	
-	<img class="preview-image" src="https://blog.jnepo.dev/imgs/ci-config-para-jams/preview.jpeg">
+	<img class="preview-image" src="https://nepo.dev/imgs/ci-config-para-jams/preview.jpeg">
 </header>
 
 	<div class="sidebar">
 		<div class="description-container">
 			<h2 class="description-name">¡Hola, soy Nepo!</h2>
 			<div class="description-photo-container">
-				<a href="https://blog.jnepo.dev/index.html">
+				<a href="https://nepo.dev/index.html">
 					<div class="description-photo"></div>
 				</a>
 			</div>
@@ -51,23 +51,23 @@ con GitHub Actions y Godot">
 			</div>
 			<div class="description-links">
 				<a href="https://github.com/edearth/">
-					<img src="https://blog.jnepo.dev/imgs/icon-github.svg"/>
+					<img src="https://nepo.dev/imgs/icon-github.svg"/>
 				</a>
 				<a href="https://gamedev.lgbt/@nepo" rel="me">
-					<img src="https://blog.jnepo.dev/imgs/icon-mastodon.svg"/>
+					<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
 				</a>
 				<a href="https://twitter.com/JNepormoseno">
-					<img src="https://blog.jnepo.dev/imgs/icon-twitter.png"/>
+					<img src="https://nepo.dev/imgs/icon-twitter.png"/>
 				</a>
-				<a href="https://blog.jnepo.dev/feed.atom">
-					<img src="https://blog.jnepo.dev/imgs/icon-feed.png"/>
+				<a href="https://nepo.dev/feed.atom">
+					<img src="https://nepo.dev/imgs/icon-feed.png"/>
 				</a>
 				<a href="https://edearth.itch.io/">
-					<img src="https://blog.jnepo.dev/imgs/icon-itchio.svg"/>
+					<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
 				</a>
 			</div>
 		</div>
-		<p><a href="https://blog.jnepo.dev/subscribe.html">✉️ ¡Suscríbete a la newsletter!</a></p>
+		<p><a href="https://nepo.dev/subscribe.html">✉️ ¡Suscríbete a la newsletter!</a></p>
 	</div> 
 
 	<main>
@@ -75,7 +75,7 @@ con GitHub Actions y Godot">
 <article>
   <h2 class="title tech-highlight">Configuración de CI para jams</h2>
   <div class="article-info">
-    <a class="article-date" href="https://blog.jnepo.dev/index.html">← volver a la lista de artículos</a>
+    <a class="article-date" href="https://nepo.dev/index.html">← volver a la lista de artículos</a>
     <p class="article-date">2024-02-01</p>
   </div>
   <div class="article-content">
@@ -142,12 +142,12 @@ sólo les programadores:</p>
 <li>Haz click en <code>Run workflow &gt; Run workflow</code>.</li>
 </ol>
 <video muted autoplay controls loop>
-<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/lanzar_builds.mp4" type="video/mp4"/>
+<source src="https://nepo.dev/vids/ci-config-para-jams/lanzar_builds.mp4" type="video/mp4"/>
 </video>
 <p>Si todo sale bien, en unos minutos os saldrá la ejecución en verde. Y
 si váis a vuestra página de Itch, os debería aparecer vuestro juego.</p>
 <p><img
-src="https://blog.jnepo.dev/imgs/ci-config-para-jams/successful_run.png" /></p>
+src="https://nepo.dev/imgs/ci-config-para-jams/successful_run.png" /></p>
 <h2 id="y-esto-es-gratis">¿Y esto es gratis?</h2>
 <p>Hasta cierto límite. Tenéis <a
 href="https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes">2.000
@@ -168,7 +168,7 @@ quieres aprender más 😊</p>
 <code>.github/workflows/main.yml</code> a tu repositorio en GitHub,
 dentro de esas mismas carpetas “.github” y “workflows”.</p>
 <video muted autoplay loop>
-<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/copy-file.mp4" type="video/mp4"/>
+<source src="https://nepo.dev/vids/ci-config-para-jams/copy-file.mp4" type="video/mp4"/>
 </video>
 <p>Esos son unos directorios especiales que GitHub interpreta como una
 configuración de su <strong>sistema de CI</strong> (Integración
@@ -233,7 +233,7 @@ y cread un nuevo secreto. Dentro, copia la <a
 href="https://itch.io/user/settings/api-keys">API key que generes desde
 itch</a>.</p>
 <video muted autoplay controls loop>
-<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/create_secret.mp4" type="video/mp4"/>
+<source src="https://nepo.dev/vids/ci-config-para-jams/create_secret.mp4" type="video/mp4"/>
 </video>
 <p>Esta API Key se puede usar con <a
 href="https://itch.io/docs/butler/">Butler</a>, la herramienta para
@@ -257,7 +257,7 @@ en el video. Al darle al botón de <code>Add...</code> y seleccionar
 <code>Web</code> se generará la configuración para exportar el proyecto
 a web.</p>
 <video muted autoplay controls loop>
-<source src="https://blog.jnepo.dev/vids/ci-config-para-jams/config_export.mp4" type="video/mp4"/>
+<source src="https://nepo.dev/vids/ci-config-para-jams/config_export.mp4" type="video/mp4"/>
 </video>
 <p>El fichero <code>main.yml</code> está configurado para que la build
 se exporte a una carpeta específica, por lo que tendrás que configurar
@@ -277,17 +277,17 @@ href="#probando-que-funciona">probar que funciona</a>!</p></p>
 	<div class="kofi-donations">
 		<p>¿Te gustó lo que leíste?</p>
 		<a href="https://ko-fi.com/jnepo" target="_blank">
-			<img class="wobble-on-hover" src="https://blog.jnepo.dev/imgs/kofi-button.webp" />
+			<img class="wobble-on-hover" src="https://nepo.dev/imgs/kofi-button.webp" />
 		</a>
 	</div>
 	<div class="footer-kofi-donations">
 		<p>¿Te gustó lo que leíste?</p>
 		<a href="https://ko-fi.com/jnepo" target="_blank">
-			<img src="https://blog.jnepo.dev/imgs/kofi-button.webp" />
+			<img src="https://nepo.dev/imgs/kofi-button.webp" />
 		</a>
 	</div>
 	<footer>
-		<p>Volver a la <a href="https://blog.jnepo.dev/index.html">lista de artículos</a></p>
+		<p>Volver a la <a href="https://nepo.dev/index.html">lista de artículos</a></p>
 	</footer>
 </body>
 </html>
