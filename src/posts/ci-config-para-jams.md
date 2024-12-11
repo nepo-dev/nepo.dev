@@ -14,7 +14,7 @@ abstract: Una explicación de cómo configurar una build y deploys automáticos 
 Hace un par de días [liberamos el código](https://twitter.com/antimundo21/status/1752454023565705710) de dos juegos que hemos hecho en equipo:
 
 * [Rat and Furrius](https://github.com/antimundo/rat-and-furrius), para la [Mermelada Jam](https://itch.io/jam/mermelada-jam)
-* [La Falda de la Montaña](https://github.com/Edearth/falda-montana), para la [MálagaJam Weekend 17](https://itch.io/jam/malagajam-weekend-17)
+* [La Falda de la Montaña](https://github.com/nepo-dev/falda-montana), para la [MálagaJam Weekend 17](https://itch.io/jam/malagajam-weekend-17)
 
 Tiene todas las ñapas que podáis esperar de una jam, pero también hay cosas que os pueden resultar útiles. Entre ellas, un archivo para **exportar** un proyecto de Godot a **web** y **subirlo a itch.io** automáticamente.
 
@@ -31,7 +31,7 @@ Tiene todas las ñapas que podáis esperar de una jam, pero también hay cosas q
 Lo que sigue es sólo una lista de instrucciones rápidas si ya sabes qué hay que hacer. Si no entiendes algo, en la [guía de configuración que hay más abajo](#guía-de-configuración-en-detalle) estará explicado 🙂
 
 1. Copiar `.github/workflows/main.yml` a tu repositorio de GitHub.
-2. Cambiar los valores de [estas variables](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8). Si actualizas la versión de Godot, recuerda actualizar [la versión de la imagen de Docker](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15).
+2. Cambiar los valores de [estas variables](https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8). Si actualizas la versión de Godot, recuerda actualizar [la versión de la imagen de Docker](https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15).
 3. Genera una [API Key de Itch](https://itch.io/user/settings/api-keys) y añádela como secreto en el repositorio (`Settings > Secrets and variables > Repository secrets`).
 4. Abre el proyecto en Godot y genera la configuración para exportar el proyecto a web (`Project > Export... > Add... > Web`). Como nombre de esa configuración deja `Web`, y como export path ponle `build/index.html`.
 
@@ -85,10 +85,10 @@ No puedo explicar en este post cómo funciona en detalle. Pero si te interesa ap
 
 ### Editar las variables
 #### Variables en main.yml
-Una vez copiado, hará falta modificar los valores de [estas variables](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8) en `main.yml` para que sean los de tu juego:
+Una vez copiado, hará falta modificar los valores de [estas variables](https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8) en `main.yml` para que sean los de tu juego:
 
 * `ITCHIO_USERNAME` y `ITCHIO_GAME` son tu nombre y el de tu juego que aparece en la url. Por ejemplo, para `https://edearth.itch.io/falda-montana` serían `edearth` y `falda-montana` respectivamente.
-* `GODOT_VERSION` es la versión de Godot que estés usando. Si la actualizas, tendrás que actualizar también la versión en [la línea que define la imagen de Docker](https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15). Puedes consultar las versiones disponibles en [este enlace](https://hub.docker.com/r/barichello/godot-ci/tags).
+* `GODOT_VERSION` es la versión de Godot que estés usando. Si la actualizas, tendrás que actualizar también la versión en [la línea que define la imagen de Docker](https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15). Puedes consultar las versiones disponibles en [este enlace](https://hub.docker.com/r/barichello/godot-ci/tags).
 * La variable `BUTLER_API_KEY` es especial y está definida en otro lugar. No hace falta modificarla aquí. Te lo explico a continuación.
 
 #### API Key
