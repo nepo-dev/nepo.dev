@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2024-10-02T00:30:51Z</updated>
+  <updated>2024-12-11T17:15:37Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -145,7 +145,7 @@ el código&lt;/a&gt; de dos juegos que hemos hecho en equipo:&lt;/p&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/antimundo/rat-and-furrius&quot;&gt;Rat and
 Furrius&lt;/a&gt;, para la &lt;a
 href=&quot;https://itch.io/jam/mermelada-jam&quot;&gt;Mermelada Jam&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/Edearth/falda-montana&quot;&gt;La Falda de la
+&lt;li&gt;&lt;a href=&quot;https://github.com/nepo-dev/falda-montana&quot;&gt;La Falda de la
 Montaña&lt;/a&gt;, para la &lt;a
 href=&quot;https://itch.io/jam/malagajam-weekend-17&quot;&gt;MálagaJam Weekend
 17&lt;/a&gt;&lt;/li&gt;
@@ -178,9 +178,9 @@ más abajo&lt;/a&gt; estará explicado 🙂&lt;/p&gt;
 &lt;li&gt;Copiar &lt;code&gt;.github/workflows/main.yml&lt;/code&gt; a tu repositorio de
 GitHub.&lt;/li&gt;
 &lt;li&gt;Cambiar los valores de &lt;a
-href=&quot;https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
 variables&lt;/a&gt;. Si actualizas la versión de Godot, recuerda actualizar &lt;a
-href=&quot;https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15&quot;&gt;la
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15&quot;&gt;la
 versión de la imagen de Docker&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;Genera una &lt;a href=&quot;https://itch.io/user/settings/api-keys&quot;&gt;API Key
 de Itch&lt;/a&gt; y añádela como secreto en el repositorio
@@ -261,7 +261,7 @@ para que se puedan jugar.&lt;/li&gt;
 &lt;h3 id=&quot;editar-las-variables&quot;&gt;Editar las variables&lt;/h3&gt;
 &lt;h4 id=&quot;variables-en-main.yml&quot;&gt;Variables en main.yml&lt;/h4&gt;
 &lt;p&gt;Una vez copiado, hará falta modificar los valores de &lt;a
-href=&quot;https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
 variables&lt;/a&gt; en &lt;code&gt;main.yml&lt;/code&gt; para que sean los de tu
 juego:&lt;/p&gt;
 &lt;ul&gt;
@@ -271,7 +271,7 @@ nombre y el de tu juego que aparece en la url. Por ejemplo, para
 &lt;code&gt;edearth&lt;/code&gt; y &lt;code&gt;falda-montana&lt;/code&gt; respectivamente.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;GODOT_VERSION&lt;/code&gt; es la versión de Godot que estés usando.
 Si la actualizas, tendrás que actualizar también la versión en &lt;a
-href=&quot;https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15&quot;&gt;la
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15&quot;&gt;la
 línea que define la imagen de Docker&lt;/a&gt;. Puedes consultar las versiones
 disponibles en &lt;a
 href=&quot;https://hub.docker.com/r/barichello/godot-ci/tags&quot;&gt;este
@@ -592,7 +592,7 @@ layout based on those margins, using weird tricks to center divs,
 etc.&lt;/p&gt;
 &lt;p&gt;Only when I tried making the site responsive I realized I had a huge
 problem. I tried to fix it, but in the end &lt;a
-href=&quot;https://github.com/Edearth/edearth.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css&quot;&gt;this
+href=&quot;https://github.com/Edearth/nepo-dev.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css&quot;&gt;this
 untenable mess&lt;/a&gt; had to go and I had to start from the ground up.&lt;/p&gt;
 &lt;p&gt;In this post I share some of the lessons I learned and a
 recommendation to use some tools to save time.&lt;/p&gt;
@@ -676,19 +676,19 @@ rules.&lt;/p&gt;
 Example
 &lt;/summary&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
-class=&quot;sourceCode css&quot;&gt;&lt;code class=&quot;sourceCode css&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; (&lt;span class=&quot;kw&quot;&gt;min-width&lt;/span&gt;: &lt;span class=&quot;dv&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;px&lt;/span&gt;) {&lt;/span&gt;
+class=&quot;sourceCode css&quot;&gt;&lt;code class=&quot;sourceCode css&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;min-width&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;px&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;)&lt;/span&gt; {&lt;/span&gt;
 &lt;span id=&quot;cb3-2&quot;&gt;  &lt;span class=&quot;co&quot;&gt;/*the style for this class will only be applied when the screen&amp;#39;s width is 500px or more*/&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb3-3&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;.normal-css&lt;/span&gt; {&lt;/span&gt;
-&lt;span id=&quot;cb3-4&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;background-color&lt;/span&gt;: &lt;span class=&quot;cn&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-5&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;color&lt;/span&gt;: &lt;span class=&quot;cn&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-4&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-5&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb3-6&quot;&gt;  }&lt;/span&gt;
 &lt;span id=&quot;cb3-7&quot;&gt;}&lt;/span&gt;
 &lt;span id=&quot;cb3-8&quot;&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-9&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; (&lt;span class=&quot;kw&quot;&gt;orientation&lt;/span&gt;: &lt;span class=&quot;dv&quot;&gt;portrait&lt;/span&gt;) {&lt;/span&gt;
+&lt;span id=&quot;cb3-9&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;orientation&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;portrait&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;)&lt;/span&gt; {&lt;/span&gt;
 &lt;span id=&quot;cb3-10&quot;&gt;  &lt;span class=&quot;co&quot;&gt;/*the style for this class will only be applied when the device is in portrait mode*/&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb3-11&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;.normal-css&lt;/span&gt; {&lt;/span&gt;
-&lt;span id=&quot;cb3-12&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;background-color&lt;/span&gt;: &lt;span class=&quot;cn&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb3-13&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;color&lt;/span&gt;: &lt;span class=&quot;cn&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-12&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-13&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb3-14&quot;&gt;  }&lt;/span&gt;
 &lt;span id=&quot;cb3-15&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/details&gt;
@@ -722,12 +722,12 @@ Example
 &lt;p&gt;CSS:&lt;/p&gt;
 &lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
 class=&quot;sourceCode css&quot;&gt;&lt;code class=&quot;sourceCode css&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;.example&lt;/span&gt; {&lt;/span&gt;
-&lt;span id=&quot;cb4-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;flex&lt;/span&gt;: &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;flex&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb4-3&quot;&gt;}&lt;/span&gt;
 &lt;span id=&quot;cb4-4&quot;&gt;&lt;/span&gt;
-&lt;span id=&quot;cb4-5&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; (&lt;span class=&quot;kw&quot;&gt;min-width&lt;/span&gt;: &lt;span class=&quot;dv&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;px&lt;/span&gt;) {&lt;/span&gt;
+&lt;span id=&quot;cb4-5&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;min-width&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;px&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;)&lt;/span&gt; {&lt;/span&gt;
 &lt;span id=&quot;cb4-6&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;.example&lt;/span&gt; {&lt;/span&gt;
-&lt;span id=&quot;cb4-7&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;flex&lt;/span&gt;: &lt;span class=&quot;dv&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-7&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;flex&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb4-8&quot;&gt;  }&lt;/span&gt;
 &lt;span id=&quot;cb4-9&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;HTML:&lt;/p&gt;

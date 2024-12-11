@@ -13,7 +13,7 @@ layout of a website while keeping it simple.">
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://edearth.github.io/">
+	<meta property="og:url" content="https://nepo-dev.github.io/">
 	<meta property="og:title" content="Painless responsive CSS: water,
 flexboxes and grids">
 	<meta property="og:description" content="A quickstart guide on how to
@@ -21,7 +21,7 @@ style the layout of a website while keeping it simple.">
 		<meta property="og:image" content="https://nepo.dev/imgs/myface.jpg">
 		<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://edearth.github.io/">
+	<meta property="twitter:url" content="https://nepo-dev.github.io/">
 	<meta property="twitter:title" content="Painless responsive CSS: water,
 flexboxes and grids">
 	<meta property="twitter:description" content="A quickstart guide on how
@@ -48,7 +48,7 @@ to style the layout of a website while keeping it simple.">
 				<p>Escribo sobre juegos, software, QA, tecnología y cocina.</p>
 			</div>
 			<div class="description-links">
-				<a href="https://github.com/edearth/">
+				<a href="https://github.com/nepo-dev/">
 					<img src="https://nepo.dev/imgs/icon-github.svg"/>
 				</a>
 				<a href="https://gamedev.lgbt/@nepo" rel="me">
@@ -154,7 +154,7 @@ layout based on those margins, using weird tricks to center divs,
 etc.</p>
 <p>Only when I tried making the site responsive I realized I had a huge
 problem. I tried to fix it, but in the end <a
-href="https://github.com/Edearth/edearth.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css">this
+href="https://github.com/Edearth/nepo-dev.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css">this
 untenable mess</a> had to go and I had to start from the ground up.</p>
 <p>In this post I share some of the lessons I learned and a
 recommendation to use some tools to save time.</p>
@@ -238,19 +238,19 @@ rules.</p>
 Example
 </summary>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> (<span class="kw">min-width</span>: <span class="dv">500</span><span class="dt">px</span>) {</span>
+class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> <span class="fu">(</span><span class="kw">min-width</span><span class="ch">:</span> <span class="dv">500</span><span class="dt">px</span><span class="fu">)</span> {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/*the style for this class will only be applied when the screen&#39;s width is 500px or more*/</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.normal-css</span> {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span><span class="ch">:</span> <span class="cn">black</span><span class="op">;</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> (<span class="kw">orientation</span>: <span class="dv">portrait</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> <span class="fu">(</span><span class="kw">orientation</span><span class="ch">:</span> <span class="dv">portrait</span><span class="fu">)</span> {</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">/*the style for this class will only be applied when the device is in portrait mode*/</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.normal-css</span> {</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span><span class="ch">:</span> <span class="cn">black</span><span class="op">;</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </details>
@@ -284,12 +284,12 @@ Example
 <p>CSS:</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.example</span> {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">flex</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">flex</span><span class="ch">:</span> <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> (<span class="kw">min-width</span>: <span class="dv">500</span><span class="dt">px</span>) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> <span class="fu">(</span><span class="kw">min-width</span><span class="ch">:</span> <span class="dv">500</span><span class="dt">px</span><span class="fu">)</span> {</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.example</span> {</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">flex</span>: <span class="dv">50</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">flex</span><span class="ch">:</span> <span class="dv">50</span><span class="dt">%</span><span class="op">;</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>HTML:</p>

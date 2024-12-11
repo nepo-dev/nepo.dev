@@ -13,7 +13,7 @@ Actions y Godot">
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://edearth.github.io/">
+	<meta property="og:url" content="https://nepo-dev.github.io/">
 	<meta property="og:title" content="Configuración de CI para jams">
 	<meta property="og:description" content="Una explicación de cómo
 configurar una build y deploys automáticos basada en la que uso en jams,
@@ -21,7 +21,7 @@ con GitHub Actions y Godot">
 		<meta property="og:image" content="https://nepo.dev/imgs/ci-config-para-jams/preview.jpeg">
 		<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://edearth.github.io/">
+	<meta property="twitter:url" content="https://nepo-dev.github.io/">
 	<meta property="twitter:title" content="Configuración de CI para jams">
 	<meta property="twitter:description" content="Una explicación de cómo
 configurar una build y deploys automáticos basada en la que uso en jams,
@@ -50,7 +50,7 @@ con GitHub Actions y Godot">
 				<p>Escribo sobre juegos, software, QA, tecnología y cocina.</p>
 			</div>
 			<div class="description-links">
-				<a href="https://github.com/edearth/">
+				<a href="https://github.com/nepo-dev/">
 					<img src="https://nepo.dev/imgs/icon-github.svg"/>
 				</a>
 				<a href="https://gamedev.lgbt/@nepo" rel="me">
@@ -86,7 +86,7 @@ el código</a> de dos juegos que hemos hecho en equipo:</p>
 <li><a href="https://github.com/antimundo/rat-and-furrius">Rat and
 Furrius</a>, para la <a
 href="https://itch.io/jam/mermelada-jam">Mermelada Jam</a></li>
-<li><a href="https://github.com/Edearth/falda-montana">La Falda de la
+<li><a href="https://github.com/nepo-dev/falda-montana">La Falda de la
 Montaña</a>, para la <a
 href="https://itch.io/jam/malagajam-weekend-17">MálagaJam Weekend
 17</a></li>
@@ -119,9 +119,9 @@ más abajo</a> estará explicado 🙂</p>
 <li>Copiar <code>.github/workflows/main.yml</code> a tu repositorio de
 GitHub.</li>
 <li>Cambiar los valores de <a
-href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8">estas
+href="https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8">estas
 variables</a>. Si actualizas la versión de Godot, recuerda actualizar <a
-href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15">la
+href="https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15">la
 versión de la imagen de Docker</a>.</li>
 <li>Genera una <a href="https://itch.io/user/settings/api-keys">API Key
 de Itch</a> y añádela como secreto en el repositorio
@@ -202,7 +202,7 @@ para que se puedan jugar.</li>
 <h3 id="editar-las-variables">Editar las variables</h3>
 <h4 id="variables-en-main.yml">Variables en main.yml</h4>
 <p>Una vez copiado, hará falta modificar los valores de <a
-href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8">estas
+href="https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8">estas
 variables</a> en <code>main.yml</code> para que sean los de tu
 juego:</p>
 <ul>
@@ -212,7 +212,7 @@ nombre y el de tu juego que aparece en la url. Por ejemplo, para
 <code>edearth</code> y <code>falda-montana</code> respectivamente.</li>
 <li><code>GODOT_VERSION</code> es la versión de Godot que estés usando.
 Si la actualizas, tendrás que actualizar también la versión en <a
-href="https://github.com/Edearth/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15">la
+href="https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15">la
 línea que define la imagen de Docker</a>. Puedes consultar las versiones
 disponibles en <a
 href="https://hub.docker.com/r/barichello/godot-ci/tags">este
