@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2024-12-11T17:15:37Z</updated>
+  <updated>2024-12-12T00:20:55Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -592,7 +592,7 @@ layout based on those margins, using weird tricks to center divs,
 etc.&lt;/p&gt;
 &lt;p&gt;Only when I tried making the site responsive I realized I had a huge
 problem. I tried to fix it, but in the end &lt;a
-href=&quot;https://github.com/Edearth/nepo-dev.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css&quot;&gt;this
+href=&quot;https://github.com/nepo-dev/nepo.dev/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css&quot;&gt;this
 untenable mess&lt;/a&gt; had to go and I had to start from the ground up.&lt;/p&gt;
 &lt;p&gt;In this post I share some of the lessons I learned and a
 recommendation to use some tools to save time.&lt;/p&gt;

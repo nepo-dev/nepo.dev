@@ -21,7 +21,7 @@ etc.
 Only when I tried making the site responsive
 I realized I had a huge problem.
 I tried to fix it, but in the end
-[this untenable mess](https://github.com/Edearth/nepo-dev.github.io/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css)
+[this untenable mess](https://github.com/nepo-dev/nepo.dev/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css)
 had to go and I had to start from the ground up.
 
 In this post I share some of the lessons I learned
