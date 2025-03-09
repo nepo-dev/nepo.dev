@@ -94,6 +94,6 @@ This post was mostly an excuse to share
 work by some people I like.
 I hope you found it useful or interesting in some way.
 Be sure to check the work done by
-Daniel Messer ([\@bibrarian](https://twitter.com/bibrarian))
-Julia Evans ([\@b0rk](https://twitter.com/b0rk)),
+Daniel Messer ([\@CyberpunkLibrarian@hackers.town](https://hackers.town/@CyberpunkLibrarian))
+Julia Evans ([\@b0rk@jvns.ca](https://social.jvns.ca/@b0rk)),
 it's really good! 😄
