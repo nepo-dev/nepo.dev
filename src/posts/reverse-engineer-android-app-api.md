@@ -385,12 +385,12 @@ function get_store_list() {
 }
 
 result=$(get_store_list\
-| jq '.groupings[].items[]' \ # get all stores
-| jq 'select(.distance < 1)' \ # filter out stores further than 1 km away
-| jq 'select(.item.item_category != "BAKED_GOODS")' \ # filter out unwanted store categories
+| jq '.groupings[].items[]' \\ # get all stores
+| jq 'select(.distance < 1)' \\ # filter out stores further than 1 km away
+| jq 'select(.item.item_category != "BAKED_GOODS")' \\ # filter out unwanted store categories
 | jq '(.store.store_name + ", "
 + (.item.price.minor_units/100 | tostring) + "€, "
-+ .pickup_interval.start)' \ # print just the wanted data: store name, price and pickup time
++ .pickup_interval.start)' \\ # print just the wanted data: store name, price and pickup time
 | sort | uniq) # sort and show only unique results
 
 notify-send -t 30000 "$result" # send a notification in Linux desktop
@@ -422,7 +422,7 @@ If you want to know more about this topic,
 I encourage you to follow these links
 and search for more information.
 
-* Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr 3): \[[Link](https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium)\]
-* Installing Open GApps, Daishi Kato (2017 Mar 6): \[[Link](https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1)\]
-* Why you need a Google API image, "oenpelli" on StackOverflow (2014 Jul 18): \[[Link](https://stackoverflow.com/a/24817495)\]
-* mitmproxy docs: \[[Link](https://docs.mitmproxy.org/stable/)\]
+* Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr 3): [link](https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium)
+* Installing Open GApps, Daishi Kato (2017 Mar 6): [link](https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1)
+* Why you need a Google API image, "oenpelli" on StackOverflow (2014 Jul 18): [link](https://stackoverflow.com/a/24817495)
+* mitmproxy docs: [link](https://docs.mitmproxy.org/stable/)

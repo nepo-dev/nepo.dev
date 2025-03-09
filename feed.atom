@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2024-12-12T00:20:55Z</updated>
+  <updated>2025-03-09T19:06:12Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -491,8 +491,9 @@ replace them with something cheaper that doens’t have that issue?&lt;/p&gt;
 &lt;p&gt;That’s all. This post was mostly an excuse to share work by some
 people I like. I hope you found it useful or interesting in some way. Be
 sure to check the work done by Daniel Messer (&lt;a
-href=&quot;https://twitter.com/bibrarian&quot;&gt;@bibrarian&lt;/a&gt;) Julia Evans (&lt;a
-href=&quot;https://twitter.com/b0rk&quot;&gt;@b0rk&lt;/a&gt;), it’s really good! 😄&lt;/p&gt;
+href=&quot;https://hackers.town/@CyberpunkLibrarian&quot;&gt;@CyberpunkLibrarian@hackers.town&lt;/a&gt;)
+Julia Evans (&lt;a href=&quot;https://social.jvns.ca/@b0rk&quot;&gt;@b0rk@jvns.ca&lt;/a&gt;),
+it’s really good! 😄&lt;/p&gt;
     </content>
   </entry>
   <entry>
@@ -1067,12 +1068,12 @@ class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&
 &lt;span id=&quot;cb20-3&quot;&gt;&lt;span class=&quot;kw&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-4&quot;&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-5&quot;&gt;&lt;span class=&quot;va&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;ex&quot;&gt;get_store_list&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb20-6&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;.groupings[].items[]&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt; &lt;/span&gt;# get all stores&lt;/span&gt;
-&lt;span id=&quot;cb20-7&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;select(.distance &amp;lt; 1)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt; &lt;/span&gt;# filter out stores further than 1 km away&lt;/span&gt;
-&lt;span id=&quot;cb20-8&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;select(.item.item_category != &amp;quot;BAKED_GOODS&amp;quot;)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt; &lt;/span&gt;# filter out unwanted store categories&lt;/span&gt;
+&lt;span id=&quot;cb20-6&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;.groupings[].items[]&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# get all stores&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-7&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;select(.distance &amp;lt; 1)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# filter out stores further than 1 km away&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-8&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;select(.item.item_category != &amp;quot;BAKED_GOODS&amp;quot;)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# filter out unwanted store categories&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-9&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;(.store.store_name + &amp;quot;, &amp;quot;&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-10&quot;&gt;&lt;span class=&quot;st&quot;&gt;+ (.item.price.minor_units/100 | tostring) + &amp;quot;€, &amp;quot;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&quot;cb20-11&quot;&gt;&lt;span class=&quot;st&quot;&gt;+ .pickup_interval.start)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt; &lt;/span&gt;# print just the wanted data: store name, price and pickup time&lt;/span&gt;
+&lt;span id=&quot;cb20-11&quot;&gt;&lt;span class=&quot;st&quot;&gt;+ .pickup_interval.start)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# print just the wanted data: store name, price and pickup time&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-12&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;uniq&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# sort and show only unique results&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-13&quot;&gt;&lt;/span&gt;
 &lt;span id=&quot;cb20-14&quot;&gt;&lt;span class=&quot;ex&quot;&gt;notify-send&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-t&lt;/span&gt; 30000 &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$result&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# send a notification in Linux desktop&lt;/span&gt;&lt;/span&gt;
@@ -1095,14 +1096,14 @@ searching manually.&lt;/p&gt;
 these links and search for more information.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr
-3): [&lt;a
-href=&quot;https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium&quot;&gt;Link&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;Installing Open GApps, Daishi Kato (2017 Mar 6): [&lt;a
-href=&quot;https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1&quot;&gt;Link&lt;/a&gt;]&lt;/li&gt;
+3): &lt;a
+href=&quot;https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Installing Open GApps, Daishi Kato (2017 Mar 6): &lt;a
+href=&quot;https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Why you need a Google API image, “oenpelli” on StackOverflow (2014
-Jul 18): [&lt;a href=&quot;https://stackoverflow.com/a/24817495&quot;&gt;Link&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;mitmproxy docs: [&lt;a
-href=&quot;https://docs.mitmproxy.org/stable/&quot;&gt;Link&lt;/a&gt;]&lt;/li&gt;
+Jul 18): &lt;a href=&quot;https://stackoverflow.com/a/24817495&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;mitmproxy docs: &lt;a
+href=&quot;https://docs.mitmproxy.org/stable/&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
     </content>
   </entry>

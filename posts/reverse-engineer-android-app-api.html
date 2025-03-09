@@ -77,8 +77,9 @@ development.">
 
 <article>
   <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -89,7 +90,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -463,12 +464,12 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href=
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="va">result</span><span class="op">=</span><span class="va">$(</span><span class="ex">get_store_list</span><span class="dt"></span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;.groupings[].items[]&#39;</span> <span class="dt"> </span># get all stores</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.distance &lt; 1)&#39;</span> <span class="dt"> </span># filter out stores further than 1 km away</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.item.item_category != &quot;BAKED_GOODS&quot;)&#39;</span> <span class="dt"> </span># filter out unwanted store categories</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;.groupings[].items[]&#39;</span> <span class="dt">\</span> <span class="co"># get all stores</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.distance &lt; 1)&#39;</span> <span class="dt">\</span> <span class="co"># filter out stores further than 1 km away</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;select(.item.item_category != &quot;BAKED_GOODS&quot;)&#39;</span> <span class="dt">\</span> <span class="co"># filter out unwanted store categories</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">jq</span> <span class="st">&#39;(.store.store_name + &quot;, &quot;</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="st">+ (.item.price.minor_units/100 | tostring) + &quot;€, &quot;</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="st">+ .pickup_interval.start)&#39;</span> <span class="dt"> </span># print just the wanted data: store name, price and pickup time</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="st">+ .pickup_interval.start)&#39;</span> <span class="dt">\</span> <span class="co"># print just the wanted data: store name, price and pickup time</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span><span class="va">)</span> <span class="co"># sort and show only unique results</span></span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="ex">notify-send</span> <span class="at">-t</span> 30000 <span class="st">&quot;</span><span class="va">$result</span><span class="st">&quot;</span> <span class="co"># send a notification in Linux desktop</span></span>
@@ -491,14 +492,14 @@ searching manually.</p>
 these links and search for more information.</p>
 <ul>
 <li>Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr
-3): [<a
-href="https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium">Link</a>]</li>
-<li>Installing Open GApps, Daishi Kato (2017 Mar 6): [<a
-href="https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1">Link</a>]</li>
+3): <a
+href="https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium">link</a></li>
+<li>Installing Open GApps, Daishi Kato (2017 Mar 6): <a
+href="https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1">link</a></li>
 <li>Why you need a Google API image, “oenpelli” on StackOverflow (2014
-Jul 18): [<a href="https://stackoverflow.com/a/24817495">Link</a>]</li>
-<li>mitmproxy docs: [<a
-href="https://docs.mitmproxy.org/stable/">Link</a>]</li>
+Jul 18): <a href="https://stackoverflow.com/a/24817495">link</a></li>
+<li>mitmproxy docs: <a
+href="https://docs.mitmproxy.org/stable/">link</a></li>
 </ul></p>
   </div>
 </article>
