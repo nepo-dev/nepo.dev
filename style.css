@@ -37,7 +37,6 @@ body {
 header {
   padding: 2rem;
   grid-column: 1 / 4;
-  grid-row: 1 / 1;
 }
 
 .sidebar {
@@ -76,6 +75,10 @@ footer {
 }
 
 /* DESCRIPTION */
+.mobile-header {
+  display: none;
+}
+
 .description-container {
   display: grid;
   place-items: left;
@@ -304,6 +307,22 @@ footer > p {
 @media (max-width: 700px) {
   .sidebar {
     display: none;
+  }
+
+  .mobile-header {
+    display: inherit;
+	width: 100%;
+    grid-column: 2 / 3;
+  }
+
+  .description-links {
+    justify-content: space-around;
+    display: flex;
+    gap: 4%;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+
   }
 
   .footer-kofi-donations {
