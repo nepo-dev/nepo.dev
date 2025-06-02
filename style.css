@@ -128,6 +128,9 @@ footer {
 .description-links {
   grid-row: 3;
   grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 42px;
 }
 
 .description-links > a:hover {
