@@ -318,14 +318,28 @@ footer > p {
     grid-column: 2 / 3;
   }
 
+  .description-photo-container {
+    align-self: center;
+    grid-row: 2;
+    grid-column: span 1;
+  }
+
+  .description-name {
+    align-self: center;
+    grid-row: 2;
+    grid-column: span 1;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .description-links {
     justify-content: space-around;
     display: flex;
     gap: 4%;
     margin-top: 20px;
     padding-bottom: 20px;
+    margin-right: 0px;
     border-bottom: 1px solid black;
-
   }
 
   .footer-kofi-donations {
