@@ -1,0 +1,405 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<!-- Primary Meta Tags -->
+	<title>Blog — Nepo</title>
+	<meta name="title" content="*nix trick: command wrappers">
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="Un truco chulo (“neat trick”,
+“*nix-trick…“) para shells de tipo UNIX que permite
+sobreescribir/extender el comportamiento de comandos existentes sin
+modificar su código fuente.">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://nepo-dev.github.io/">
+	<meta property="og:title" content="*nix trick: command wrappers">
+	<meta property="og:description" content="Un truco chulo (“neat trick”,
+“*nix-trick…“) para shells de tipo UNIX que permite
+sobreescribir/extender el comportamiento de comandos existentes sin
+modificar su código fuente.">
+		<meta property="og:image" content="https://nepo.dev/imgs/unix-trick-wrappers.png">
+		<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://nepo-dev.github.io/">
+	<meta property="twitter:title" content="*nix trick: command wrappers">
+	<meta property="twitter:description" content="Un truco chulo (“neat
+trick”, “*nix-trick…“) para shells de tipo UNIX que permite
+sobreescribir/extender el comportamiento de comandos existentes sin
+modificar su código fuente.">
+		<meta property="twitter:image" content="https://nepo.dev/imgs/unix-trick-wrappers.png">
+	
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://nepo.dev/style.css" />
+	<link rel="alternate" type="application/rss+xml" title="Nepo's blog" href="https://nepo.dev/feed.atom" />
+</head>
+<body class="holy-grail">
+
+	<div class="mobile-header">
+		<div class="description-photo-container">
+			<a href="https://nepo.dev/index.html">
+				<div class="description-photo"></div>
+			</a>
+		</div>
+		<h2 class="description-name">¡Hola, soy Nepo!</h2>
+		<div class="description-links">
+			<a href="https://gamedev.lgbt/@nepo" rel="me">
+				<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+			</a>
+			<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+				<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+			</a>
+			<a href="https://github.com/nepo-dev/">
+				<img src="https://nepo.dev/imgs/icon-github.svg"/>
+			</a>
+			<a href="https://edearth.itch.io/">
+				<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+			</a>
+			<a href="https://www.linkedin.com/in/nepo/">
+				<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+			</a>
+		</div>
+	</div>
+
+<header>	
+	<img class="preview-image" src="https://nepo.dev/imgs/unix-trick-wrappers.png">
+</header>
+
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">¡Hola, soy Nepo!</h2>
+			<div class="description-photo-container">
+				<a href="https://nepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+			<div class="description-text-container">
+				<p>Escribo sobre juegos, software, QA, tecnología.</p>
+			</div>
+
+			<div class="description-links">
+				<a href="https://gamedev.lgbt/@nepo" rel="me">
+					<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+				</a>
+				<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+					<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+				</a>
+				<a href="https://github.com/nepo-dev/">
+					<img src="https://nepo.dev/imgs/icon-github.svg"/>
+				</a>
+				<a href="https://edearth.itch.io/">
+					<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+				</a>
+				<a href="https://www.linkedin.com/in/nepo/">
+					<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+				</a>
+			</div>
+
+		</div>
+	</div> 
+
+	<main>
+
+<article>
+  <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
+  <h2 class="title tech-highlight">*nix trick: command wrappers</h2>
+  <div class="article-info">
+    <a class="article-date" href="https://nepo.dev/index.html">← volver a la lista de artículos</a>
+    <p class="article-date">2025-11-04</p>
+  </div>
+  <div class="article-content">
+    <p><p>¡Hola! Lo que me encanta de la terminal es que no hace falta
+que recuerdes cómo funciona cada comando. Si hay algo que vas a usar 2
+veces al mes, lo guardas en un script y usas eso directamente. No tienes
+que recordar en qué submenú, en qué botón con un icono estaba esa
+funcionalida. Y lo mejor es que no te van a cambiar con un update,
+porque son scripts que tienes en tu PC. ¡Es como escribir notas que
+pueden ejecutarse y validar que siguen funcionando! ❤️‍🔥</p>
+<p>Hoy quería traeros un truco super sencillo pero super útil. Es una
+manera de <strong>sobreescribir/extender el comportamiento de comandos
+existentes en shells de tipo UNIX</strong> (o sea, os funcionará en
+Linux, Mac y WSL de Windows). Al finalizar el post habremos extendido
+<code>git diff</code> para poder llamarlo con un parámetro “godot” (es
+decir, <code>git diff godot</code>), que nos mostrará un diff únicamente
+de ficheros de escenas y código. Nada de binarios ni ficheros de
+configuración de importación de assets.</p>
+<p>Pues si os interesa esto, lo primero que necesitamos es conocer el
+comando alias.</p>
+<h3 id="comando-alias">Comando alias</h3>
+<p>Existe un comando <code>alias</code> con el que puedes decir “cada
+vez que te diga esto, llama a este comando”. Por ejemplo:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> some=<span class="st">&quot;echo &#39;body once told me the world is gonna roll me&#39;&quot;</span></span></code></pre></div>
+<p>Con eso, cada vez que escribamos <code>some</code> en la terminal,
+ejecutará el <code>echo</code> que le hemos puesto después:</p>
+<pre><code>$ some
+body once told me the world is gonna roll me</code></pre>
+<p>Normalmente, los cambios que hacemos con este programa sólo duran
+mientras la sesión de la shell esté abierta. Eso quiere decir que si
+cerramos la terminal y la volvemos a abrir <strong>perderemos ese
+alias</strong> que hemos creado.</p>
+<p>Para hacer que este cambio sea <strong>permanente</strong> podemos
+añadir la línea del alias a nuestro fichero <code>.rc</code>. Suele
+depender de la shell que estemos usando: si es bash estará en
+<code>~/.bashrc</code>, si es zsh estará en <code>~/.zshrc</code>…</p>
+<p>Por ejemplo, yo tengo una sección en mi <code>.zshrc</code> para
+configurar estos aliases:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">####</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Aliases</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">####</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> please=<span class="st">&quot;sudo&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> open=<span class="st">&quot;xdg-open&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> code=<span class="st">&quot;codium&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div>
+<p>Ahora que ya conocemos qué hace este comando y cómo usarlo, podemos
+empezar a extender otros programas.</p>
+<h3 id="explicación-del-caso-de-ejemplo">Explicación del caso de
+ejemplo</h3>
+<p>Godot genera algunos archivos como configuraciones de importación de
+imágenes, audio y modelos 3D (<code>"*.import"</code>) o ficheros
+binarios de materiales y recursos (<code>"*.res"</code>). La mayoría del
+tiempo me interesa saber si ha habido cambios en esos ficheros, pero hay
+momentos en los que sólo quiero ver los cambios que se han hecho en los
+ficheros de escenas y código (<code>*.tscn</code> y <code>*.gd</code>),
+por lo que ver los cambios de los ficheros de importación y recursos me
+molesta.</p>
+<p>Lo primero que pensé es que <code>git</code> debe tener alguna forma
+de filtrar los archivos que no me interesan, y así es. El problema es
+que <strong>es muy largo</strong> como para tener que reescribirlo (¡y
+acordarme!) cada vez que quiera usarlo:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> . <span class="st">&#39;:!**/*.import&#39;</span> <span class="st">&#39;:!**/*.res&#39;</span></span></code></pre></div>
+<p>Podemos añadir un alias para ejecutar esta línea. Por ejemplo, un
+<code>alias godot-diff</code> o <code>alias git-diff-godot</code> en
+nuestro achivo <code>.rc</code>. Pero podemos hacerlo aún más bonito con
+un script que nos haga de wrapper.</p>
+<h3 id="wrapper-scripts">Wrapper scripts</h3>
+<p>¿Qué es esto de un script que hace de wrapper? La idea principal es
+que en lugar de llamar al script como <code>git-diff-godot</code>,
+podríamos llamarlo <strong>siguiendo la API de git</strong> y hacer un:
+<code>git diff godot</code>.</p>
+<p>Esto también nos permite <strong>definir varios casos</strong>. Quizá
+tenemos un diff distinto para Unity, otro para Unreal, otro para un
+engine custom… Si simplemente usáramos aliases, deberíamos tener varios
+(<code>git-diff-unity</code>, <code>git-diff-unreal</code>…), mientras
+que si hacemos el wrapper script estos serían casos de un switch-case.
+¿Y si queremos sobreescribir la funcionalidad de <code>git status</code>
+o <code>git commit</code>? ¡También podríamos usar nuestro script para
+detectar los casos en los que tiene que hacer algo distinto!</p>
+<p>La idea principal es que este script se encargue de 2 cosas: 1. Saber
+<strong>cuándo</strong> tiene que llamar al <strong>programa
+original</strong> y cuándo hacer <strong>algo distinto</strong>. 2.
+<strong>Ejecutar el caso distinto</strong> para el que lo estamos
+construyendo. En este caso, el diff complicado.</p>
+<p>Podemos complicarlo mucho, pero para empezar con algo sencillo
+deberíamos aprender a usar el comando <code>if</code> y el comando
+<code>case</code> (docs de <a
+href="https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html">condiciones</a>
+e <a
+href="https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html">ifs
+y cases</a>). Por ejemplo, con este script podríamos hacer que al llamar
+a <code>git diff godot</code> se lance el comando que encontramos en la
+sesión anterior:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">GIT</span><span class="op">=</span><span class="st">&quot;/usr/bin/git&quot;</span> <span class="co"># el comando de git original</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">ARGS</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span><span class="va">)</span> <span class="co"># los parámetros originales</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> forward_to_git</span> <span class="kw">{</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">$GIT</span> <span class="st">&quot;</span><span class="va">${ARGS</span><span class="op">[@]</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="va">$#</span> <span class="ot">-gt</span> 0 <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;diff&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">[</span> <span class="va">$2</span> <span class="ot">=</span> <span class="st">&quot;godot&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">$GIT</span> diff <span class="at">--</span> . <span class="st">&#39;:!**/*.import&#39;</span> <span class="st">&#39;:!**/*.res&#39;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="ex">forward_to_git</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">forward_to_git</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+<p>Al ejecutarse este script, pueden darse 3 posibilidades
+distintas:</p>
+<ol type="1">
+<li>Es el comando git, pero no tiene parámetros (es decir,
+<code>git</code> a secas; no cumple <code>$# -gt 0</code>) o el primer
+parámetro no es “diff” (por ejemplo, <code>git status</code>; no cumple
+<code>"$1" = "diff"</code>). En este caso, llamamos al comando original
+<code>git</code> y le pasamos los parámetros recibidos.</li>
+<li>Es el comando git, su primer parámetro es “diff” y su segundo
+parámetro es la opción que nos hemos inventado, “godot” (es decir,
+<code>git diff godot</code>). En este caso, llamamos al comando que
+queremos llamar.</li>
+<li>Es el comant git, su primer parámetro es “diff”, pero su segundo
+parámetro no es la opción “godot” (por ejemplo,
+<code>git diff --staged</code>). En este caso, llamamos al comando
+<code>git</code> con los parámetros que hemos recibido.</li>
+</ol>
+<p><strong>¡Recordad una cosa!</strong> Este script por sí mismo
+<strong>no hace nada</strong>. Tenemos que ponerle el
+<code>alias git=$(path hasta el script)</code> en nuestro fichero
+<code>.rc</code> para que se llame a este script en lugar de al comando
+de <code>git</code> original.</p>
+<h3 id="el-wrapper-script-que-uso-yo">El wrapper script que uso yo</h3>
+<p>El script que uso no es exactamente el que os he compartido. Ese está
+simplificado para que sea más fácil de seguir. Os dejo aquí el mío por
+si os da más ideas o por si queréis usarlo de base para empezar a
+extender git a vuestra manera.</p>
+<p>¿Qué ideas se os ocurren? ¿Hacer un pretty print para ver el árbol de
+commits con <code>git log</code>? ¿Comprobar que los archivos están
+nombrados como queremos antes de hacer un commit? ¿Lanzar los tests
+antes de cada push? ¿Usarlo con otro comando que os cuesta aprender?
+¡Compartidme las ideas que se os ocurran por el Fedi o Discord! 😄</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This script works by setting up an alias in you .rc file (&quot;~/.bashrc&quot;, &quot;~/.zshrc&quot;...).</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ```bash</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># alias git $(path_to_this_script)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ```</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># That way you can override git&#39;s call to use it like:</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ```bash</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># git diff godot</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ```</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="va">GIT</span><span class="op">=</span><span class="st">&quot;/usr/bin/git&quot;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="va">ARGS</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> forward_to_git</span> <span class="kw">{</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">$GIT</span> <span class="st">&quot;</span><span class="va">${ARGS</span><span class="op">[@]</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> diff</span> <span class="kw">{</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="va">$2</span> <span class="kw">in</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;godot&quot;</span><span class="kw">)</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">$GIT</span> diff <span class="at">--</span> . <span class="st">&#39;:!**/*.import&#39;</span> <span class="st">&#39;:!**/*.res&#39;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">;;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="pp">*</span><span class="kw">)</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>            <span class="ex">forward_to_git</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">;;</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">esac</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> main</span> <span class="kw">{</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">[</span> <span class="va">$#</span> <span class="ot">-gt</span> 0 <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span> </span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span> <span class="kw">in</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;diff&quot;</span><span class="kw">)</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>                <span class="fu">diff</span> <span class="va">$*</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>                <span class="cf">;;</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;nuke&quot;</span><span class="kw">)</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>                <span class="va">$GIT</span> reset <span class="at">--hard</span> <span class="kw">&amp;&amp;</span> <span class="va">$GIT</span> clean <span class="at">-fd</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">;;</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>            <span class="pp">*</span><span class="kw">)</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>                <span class="ex">forward_to_git</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>                <span class="cf">;;</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">esac</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>        <span class="ex">forward_to_git</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="ex">main</span> <span class="va">${ARGS</span><span class="op">[@]</span><span class="va">}</span></span></code></pre></div></p>
+  </div>
+</article>
+
+	</main>
+
+	<div class="right-sidebar"></div>
+	<div class="kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img class="wobble-on-hover" src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<div class="footer-kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<footer>
+		<p>Volver a la <a href="https://nepo.dev/index.html">lista de artículos</a></p>
+	</footer>
+</body>
+</html>
