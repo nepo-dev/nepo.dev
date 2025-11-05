@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>Nepo's blog</title>
+  <link href="https://nepo.dev"/>
+  <updated>2025-11-05T00:10:59Z</updated>
+  <author>
+    <name>Juan Antonio Nepormoseno Rosales</name>
+  </author>
+  <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
+
+  <entry>
+    <title>*nix trick: command wrappers</title>
+    <link href="https://nepo.dev/posts/unix-trick-wrappers.html"/>
+    <id>urn:uuid:152ebb82-63f6-4099-87ad-58e717610ca1</id>
+    <published>2025-11-04T00:00:00Z</published>
+    <updated>2025-11-04T11:00:00Z</updated>
+    <summary>Un truco chulo (“neat trick”, “*nix-trick…“) para shells de
+tipo UNIX que permite sobreescribir/extender el comportamiento de
+comandos existentes sin modificar su código fuente.</summary>
+    <content type="html">
+&lt;p&gt;¡Hola! Lo que me encanta de la terminal es que no hace falta que
+recuerdes cómo funciona cada comando. Si hay algo que vas a usar 2 veces
+al mes, lo guardas en un script y usas eso directamente. No tienes que
+recordar en qué submenú, en qué botón con un icono estaba esa
+funcionalida. Y lo mejor es que no te van a cambiar con un update,
+porque son scripts que tienes en tu PC. ¡Es como escribir notas que
+pueden ejecutarse y validar que siguen funcionando! ❤️‍🔥&lt;/p&gt;
+&lt;p&gt;Hoy quería traeros un truco super sencillo pero super útil. Es una
+manera de &lt;strong&gt;sobreescribir/extender el comportamiento de comandos
+existentes en shells de tipo UNIX&lt;/strong&gt; (o sea, os funcionará en
+Linux, Mac y WSL de Windows). Al finalizar el post habremos extendido
+&lt;code&gt;git diff&lt;/code&gt; para poder llamarlo con un parámetro “godot” (es
+decir, &lt;code&gt;git diff godot&lt;/code&gt;), que nos mostrará un diff únicamente
+de ficheros de escenas y código. Nada de binarios ni ficheros de
+configuración de importación de assets.&lt;/p&gt;
+&lt;p&gt;Pues si os interesa esto, lo primero que necesitamos es conocer el
+comando alias.&lt;/p&gt;
+&lt;h3 id=&quot;comando-alias&quot;&gt;Comando alias&lt;/h3&gt;
+&lt;p&gt;Existe un comando &lt;code&gt;alias&lt;/code&gt; con el que puedes decir “cada
+vez que te diga esto, llama a este comando”. Por ejemplo:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;bu&quot;&gt;alias&lt;/span&gt; some=&lt;span class=&quot;st&quot;&gt;&amp;quot;echo &amp;#39;body once told me the world is gonna roll me&amp;#39;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Con eso, cada vez que escribamos &lt;code&gt;some&lt;/code&gt; en la terminal,
+ejecutará el &lt;code&gt;echo&lt;/code&gt; que le hemos puesto después:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ some
+body once told me the world is gonna roll me&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Normalmente, los cambios que hacemos con este programa sólo duran
+mientras la sesión de la shell esté abierta. Eso quiere decir que si
+cerramos la terminal y la volvemos a abrir &lt;strong&gt;perderemos ese
+alias&lt;/strong&gt; que hemos creado.&lt;/p&gt;
+&lt;p&gt;Para hacer que este cambio sea &lt;strong&gt;permanente&lt;/strong&gt; podemos
+añadir la línea del alias a nuestro fichero &lt;code&gt;.rc&lt;/code&gt;. Suele
+depender de la shell que estemos usando: si es bash estará en
+&lt;code&gt;~/.bashrc&lt;/code&gt;, si es zsh estará en &lt;code&gt;~/.zshrc&lt;/code&gt;…&lt;/p&gt;
+&lt;p&gt;Por ejemplo, yo tengo una sección en mi &lt;code&gt;.zshrc&lt;/code&gt; para
+configurar estos aliases:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;# ...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-2&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-3&quot;&gt;&lt;span class=&quot;co&quot;&gt;####&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-4&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Aliases&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-5&quot;&gt;&lt;span class=&quot;co&quot;&gt;####&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-6&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-7&quot;&gt;&lt;span class=&quot;bu&quot;&gt;alias&lt;/span&gt; please=&lt;span class=&quot;st&quot;&gt;&amp;quot;sudo&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-8&quot;&gt;&lt;span class=&quot;bu&quot;&gt;alias&lt;/span&gt; open=&lt;span class=&quot;st&quot;&gt;&amp;quot;xdg-open&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-9&quot;&gt;&lt;span class=&quot;bu&quot;&gt;alias&lt;/span&gt; code=&lt;span class=&quot;st&quot;&gt;&amp;quot;codium&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-10&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-11&quot;&gt;&lt;span class=&quot;co&quot;&gt;# ...&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ahora que ya conocemos qué hace este comando y cómo usarlo, podemos
+empezar a extender otros programas.&lt;/p&gt;
+&lt;h3 id=&quot;explicación-del-caso-de-ejemplo&quot;&gt;Explicación del caso de
+ejemplo&lt;/h3&gt;
+&lt;p&gt;Godot genera algunos archivos como configuraciones de importación de
+imágenes, audio y modelos 3D (&lt;code&gt;&quot;*.import&quot;&lt;/code&gt;) o ficheros
+binarios de materiales y recursos (&lt;code&gt;&quot;*.res&quot;&lt;/code&gt;). La mayoría del
+tiempo me interesa saber si ha habido cambios en esos ficheros, pero hay
+momentos en los que sólo quiero ver los cambios que se han hecho en los
+ficheros de escenas y código (&lt;code&gt;*.tscn&lt;/code&gt; y &lt;code&gt;*.gd&lt;/code&gt;),
+por lo que ver los cambios de los ficheros de importación y recursos me
+molesta.&lt;/p&gt;
+&lt;p&gt;Lo primero que pensé es que &lt;code&gt;git&lt;/code&gt; debe tener alguna forma
+de filtrar los archivos que no me interesan, y así es. El problema es
+que &lt;strong&gt;es muy largo&lt;/strong&gt; como para tener que reescribirlo (¡y
+acordarme!) cada vez que quiera usarlo:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;git&lt;/span&gt; diff &lt;span class=&quot;at&quot;&gt;--&lt;/span&gt; . &lt;span class=&quot;st&quot;&gt;&amp;#39;:!**/*.import&amp;#39;&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;:!**/*.res&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Podemos añadir un alias para ejecutar esta línea. Por ejemplo, un
+&lt;code&gt;alias godot-diff&lt;/code&gt; o &lt;code&gt;alias git-diff-godot&lt;/code&gt; en
+nuestro achivo &lt;code&gt;.rc&lt;/code&gt;. Pero podemos hacerlo aún más bonito con
+un script que nos haga de wrapper.&lt;/p&gt;
+&lt;h3 id=&quot;wrapper-scripts&quot;&gt;Wrapper scripts&lt;/h3&gt;
+&lt;p&gt;¿Qué es esto de un script que hace de wrapper? La idea principal es
+que en lugar de llamar al script como &lt;code&gt;git-diff-godot&lt;/code&gt;,
+podríamos llamarlo &lt;strong&gt;siguiendo la API de git&lt;/strong&gt; y hacer un:
+&lt;code&gt;git diff godot&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Esto también nos permite &lt;strong&gt;definir varios casos&lt;/strong&gt;. Quizá
+tenemos un diff distinto para Unity, otro para Unreal, otro para un
+engine custom… Si simplemente usáramos aliases, deberíamos tener varios
+(&lt;code&gt;git-diff-unity&lt;/code&gt;, &lt;code&gt;git-diff-unreal&lt;/code&gt;…), mientras
+que si hacemos el wrapper script estos serían casos de un switch-case.
+¿Y si queremos sobreescribir la funcionalidad de &lt;code&gt;git status&lt;/code&gt;
+o &lt;code&gt;git commit&lt;/code&gt;? ¡También podríamos usar nuestro script para
+detectar los casos en los que tiene que hacer algo distinto!&lt;/p&gt;
+&lt;p&gt;La idea principal es que este script se encargue de 2 cosas: 1. Saber
+&lt;strong&gt;cuándo&lt;/strong&gt; tiene que llamar al &lt;strong&gt;programa
+original&lt;/strong&gt; y cuándo hacer &lt;strong&gt;algo distinto&lt;/strong&gt;. 2.
+&lt;strong&gt;Ejecutar el caso distinto&lt;/strong&gt; para el que lo estamos
+construyendo. En este caso, el diff complicado.&lt;/p&gt;
+&lt;p&gt;Podemos complicarlo mucho, pero para empezar con algo sencillo
+deberíamos aprender a usar el comando &lt;code&gt;if&lt;/code&gt; y el comando
+&lt;code&gt;case&lt;/code&gt; (docs de &lt;a
+href=&quot;https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html&quot;&gt;condiciones&lt;/a&gt;
+e &lt;a
+href=&quot;https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html&quot;&gt;ifs
+y cases&lt;/a&gt;). Por ejemplo, con este script podríamos hacer que al llamar
+a &lt;code&gt;git diff godot&lt;/code&gt; se lance el comando que encontramos en la
+sesión anterior:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;#!/usr/bin/env bash&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;&lt;span class=&quot;va&quot;&gt;GIT&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;/usr/bin/git&amp;quot;&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# el comando de git original&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-4&quot;&gt;&lt;span class=&quot;va&quot;&gt;ARGS&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# los parámetros originales&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-6&quot;&gt;&lt;span class=&quot;kw&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt; forward_to_git&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;    &lt;span class=&quot;va&quot;&gt;$GIT&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;${ARGS&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;[@]&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-8&quot;&gt;&lt;span class=&quot;kw&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-9&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-10&quot;&gt;&lt;span class=&quot;cf&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bu&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$#&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;-gt&lt;/span&gt; 0 &lt;span class=&quot;bu&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;bu&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;diff&amp;quot;&lt;/span&gt; &lt;span class=&quot;bu&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cf&quot;&gt;then&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-11&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bu&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$2&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;godot&amp;quot;&lt;/span&gt; &lt;span class=&quot;bu&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cf&quot;&gt;then&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-12&quot;&gt;        &lt;span class=&quot;va&quot;&gt;$GIT&lt;/span&gt; diff &lt;span class=&quot;at&quot;&gt;--&lt;/span&gt; . &lt;span class=&quot;st&quot;&gt;&amp;#39;:!**/*.import&amp;#39;&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;:!**/*.res&amp;#39;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-13&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;else&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-14&quot;&gt;        &lt;span class=&quot;ex&quot;&gt;forward_to_git&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-15&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;fi&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-16&quot;&gt;&lt;span class=&quot;cf&quot;&gt;else&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-17&quot;&gt;    &lt;span class=&quot;ex&quot;&gt;forward_to_git&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-18&quot;&gt;&lt;span class=&quot;cf&quot;&gt;fi&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Al ejecutarse este script, pueden darse 3 posibilidades
+distintas:&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Es el comando git, pero no tiene parámetros (es decir,
+&lt;code&gt;git&lt;/code&gt; a secas; no cumple &lt;code&gt;$# -gt 0&lt;/code&gt;) o el primer
+parámetro no es “diff” (por ejemplo, &lt;code&gt;git status&lt;/code&gt;; no cumple
+&lt;code&gt;&quot;$1&quot; = &quot;diff&quot;&lt;/code&gt;). En este caso, llamamos al comando original
+&lt;code&gt;git&lt;/code&gt; y le pasamos los parámetros recibidos.&lt;/li&gt;
+&lt;li&gt;Es el comando git, su primer parámetro es “diff” y su segundo
+parámetro es la opción que nos hemos inventado, “godot” (es decir,
+&lt;code&gt;git diff godot&lt;/code&gt;). En este caso, llamamos al comando que
+queremos llamar.&lt;/li&gt;
+&lt;li&gt;Es el comant git, su primer parámetro es “diff”, pero su segundo
+parámetro no es la opción “godot” (por ejemplo,
+&lt;code&gt;git diff --staged&lt;/code&gt;). En este caso, llamamos al comando
+&lt;code&gt;git&lt;/code&gt; con los parámetros que hemos recibido.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;¡Recordad una cosa!&lt;/strong&gt; Este script por sí mismo
+&lt;strong&gt;no hace nada&lt;/strong&gt;. Tenemos que ponerle el
+&lt;code&gt;alias git=$(path hasta el script)&lt;/code&gt; en nuestro fichero
+&lt;code&gt;.rc&lt;/code&gt; para que se llame a este script en lugar de al comando
+de &lt;code&gt;git&lt;/code&gt; original.&lt;/p&gt;
+&lt;h3 id=&quot;el-wrapper-script-que-uso-yo&quot;&gt;El wrapper script que uso yo&lt;/h3&gt;
+&lt;p&gt;El script que uso no es exactamente el que os he compartido. Ese está
+simplificado para que sea más fácil de seguir. Os dejo aquí el mío por
+si os da más ideas o por si queréis usarlo de base para empezar a
+extender git a vuestra manera.&lt;/p&gt;
+&lt;p&gt;¿Qué ideas se os ocurren? ¿Hacer un pretty print para ver el árbol de
+commits con &lt;code&gt;git log&lt;/code&gt;? ¿Comprobar que los archivos están
+nombrados como queremos antes de hacer un commit? ¿Lanzar los tests
+antes de cada push? ¿Usarlo con otro comando que os cuesta aprender?
+¡Compartidme las ideas que se os ocurran por el Fedi o Discord! 😄&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb6&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb6-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;#!/usr/bin/env bash&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-2&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-3&quot;&gt;&lt;span class=&quot;co&quot;&gt;# This script works by setting up an alias in you .rc file (&amp;quot;~/.bashrc&amp;quot;, &amp;quot;~/.zshrc&amp;quot;...).&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-4&quot;&gt;&lt;span class=&quot;co&quot;&gt;#&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-5&quot;&gt;&lt;span class=&quot;co&quot;&gt;# ```bash&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-6&quot;&gt;&lt;span class=&quot;co&quot;&gt;# alias git $(path_to_this_script)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-7&quot;&gt;&lt;span class=&quot;co&quot;&gt;# ```&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-8&quot;&gt;&lt;span class=&quot;co&quot;&gt;#&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-9&quot;&gt;&lt;span class=&quot;co&quot;&gt;# That way you can override git&amp;#39;s call to use it like:&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-10&quot;&gt;&lt;span class=&quot;co&quot;&gt;#&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-11&quot;&gt;&lt;span class=&quot;co&quot;&gt;# ```bash&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-12&quot;&gt;&lt;span class=&quot;co&quot;&gt;# git diff godot&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-13&quot;&gt;&lt;span class=&quot;co&quot;&gt;# ```&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-14&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-15&quot;&gt;&lt;span class=&quot;va&quot;&gt;GIT&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;/usr/bin/git&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-16&quot;&gt;&lt;span class=&quot;va&quot;&gt;ARGS&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-17&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-18&quot;&gt;&lt;span class=&quot;kw&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt; forward_to_git&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-19&quot;&gt;    &lt;span class=&quot;va&quot;&gt;$GIT&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;${ARGS&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;[@]&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-20&quot;&gt;&lt;span class=&quot;kw&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-21&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-22&quot;&gt;&lt;span class=&quot;kw&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt; diff&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-23&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$2&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;in&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-24&quot;&gt;        &lt;span class=&quot;st&quot;&gt;&amp;quot;godot&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-25&quot;&gt;            &lt;span class=&quot;va&quot;&gt;$GIT&lt;/span&gt; diff &lt;span class=&quot;at&quot;&gt;--&lt;/span&gt; . &lt;span class=&quot;st&quot;&gt;&amp;#39;:!**/*.import&amp;#39;&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;:!**/*.res&amp;#39;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-26&quot;&gt;            &lt;span class=&quot;cf&quot;&gt;;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-27&quot;&gt;        &lt;span class=&quot;pp&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-28&quot;&gt;            &lt;span class=&quot;ex&quot;&gt;forward_to_git&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-29&quot;&gt;            &lt;span class=&quot;cf&quot;&gt;;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-30&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;esac&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-31&quot;&gt;&lt;span class=&quot;kw&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-32&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-33&quot;&gt;&lt;span class=&quot;kw&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt; main&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-34&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bu&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$#&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;-gt&lt;/span&gt; 0 &lt;span class=&quot;bu&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cf&quot;&gt;then&lt;/span&gt; &lt;/span&gt;
+&lt;span id=&quot;cb6-35&quot;&gt;        &lt;span class=&quot;cf&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;in&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-36&quot;&gt;            &lt;span class=&quot;st&quot;&gt;&amp;quot;diff&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-37&quot;&gt;                &lt;span class=&quot;fu&quot;&gt;diff&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$*&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-38&quot;&gt;                &lt;span class=&quot;cf&quot;&gt;;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-39&quot;&gt;            &lt;span class=&quot;st&quot;&gt;&amp;quot;nuke&amp;quot;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-40&quot;&gt;                &lt;span class=&quot;va&quot;&gt;$GIT&lt;/span&gt; reset &lt;span class=&quot;at&quot;&gt;--hard&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$GIT&lt;/span&gt; clean &lt;span class=&quot;at&quot;&gt;-fd&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-41&quot;&gt;                &lt;span class=&quot;cf&quot;&gt;;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-42&quot;&gt;            &lt;span class=&quot;pp&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-43&quot;&gt;                &lt;span class=&quot;ex&quot;&gt;forward_to_git&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-44&quot;&gt;                &lt;span class=&quot;cf&quot;&gt;;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-45&quot;&gt;        &lt;span class=&quot;cf&quot;&gt;esac&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-46&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;else&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-47&quot;&gt;        &lt;span class=&quot;ex&quot;&gt;forward_to_git&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-48&quot;&gt;    &lt;span class=&quot;cf&quot;&gt;fi&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-49&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-50&quot;&gt;&lt;span class=&quot;kw&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-51&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-52&quot;&gt;&lt;span class=&quot;ex&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;${ARGS&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;[@]&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>Tarrey Town en la OST de Breath of the Wild</title>
+    <link href="https://nepo.dev/posts/tarrey-town-ost.html"/>
+    <id>urn:uuid:9c72e7fb-2d94-460a-9488-28603826c8e2</id>
+    <published>2024-02-04T00:00:00Z</published>
+    <updated>2024-02-04T11:00:00Z</updated>
+    <summary>Una carta de amor al tema de Tarrey Town en Breath of the
+Wild y a las bandas sonoras adaptativas.</summary>
+    <content type="html">
+&lt;p&gt;Voy a tener un momento de apreciación muy random con este tema. Quizá
+ya lo conocéis y sabéis todo lo que voy a decir (se ha hablado mucho de
+él y llego &lt;em&gt;muy&lt;/em&gt; tarde). Pero es que llevo unos días que no dejo
+de escucharlo y tengo que sacármelo de la cabeza.&lt;/p&gt;
+&lt;iframe class=&quot;center youtube-video-size&quot; src=&quot;https://www.youtube.com/embed/OdcTAC5LHN4?si=DA1PpLbGkyOBjCpE&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Si habéis jugado a Breath of the Wild y habéis llegado a este pueblo,
+sabréis que se llama pueblo Tarrey (Tarrey Town a partir de ahora). Al
+principio suena esa melodía, tranquila pero muy vacía. Hay un tipo
+construyendo casas y tal. Un poco aburrido, la verdad.&lt;/p&gt;
+&lt;p&gt;El tema es agradable y simpático, y a priori podríamos quedarnos ahí.
+Pero la gracia de este pueblo es que vas “reclutando” a gente para que
+se vaya a vivir ahí. Y dependiendo de a quién invites, aparecen nuevos
+instrumentos.&lt;/p&gt;
+&lt;p&gt;Por ejemplo, el primer personaje que reclutamos es el Goron Greyson,
+que es un bicho grande y que come piedras (y van siempre desnudos o con
+taparrabos, por alguna razon). Como es lo más &lt;strong&gt;bruto&lt;/strong&gt; que
+te puedas imaginar, añade un &lt;strong&gt;trombón super estridente&lt;/strong&gt;
+al tema (1:36).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;$BASE_URL$/imgs/tarrey-town-ost/ocarina-of-time-goron.gif&quot;
+class=&quot;center&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;narrativa&quot;&gt;Narrativa&lt;/h2&gt;
+&lt;p&gt;Lo más interesante es que, al añadir instrumentos, el propio tema
+cambia. Al principio la base y el bajo los lleva un piano. Es el mismo
+instrumento que usan cuando vas paseando por el campo o en caballo. Es
+majestuoso y al sostener las notas da la sensación de espacio abierto y
+vacío. Además, no hay ningún otro pueblo (salvo el &lt;a
+href=&quot;https://www.youtube.com/watch?v=cHcLOLJHlMY&quot;&gt;pueblo Zora&lt;/a&gt;) que
+incluya un piano (&lt;a
+href=&quot;https://www.youtube.com/watch?v=Uj07-YU5cTk&quot;&gt;Hateno&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=0Oxz-LmklV4&quot;&gt;Kakariko&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=oad-1DT5z9I&quot;&gt;Gerudo&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=8J7dNNPxU4w&quot;&gt;Goron City&lt;/a&gt;, &lt;a
+href=&quot;https://www.youtube.com/watch?v=2H84NHErkHE&quot;&gt;Lurelin&lt;/a&gt;), lo cual
+refuerza que el piano sea el &lt;strong&gt;instrumento que caracteriza el
+campo abierto&lt;/strong&gt;, la naturaleza de Hyrule, o a la propia Hyrule en
+sí.&lt;/p&gt;
+&lt;p&gt;Pero en cuanto llega el Zora al pueblo, se empieza a llenar. Ese
+piano desaparece y lo sustituye una &lt;strong&gt;guitarra&lt;/strong&gt; con mucha
+menos reverb (fijaos en el cambio en los bajos alrededor del 6:20). Hace
+que el tema se vuelva más cálido y cercano. Deja de ser majestuoso y con
+eco. Ya no es gente reunida en cuatro chozas en el campo, ahora es una
+&lt;strong&gt;plaza de pueblo bulliciosa&lt;/strong&gt;, con mucha gente distinta y
+de diferentes culturas. Y cada una aporta algo a la canción.&lt;/p&gt;
+&lt;h2 id=&quot;voces&quot;&gt;Voces&lt;/h2&gt;
+&lt;p&gt;Otra cosa interesante que hace este tema es que los acentos de cada
+personaje son como una &lt;strong&gt;conversación&lt;/strong&gt;. Abre uno y
+responde otro. Luego sale un tercero. Luego suenan el primero y segundo
+a la vez, y después les responde el tercero. Es literalmente un “buen
+día, doña Encarni”, “buen día don Miguel”, “¿pasó usted por mi
+casa?”…&lt;/p&gt;
+&lt;p&gt;&lt;a
+href=&quot;https://www.zeldadungeon.net/musical-musings-building-the-themes-of-tarrey-town-from-the-ground-up/&quot;&gt;Este
+post de Matt Pederberg&lt;/a&gt; me ayudó mucho a distinguir las “voces” de
+cada personaje en la canción, los instrumentos que los representan. Ya
+hablamos del Goron y el trombón antes, pero hagamos esa relación ahora
+con el resto de personajes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;El &lt;strong&gt;clarinete&lt;/strong&gt; (00:00) que lleva la melodía es la
+esencia del propio pueblo, del pobre Hudson que está construyendo todo
+solo.&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;trombón&lt;/strong&gt; (1:26) es el Goron Greyson, pero también
+trae un vibráfono.&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;dulcimer&lt;/strong&gt; (3:12) representa a la Gerudo Rhondson.
+Es mucho más sutil que los otros instrumentos, representando el carácter
+aislado de las Gerudo.&lt;/li&gt;
+&lt;li&gt;Hay otro &lt;strong&gt;clarinete&lt;/strong&gt; que hace las notas más altas
+(4:48). Este representa a Fryson, el Rito.&lt;/li&gt;
+&lt;li&gt;La &lt;strong&gt;guitarra&lt;/strong&gt; Zora de Kapson reemplaza al piano
+(6:24) y entran también las &lt;strong&gt;gaitas&lt;/strong&gt; de Hateno traidas
+por Bolson.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Los únicos instrumentos importantes que suenan debajo del resto
+son:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;El &lt;strong&gt;clarinete&lt;/strong&gt; que toca la base, la melodía del
+pueblo.&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;piano&lt;/strong&gt; que toca el bajo con tanto reverb y que
+más tarde desaparece.&lt;/li&gt;
+&lt;li&gt;La &lt;strong&gt;guitarra&lt;/strong&gt; que reemplaza al piano en el bajo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lo cual me parece un poco injusto por el Zora que trae la guitarra,
+que no tiene su momento de poder hablar y que le hagan caso 😆&lt;/p&gt;
+&lt;h2 id=&quot;reactividad&quot;&gt;Reactividad&lt;/h2&gt;
+&lt;p&gt;Todo esto se puede percibir sin tener idea de leitmotivs ni
+&lt;em&gt;movidas chungas&lt;/em&gt; de teoría musical, simplemente fijándose en los
+instrumentos que suenan. Me parece maravilloso y es una de las cosas que
+más me gustan de todo el juego.&lt;/p&gt;
+&lt;p&gt;La jugadora tiene muchas cosas a hacer en este Hyrule tan grande. Por
+lo que seguir esta misión acaba siendo &lt;strong&gt;su decisión&lt;/strong&gt;, no
+la del game designer. Quizá en este caso, la reactividad del entorno,
+estos cambios tan sensoriales como la música y las nuevas casas, se
+suman con el mundo abierto para reforzar &lt;strong&gt;la agencia de la
+jugadora&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;El videojuego es un medio interactivo y pareciera que a veces nos
+olvidamos de eso. Hay opciones obligadas que no son realmente una
+opción, u opciones falsas que no llevan a ningún cambio. O peor, cambios
+en números, pero ningún cambio real en la experiencia de juego. Es algo
+completamente normal y hasta deseable. Si tuviéramos que implementar
+todas las posibilidades que se nos ocurren, el desarrollo de los
+videojuegos tendría costes inasumibles. Y opino que no serían nada
+interesantes.&lt;/p&gt;
+&lt;p&gt;Pero por eso me gusta encontrarme y dar reconocimiento a experiencias
+como esta. Experiencias que deciden dedicarle recursos y tiempo a
+premiar la agencia de quien las juega. Y que haciendo eso, acaban
+funcionando tan bien y cuentan una historia tan &lt;em&gt;wholesome&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Aunque esto es sólo una excusa para hablar de un tema sonoro tan
+super bonico como este ❤️&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>Configuración de CI para jams</title>
+    <link href="https://nepo.dev/posts/ci-config-para-jams.html"/>
+    <id>urn:uuid:52ecd52f-1bef-4429-a23f-3fda1aec5855</id>
+    <published>2024-02-01T00:00:00Z</published>
+    <updated>2024-02-01T11:00:00Z</updated>
+    <summary>Una explicación de cómo configurar una build y deploys
+automáticos basada en la que uso en jams, con GitHub Actions y
+Godot</summary>
+    <content type="html">
+&lt;p&gt;Hace un par de días &lt;a
+href=&quot;https://twitter.com/antimundo21/status/1752454023565705710&quot;&gt;liberamos
+el código&lt;/a&gt; de dos juegos que hemos hecho en equipo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/antimundo/rat-and-furrius&quot;&gt;Rat and
+Furrius&lt;/a&gt;, para la &lt;a
+href=&quot;https://itch.io/jam/mermelada-jam&quot;&gt;Mermelada Jam&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/nepo-dev/falda-montana&quot;&gt;La Falda de la
+Montaña&lt;/a&gt;, para la &lt;a
+href=&quot;https://itch.io/jam/malagajam-weekend-17&quot;&gt;MálagaJam Weekend
+17&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tiene todas las ñapas que podáis esperar de una jam, pero también hay
+cosas que os pueden resultar útiles. Entre ellas, un archivo para
+&lt;strong&gt;exportar&lt;/strong&gt; un proyecto de Godot a &lt;strong&gt;web&lt;/strong&gt; y
+&lt;strong&gt;subirlo a itch.io&lt;/strong&gt; automáticamente.&lt;/p&gt;
+&lt;p&gt;¿Por qué querrías hacer eso en una jam? Pues porque se hace en 5
+minutos y te permite:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;No bloquear&lt;/strong&gt; a une programadore cada vez que quieras
+hacer una build.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;No depender&lt;/strong&gt; de une programadore para poder lanzar
+el juego.&lt;/li&gt;
+&lt;li&gt;Hacer builds &lt;strong&gt;más frecuentes&lt;/strong&gt; para hacer
+&lt;strong&gt;playtesting&lt;/strong&gt; de los prototipos más rápido.&lt;/li&gt;
+&lt;li&gt;Asegurarte de que &lt;strong&gt;la build siempre será la misma&lt;/strong&gt;.
+Que no te habrás equivocado al exportar/subir el proyecto.&lt;/li&gt;
+&lt;li&gt;En los últimos 5 minutos de jam, no tienes que estar comprimiendo
+archivos, yendo a una web y subiéndo archivos. Sólo haces &lt;strong&gt;click
+en un botón&lt;/strong&gt; y esperas relajadamente 🍹&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;configuración&quot;&gt;Configuración&lt;/h2&gt;
+&lt;p&gt;Lo que sigue es sólo una lista de instrucciones rápidas si ya sabes
+qué hay que hacer. Si no entiendes algo, en la &lt;a
+href=&quot;#guía-de-configuración-en-detalle&quot;&gt;guía de configuración que hay
+más abajo&lt;/a&gt; estará explicado 🙂&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Copiar &lt;code&gt;.github/workflows/main.yml&lt;/code&gt; a tu repositorio de
+GitHub.&lt;/li&gt;
+&lt;li&gt;Cambiar los valores de &lt;a
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
+variables&lt;/a&gt;. Si actualizas la versión de Godot, recuerda actualizar &lt;a
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15&quot;&gt;la
+versión de la imagen de Docker&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Genera una &lt;a href=&quot;https://itch.io/user/settings/api-keys&quot;&gt;API Key
+de Itch&lt;/a&gt; y añádela como secreto en el repositorio
+(&lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Abre el proyecto en Godot y genera la configuración para exportar el
+proyecto a web
+(&lt;code&gt;Project &amp;gt; Export... &amp;gt; Add... &amp;gt; Web&lt;/code&gt;). Como nombre
+de esa configuración deja &lt;code&gt;Web&lt;/code&gt;, y como export path ponle
+&lt;code&gt;build/index.html&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Sube los cambios al repositorio y ya está listo para usar.&lt;/p&gt;
+&lt;h2 id=&quot;probando-que-funciona&quot;&gt;Probando que funciona&lt;/h2&gt;
+&lt;p&gt;Esto puede hacerlo cualquier persona con acceso al repositorio, no
+sólo les programadores:&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Entra en Actions.&lt;/li&gt;
+&lt;li&gt;Selecciona el workflow &lt;code&gt;Build + Deploy&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Haz click en &lt;code&gt;Run workflow &amp;gt; Run workflow&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;video muted autoplay controls loop&gt;
+&lt;source src=&quot;$BASE_URL$/vids/ci-config-para-jams/lanzar_builds.mp4&quot; type=&quot;video/mp4&quot;/&gt;
+&lt;/video&gt;
+&lt;p&gt;Si todo sale bien, en unos minutos os saldrá la ejecución en verde. Y
+si váis a vuestra página de Itch, os debería aparecer vuestro juego.&lt;/p&gt;
+&lt;p&gt;&lt;img
+src=&quot;$BASE_URL$/imgs/ci-config-para-jams/successful_run.png&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;y-esto-es-gratis&quot;&gt;¿Y esto es gratis?&lt;/h2&gt;
+&lt;p&gt;Hasta cierto límite. Tenéis &lt;a
+href=&quot;https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes&quot;&gt;2.000
+minutos de ejecución gratuitos&lt;/a&gt; por mes en el plan gratis. Para Godot
+y para jams, es difícil de alcanzar. Y la ventaja de no depender
+de/bloquear a une programadore y que siempre se suba el proyecto de la
+misma manera es considerable.&lt;/p&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;guía-de-configuración-en-detalle&quot;&gt;Guía de configuración en
+detalle&lt;/h2&gt;
+&lt;p&gt;En esta guía se explica con pelos y señales cómo funciona esta
+automatización, por si tienes alguna duda o por si tienes curiosidad y
+quieres aprender más 😊&lt;/p&gt;
+&lt;h3 id=&quot;copiar-main.yml&quot;&gt;Copiar main.yml&lt;/h3&gt;
+&lt;p&gt;Lo primero que tienes que hacer es copiar el fichero
+&lt;code&gt;.github/workflows/main.yml&lt;/code&gt; a tu repositorio en GitHub,
+dentro de esas mismas carpetas “.github” y “workflows”.&lt;/p&gt;
+&lt;video muted autoplay loop&gt;
+&lt;source src=&quot;$BASE_URL$/vids/ci-config-para-jams/copy-file.mp4&quot; type=&quot;video/mp4&quot;/&gt;
+&lt;/video&gt;
+&lt;p&gt;Esos son unos directorios especiales que GitHub interpreta como una
+configuración de su &lt;strong&gt;sistema de CI&lt;/strong&gt; (Integración
+Continua), las &lt;strong&gt;GitHub Actions&lt;/strong&gt;. Este permite automatizar
+todo tipo de procesos: desde las builds y subirlo (deploy) a Itch, hasta
+conversiones de ficheros, ejecución de pruebas, escribir mensajes en
+Discord/redes…&lt;/p&gt;
+&lt;p&gt;No puedo explicar en este post cómo funciona en detalle. Pero si te
+interesa aprender más, tienes &lt;a
+href=&quot;https://docs.github.com/en/actions&quot;&gt;la documentación oficial&lt;/a&gt;.
+Recomiendo &lt;a
+href=&quot;https://docs.docker.com/guides/get-started/&quot;&gt;aprender algo de
+Docker&lt;/a&gt; de antemano para entender cómo se configuran las máquinas en
+las que se ejecutan estos procesos. Para esta guía sólo nos hace falta
+saber que una “imagen de Docker” es algo parecido a un ordenador que ya
+viene con cosas instaladas.&lt;/p&gt;
+&lt;p&gt;¿Y qué es lo que hace este fichero? Pues define los pasos a seguir
+para generar esa build y subirla a Itch. Si lo abres, verás que tiene
+unos “steps” definidos. A grandes rasgos, esto es lo que hacen:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Checkout:&lt;/strong&gt; se descarga el código del
+repositorio.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Setup:&lt;/strong&gt; prepara las export templates de Godot. La
+imagen de Docker ya incluye esas templates, que a veces pesan ~1GB o
+más, dependiendo de la plataforma.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Web Build:&lt;/strong&gt; usa Godot desde la línea de comandos
+para exportar el proyecto para web.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Itch.io Deploy:&lt;/strong&gt; sube los ficheros exportados a Itch
+para que se puedan jugar.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;editar-las-variables&quot;&gt;Editar las variables&lt;/h3&gt;
+&lt;h4 id=&quot;variables-en-main.yml&quot;&gt;Variables en main.yml&lt;/h4&gt;
+&lt;p&gt;Una vez copiado, hará falta modificar los valores de &lt;a
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L5-L8&quot;&gt;estas
+variables&lt;/a&gt; en &lt;code&gt;main.yml&lt;/code&gt; para que sean los de tu
+juego:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ITCHIO_USERNAME&lt;/code&gt; y &lt;code&gt;ITCHIO_GAME&lt;/code&gt; son tu
+nombre y el de tu juego que aparece en la url. Por ejemplo, para
+&lt;code&gt;https://edearth.itch.io/falda-montana&lt;/code&gt; serían
+&lt;code&gt;edearth&lt;/code&gt; y &lt;code&gt;falda-montana&lt;/code&gt; respectivamente.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GODOT_VERSION&lt;/code&gt; es la versión de Godot que estés usando.
+Si la actualizas, tendrás que actualizar también la versión en &lt;a
+href=&quot;https://github.com/nepo-dev/falda-montana/blob/07955a0dd83e74703359850c7f6ba298838d4354/.github/workflows/main.yml#L15&quot;&gt;la
+línea que define la imagen de Docker&lt;/a&gt;. Puedes consultar las versiones
+disponibles en &lt;a
+href=&quot;https://hub.docker.com/r/barichello/godot-ci/tags&quot;&gt;este
+enlace&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;La variable &lt;code&gt;BUTLER_API_KEY&lt;/code&gt; es especial y está definida
+en otro lugar. No hace falta modificarla aquí. Te lo explico a
+continuación.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;api-key&quot;&gt;API Key&lt;/h4&gt;
+&lt;p&gt;Una API Key es una &lt;strong&gt;especie de “contraseña”&lt;/strong&gt; que
+permitirá a esta GitHub Action &lt;strong&gt;usar vuestra cuenta de
+Itch&lt;/strong&gt;. Si te parece peligroso, es porque puede serlo. Por eso no
+podemos guardarla con el resto de variables, porque tiene que mantenerse
+en secreto.&lt;/p&gt;
+&lt;p&gt;Para configurarla, accede a
+&lt;code&gt;Settings &amp;gt; Secrets and variables &amp;gt; Actions &amp;gt; Repository secrets&lt;/code&gt;
+y cread un nuevo secreto. Dentro, copia la &lt;a
+href=&quot;https://itch.io/user/settings/api-keys&quot;&gt;API key que generes desde
+itch&lt;/a&gt;.&lt;/p&gt;
+&lt;video muted autoplay controls loop&gt;
+&lt;source src=&quot;$BASE_URL$/vids/ci-config-para-jams/create_secret.mp4&quot; type=&quot;video/mp4&quot;/&gt;
+&lt;/video&gt;
+&lt;p&gt;Esta API Key se puede usar con &lt;a
+href=&quot;https://itch.io/docs/butler/&quot;&gt;Butler&lt;/a&gt;, la herramienta para
+línea de comandos de Itch. Permite subir proyectos a Itch de maner super
+rápida, subiendo sólo los ficheros que se modificaron. Y es justo lo que
+nuestra automatización hará.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Es &lt;strong&gt;MUY importante&lt;/strong&gt; que mantengas esta &lt;strong&gt;clave
+bien segura&lt;/strong&gt;. No la pases por Discord, ni WhatsApp, ni ningún
+sitio. Y si sospechas que se ha filtrado, tienes que ir al &lt;a
+href=&quot;https://itch.io/user/settings/api-keys&quot;&gt;dashboard&lt;/a&gt; y darle a
+“revoke” lo antes posible. Si alguien se hace con ella, puede llegar a
+acceder a tu cuenta de Itch y borrarte los juegos.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;export-en-godot&quot;&gt;Export en Godot&lt;/h3&gt;
+&lt;p&gt;El último paso es decirle a Godot cómo y dónde tiene que generar esa
+build del juego. Para eso, abre el proyecto en Godot y navega hasta
+&lt;code&gt;Project &amp;gt; Export... &amp;gt; Add... &amp;gt; Web&lt;/code&gt;. Si es la
+primera vez que vas a exportar tu juego, esta ventana estará vacía como
+en el video. Al darle al botón de &lt;code&gt;Add...&lt;/code&gt; y seleccionar
+&lt;code&gt;Web&lt;/code&gt; se generará la configuración para exportar el proyecto
+a web.&lt;/p&gt;
+&lt;video muted autoplay controls loop&gt;
+&lt;source src=&quot;$BASE_URL$/vids/ci-config-para-jams/config_export.mp4&quot; type=&quot;video/mp4&quot;/&gt;
+&lt;/video&gt;
+&lt;p&gt;El fichero &lt;code&gt;main.yml&lt;/code&gt; está configurado para que la build
+se exporte a una carpeta específica, por lo que tendrás que configurar
+el “export path” para que sea &lt;code&gt;build/index.html&lt;/code&gt;. Ahí es
+donde se creará la build. No es por nada que necesite GitHub ni Godot.
+Es que usé ese directorio en &lt;code&gt;main.yml&lt;/code&gt; y es más fácil
+dejarlo como está que modificarlo cada vez que crees un nuevo
+proyecto.&lt;/p&gt;
+&lt;p&gt;Una vez hecho esto, ya habrás terminado. ¡Lo único que te queda es &lt;a
+href=&quot;#probando-que-funciona&quot;&gt;probar que funciona&lt;/a&gt;!&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>Setting up shared folders in Linux</title>
+    <link href="https://nepo.dev/posts/multi-user-shared-folders.html"/>
+    <id>urn:uuid:07b39aed-c9e4-41f8-8cb2-79c70579267c</id>
+    <published>2023-09-11T22:22:00Z</published>
+    <updated>2023-09-11T22:22:00Z</updated>
+    <summary>Recently I found an article that advocated having separate
+work and personal users in your laptop to avoid this case. Here’s how to
+set up shared folders for those users.</summary>
+    <content type="html">
+&lt;p&gt;I find it difficult to concentrate on personal projects when I’m
+working on my PC. I go to search some documentation online and I see
+social networks tabs, videos and articles with interesting topics I
+saved for later… and I lose my focus.&lt;/p&gt;
+&lt;p&gt;Recently I found an article that advocated having separate work and
+personal users in your laptop to avoid this case. That sounds like a
+great idea, but I have my Obsidian second brain in my personal user
+folder and I have Syncthing to share it with other devices. So I need to
+update it to be accessible for both users.&lt;/p&gt;
+&lt;h2 id=&quot;design&quot;&gt;Design&lt;/h2&gt;
+&lt;p&gt;I want to create a folder that Syncthing can read and write to. Both
+personal and work users must be able to read and write to that folder as
+well. For that, we will use a &lt;strong&gt;user group&lt;/strong&gt; shared by
+Syncthing and the other users.&lt;/p&gt;
+&lt;p&gt;&lt;img
+src=&quot;$BASE_URL$/imgs/multi-user-shared-folders/syncthing_shared_folder.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Existing files and folders will need to have its &lt;strong&gt;group and
+permissions updated&lt;/strong&gt; to be readable and writable for that user
+group.&lt;/p&gt;
+&lt;p&gt;We will also need &lt;strong&gt;new files and folders&lt;/strong&gt; to be
+created with specific permissions: - They must be added to the
+&lt;code&gt;syncthing&lt;/code&gt; group. - They must have the read and write
+permissions for the group.&lt;/p&gt;
+&lt;p&gt;Are there easier ways to do this? Probably, but this is the way I
+wanted to do this.&lt;/p&gt;
+&lt;h2 id=&quot;setting-it-up&quot;&gt;Setting it up&lt;/h2&gt;
+&lt;p&gt;Just FYI, you will probably need to use &lt;code&gt;sudo&lt;/code&gt; for most of
+the commands. I removed it to make the code less verbose and redundant.
+Just use your common sense: if you’re updating permissions for a
+file/folder not owned by you or you’re creating and assigning groups to
+users, use &lt;code&gt;sudo&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;create-group&quot;&gt;Create group&lt;/h3&gt;
+&lt;p&gt;With these commands you create a user group called
+&lt;code&gt;syncthing&lt;/code&gt; and add &lt;code&gt;personal&lt;/code&gt; and
+&lt;code&gt;work&lt;/code&gt; users to it.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;groupadd&lt;/span&gt; syncthing&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;usermod&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-G&lt;/span&gt; syncthing personal&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;&lt;span class=&quot;ex&quot;&gt;usermod&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-G&lt;/span&gt; syncthing work&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;At this point, you must reboot your computer for these changes to
+apply. You can verify your user was added to the group when you login
+with these commands:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;groups&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;id&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;permission-for-existing-files&quot;&gt;Permission for existing
+files&lt;/h3&gt;
+&lt;p&gt;Make the entire folder be owned by the group you just created
+with:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;chgrp&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-R&lt;/span&gt; syncthing /srv/syncthing&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then update the existing files and folders to have read and write
+permissions for the group:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;find&lt;/span&gt; /srv/syncthing &lt;span class=&quot;at&quot;&gt;-exec&lt;/span&gt; chmod 775 {} +&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;default-group-permissions-for-new-files-and-folders&quot;&gt;Default
+group permissions for new files and folders&lt;/h3&gt;
+&lt;p&gt;By default, your system might create new files and folders with the
+write permission for the group disabled. In order to change that, you
+need to use Access Control Lists (ACLs). They seem complicated and&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Force new files and folders to have the same group as the parent folder&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;chmod&lt;/span&gt; g+s /srv/syncthing&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;&lt;span class=&quot;fu&quot;&gt;find&lt;/span&gt; /var/www &lt;span class=&quot;at&quot;&gt;-type&lt;/span&gt; d &lt;span class=&quot;at&quot;&gt;-exec&lt;/span&gt; chmod g+s {} + &lt;span class=&quot;co&quot;&gt;# for subdirectories&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-4&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Force new files and folders to have the group permissions set to read and write&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-6&quot;&gt;&lt;span class=&quot;ex&quot;&gt;setfacl&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;default:group::rw&amp;quot;&lt;/span&gt; /srv/syncthing&lt;/span&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;&lt;span class=&quot;fu&quot;&gt;find&lt;/span&gt; /srv/syncthing &lt;span class=&quot;at&quot;&gt;-type&lt;/span&gt; d &lt;span class=&quot;at&quot;&gt;-exec&lt;/span&gt; setfacl &lt;span class=&quot;at&quot;&gt;-m&lt;/span&gt; d:g::rw {} + &lt;span class=&quot;co&quot;&gt;# for subdirectories&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And that should be it.&lt;/p&gt;
+&lt;h2 id=&quot;testing-it&quot;&gt;Testing it&lt;/h2&gt;
+&lt;p&gt;In my case I just removed the original folder from Syncthing and
+re-synced again in the new location:
+&lt;code&gt;/srv/syncthing/Obsidian&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;After that, I logged in with my personal user, set up Obsidian to use
+that folder and I can open and write in files. Do the same for the other
+user and it works too ✅&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>Librarian tools for a more civilized age</title>
+    <link href="https://nepo.dev/posts/librarian-tools-for-more-civilized-age.html"/>
+    <id>urn:uuid:07b39aed-c9e4-41f8-8cb2-79c70579267c</id>
+    <published>2021-06-26T21:42:00Z</published>
+    <updated>2021-06-26T21:42:00Z</updated>
+    <summary>A thought about digital tools. You wouldn’t trust a plumber
+that doesn’t know how to use a wrench. As a programmer, do you know your
+tools?</summary>
+    <content type="html">
+&lt;p&gt;Do you remember how, for a brief moment in human history, you could
+fix machines by using violence? No university degrees or user manuals
+required, just a good ole slap o’ the hand to the side or top of the
+idiot box. And there you go, it works again! This could’ve been caused
+by a connection error, some faulty wires that didn’t properly transmit
+the video signal. But the point is you didn’t have to know about that,
+it used to be a magic solution that sometimes fixed stuff.&lt;/p&gt;
+&lt;p&gt;We don’t have wires anymore, for the most part. Most of our
+electronics use a PCB with each component attached to it (usually
+soldered or screwed). They’re so pervasive and easy to produce you could
+even use them for garage projects! It’s as easy as printing an image,
+transfering the ink to the board, applying some chemicals and drilling
+some holes. And they look &lt;em&gt;waaay better&lt;/em&gt; than a mess of cables
+connecting everything.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/librarian-tools-for-more-civilized-age/cow_tools.jpg&quot;
+class=&quot;center&quot; alt=&quot;“Cow tools”, a Far side comic by Gary Larson.&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;“Cow tools”, a &lt;em&gt;Far side&lt;/em&gt; comic by
+Gary Larson.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;While listening to &lt;a
+href=&quot;https://cyberpunklibrarian.com/podcast/cyberpunk-librarian-episode-05-charlie-buckets-dad/&quot;&gt;episode
+5 (“Charlie Bucket’s dad”)&lt;/a&gt; from Daniel Messer’s (&lt;a
+href=&quot;https://twitter.com/bibrarian&quot;&gt;@bibrarian&lt;/a&gt;) “Cyberpunk
+Librarian” podcast, I realized our problems are now mostly digital.
+We’ve figured if we remove the wires we won’t have faulty wires anymore.
+But that doesn’t mean we fixed the “connection error” problem. In the
+digital world we could have an API or program failing because we entered
+the wrong parameters. Or, if we have a long chain of different pieces
+(which sounds like a generic definition of what a computer or the
+Internet is), it could be any of those pieces failing.&lt;/p&gt;
+&lt;p&gt;What this means is most of the times we can’t apply a magic solution
+and hope for the best. Well, turning it off and on again works
+sometimes, but it won’t fix all problems. We need to really understand
+the problem in order to fix it. This is captured very well on Julia
+Evans’ (&lt;a href=&quot;https://twitter.com/b0rk&quot;&gt;@b0rk&lt;/a&gt;) &lt;a
+href=&quot;https://mysteries.wizardzines.com/&quot;&gt;debugging adventure games&lt;/a&gt;.
+In these choose-your-own-adventure games you investigate a problem,
+finding clues like if it were a Phoenix Wright game, until you find out
+the root cause and fix it. Finding bits of knowledge about a digital
+problem, that we solve with digital tools.&lt;/p&gt;
+&lt;p&gt;And that’s what concerns this post: tools. Even though “tool” calls
+up a very physical mental image (like a wrench, hammer or a voltmeter
+with a display, switch knob and probes), digital problems in digital
+systems require digital tools to solve. And to use those tools we
+sometimes need to read documentation, experiment, fix and replace them
+when they stop working. Just like physical tools!&lt;/p&gt;
+&lt;p&gt;Daniel’s point about familiarizing yourself with your tools is as
+valid in software development as it is with librarian tools (or physical
+tools in a physical job 😛). Yet, perhaps because of the amount of tools
+or their “locality” (eg. Apple ecosystem used just for Apple
+development), this is a difficult task. Nevertheless, you would be doing
+yourself a disservice if you don’t. Learning about your tools is a good
+way to find ways to make your job easier. You stop depending on others
+to fix things, you grow your knowledge base, you do a more rewarding job
+and with your own individual background you could find an obvious
+solution that isn’t obvious to anybody else. Like in the example at the
+beginning of the post: by understanding the wires were causing the
+connection problem, we can ask ourselves: can we fix them? Can we
+replace them with something cheaper that doens’t have that issue?&lt;/p&gt;
+&lt;p&gt;That’s all. This post was mostly an excuse to share work by some
+people I like. I hope you found it useful or interesting in some way. Be
+sure to check the work done by Daniel Messer (&lt;a
+href=&quot;https://hackers.town/@CyberpunkLibrarian&quot;&gt;@CyberpunkLibrarian@hackers.town&lt;/a&gt;)
+Julia Evans (&lt;a href=&quot;https://social.jvns.ca/@b0rk&quot;&gt;@b0rk@jvns.ca&lt;/a&gt;),
+it’s really good! 😄&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>On insecurity and self-narrative</title>
+    <link href="https://nepo.dev/posts/insecurity-and-self-narrative.html"/>
+    <id>urn:uuid:7ec3e802-134e-42e9-baf3-9359382f11c7</id>
+    <published>2021-05-03T00:00:00Z</published>
+    <updated>2021-05-03T11:00:00Z</updated>
+    <summary>A personal anecdote and a reflection on how our own
+narrative affects how we feel</summary>
+    <content type="html">
+&lt;p&gt;&lt;strong&gt;Be warned:&lt;/strong&gt; this post will be quite personal. Back
+away now if you’d like to avoid cringing 😄&lt;/p&gt;
+&lt;p&gt;Last year I made a small exercise. I was dealing with feelings of
+inadequacy, since I have a tendency to those. In other words: I often
+feel insecure. I remembered how a friend of mine told me that I don’t
+value my successes and I delve too much on my failures. So I decided to
+get external input and I asked some friends and colleagues for feedback.
+The questions were:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When was the last time I &lt;em&gt;helped you&lt;/em&gt;?&lt;/li&gt;
+&lt;li&gt;In which way / doing what?&lt;/li&gt;
+&lt;li&gt;What are the 3 things &lt;em&gt;you value&lt;/em&gt; most from me?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I was surprised by the result: what these people were seeing was
+nothing like how I saw myself!&lt;/p&gt;
+&lt;p&gt;Where they saw a fun, loyal, unjudging friend that cared about them,
+I saw a guy with boring conversation, that couldn’t return the affection
+others showed him. Where they saw honesty, I was painfully aware of all
+the things I didn’t say in the past to avoid hurting someone or because
+of fear of judgment. Where they saw a critical-thinking engineer and
+growth potential, I thought back on all the times I was slow to finish a
+task or that I had to ask for help/learn something new to do my work (as
+in “I don’t have the knowledge/level I need to do this”). How could it
+be &lt;em&gt;they&lt;/em&gt; were so wrong? And most importantly: what will they do
+when they &lt;em&gt;find out&lt;/em&gt;?&lt;/p&gt;
+&lt;p&gt;Of course, I knew they all couldn’t be wrong, and that maybe (just
+maybe) my own self-image was &lt;em&gt;skewed&lt;/em&gt;. Since then, I started
+noticing when I was judging myself and applying a generous serving of
+&lt;strong&gt;doubt&lt;/strong&gt; to those thoughts.&lt;/p&gt;
+&lt;p&gt;This allowed me to clear my mind of those intrusive judgements and
+focus on the real cause of my insecurity. I stopped accepting those
+thoughts just as they popped up. Instead I questioned them and thought
+“what would I tell &lt;strong&gt;someone else&lt;/strong&gt; if they were in this
+position?”. For instance:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When I’m talking with friends and I think “they look bored, I should
+leave and let them do something they enjoy”, I remind myself they can
+leave whenever they want, they chose to come and they’re choosing to
+stay. Maybe I’m wrong to doubt them. I’m sure I’m wrong for trying to
+decide for them.&lt;/li&gt;
+&lt;li&gt;When at work I don’t understand something and I lose 2h reading
+documentation, I remind myself this is my first time doing this. No one
+was born knowing. It isn’t my fault and it’s perfectly fine. I will be
+better when I’m done reading, and next time I won’t need so much
+time.&lt;/li&gt;
+&lt;li&gt;When I see successful people and think I haven’t done anything with
+my life, I remind myself of all the people that keep in touch with me,
+of my career and how much it has made me grow, of all those little
+projects after work, of all the things I &lt;em&gt;do&lt;/em&gt; know instead of the
+ones I don’t, of this little blog… all those things &lt;em&gt;I&lt;/em&gt; care
+about.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It might seem like I’m constantly defusing bombs in my head, but far
+from it. Refuting the negative judgements slowly improved my self-image.
+I was more kind to myself and so the thoughts appeared less frequently.
+In time it got easier. My fears became smaller and easier to manage. I
+still have them, but at least I’m not struggling with them. And lately
+gratitude has been replacing them. Gratitude for friends spending time
+with me, or for being fortunate enough to learn at work.&lt;/p&gt;
+&lt;p&gt;If you’re struggling with insecurities yourself, try avoiding
+judgement and find out where that fear comes from. Then you can figure
+out (on your own or with other people’s help) if those things are true
+or not. The story we tell ourselves has a &lt;em&gt;huge&lt;/em&gt; impact on how we
+feel and what we do. Don’t let your fears dictate the narrative. You can
+tell a much better story! 😉&lt;/p&gt;
+&lt;p&gt;I saved the notes from when I asked friends and colleagues for
+feedback. I just saw them today and they brought a smile to my face. If
+you do something similar, they might bring one to yours in the future
+🙂&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>Painless responsive CSS: water, flexboxes and grids</title>
+    <link href="https://nepo.dev/posts/responsive-css-quickstart.html"/>
+    <id>urn:uuid:cac2f2f8-8116-4d7d-bbb5-566c178bd7a8</id>
+    <published>2021-01-31T00:00:00Z</published>
+    <updated>2021-01-31T00:00:00Z</updated>
+    <summary>A quickstart guide on how to style the layout of a website
+while keeping it simple.</summary>
+    <content type="html">
+&lt;p&gt;When I started this blog I had no idea of how to write modern CSS,
+nor did I know the slightest thing about how to make a website
+responsive. I started making a stylesheet with lots of minute details,
+like setting multiple margins in pixels for all classes, organizing the
+layout based on those margins, using weird tricks to center divs,
+etc.&lt;/p&gt;
+&lt;p&gt;Only when I tried making the site responsive I realized I had a huge
+problem. I tried to fix it, but in the end &lt;a
+href=&quot;https://github.com/nepo-dev/nepo.dev/blob/b88d46ff96841cf4d30a7b84bca2f09c33bc6cb9/edearth.css&quot;&gt;this
+untenable mess&lt;/a&gt; had to go and I had to start from the ground up.&lt;/p&gt;
+&lt;p&gt;In this post I share some of the lessons I learned and a
+recommendation to use some tools to save time.&lt;/p&gt;
+&lt;h2 id=&quot;desing-for-mobile-first&quot;&gt;Desing for mobile first&lt;/h2&gt;
+&lt;p&gt;One of the simple but important lessons I learned is to design the
+site for mobile first, rather than desktop. Since mobile is more
+restrictive, due to its limited horizontal space, it lends itself to
+linear layouts. This forces you to keep your layout simple, so you’ll be
+making decisions about what to show or what to keep, instead of focusing
+on how you want to display it.&lt;/p&gt;
+&lt;p&gt;This step takes place before you even start writing the first line of
+HTML or CSS, so it should be quick to iterate until you find a design
+you’re comfortable with.&lt;/p&gt;
+&lt;h2 id=&quot;responsive-elements-water.css&quot;&gt;Responsive elements:
+water.css&lt;/h2&gt;
+&lt;p&gt;A friend introduced me to this wonderful tool. It’s a ready-made
+collection of styles that make HTML elements look good while keeping
+them responsive. To put it simply: instead of painstakingly going over
+every element on your site and writing CSS to make sure they scale well,
+you can just re-use someone else’s CSS!&lt;/p&gt;
+&lt;p&gt;You only need to do a couple of things to start using it. You want to
+make your website aware of the device’s resolution with the
+&lt;code&gt;viewport&lt;/code&gt; tag and import the &lt;code&gt;water.css&lt;/code&gt;
+stylesheet. Like this:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;meta&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; name&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;viewport&amp;quot;&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; content&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; rel&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; href&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;https://cdn.jsdelivr.net/npm/water.css@2/out/water.css&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-4&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This is just an example. There are other tools similar to this one
+out there. Tailwind, Materialize or Foundation for Apps might be the
+right thing for you. But these are frameworks and they require some
+learning. If what you want is &lt;a
+href=&quot;https://youtu.be/q2gN6_alzVQ&quot;&gt;taking it easy&lt;/a&gt;, just use
+&lt;code&gt;water.css&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;responsive-layout-flexbox-and-grid-layout&quot;&gt;Responsive layout:
+flexbox and grid layout&lt;/h2&gt;
+&lt;p&gt;In my initial search for modern responsive techniques, I came across
+this video by Una Kravets (&lt;a href=&quot;https://twitter.com/una&quot;&gt;@una&lt;/a&gt;)
+where she talks about flexbox and grid layouts.&lt;/p&gt;
+&lt;iframe class=&quot;center youtube-video-size&quot; src=&quot;https://www.youtube-nocookie.com/embed/qm0IfG1GyZU&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;
+&lt;/iframe&gt;
+&lt;p&gt;Watch it from beginning ’til end, it’s worth your time. There is also
+&lt;a href=&quot;https://1linelayouts.glitch.me/&quot;&gt;this website version&lt;/a&gt; in
+case you want to play around with the result or you want a convenient
+cheat sheet.&lt;/p&gt;
+&lt;p&gt;As a quick takeaway: if you need to position two elements in a row
+and you need them to scale, you can create a parent element with
+&lt;code&gt;display: flex;&lt;/code&gt;. Then you define what percentage those
+elements will take with &lt;code&gt;flex: 50%&lt;/code&gt;. The flexbox will then
+take care of scaling them for you, and if you add
+&lt;code&gt;flex-wrap: wrap;&lt;/code&gt; to the parent, it will position them in a
+new row when they can’t fit in the screen.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; style&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;display: flex;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; style&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;flex: 60%;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-3&quot;&gt;    This column takes 60% of the available space.&lt;/span&gt;
+&lt;span id=&quot;cb2-4&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-5&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; style&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;flex: 30%;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-6&quot;&gt;    This one just 30%.&lt;/span&gt;
+&lt;span id=&quot;cb2-7&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-8&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div style=&quot;display: flex;&quot;&gt;
+&lt;p style=&quot;flex: 70%; background-color: khaki;&quot;&gt;
+This column takes 70% of the available space.
+&lt;/p&gt;
+&lt;p style=&quot;flex: 30%; background-color: palevioletred;&quot;&gt;
+This one just 30%.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;conditions-media-queries&quot;&gt;Conditions: media queries&lt;/h2&gt;
+&lt;p&gt;There are some cases where you want to show something just on
+desktop. Or maybe you need to move an element to the next row when
+browsing on mobile. You can do that with media queries.&lt;/p&gt;
+&lt;p&gt;The idea behind them is easy to understand. You can think of them as
+simple conditions. Is the screen bigger than 500px? Is the site being
+browsed in a mobile device in portrait mode? Then apply these CSS
+rules.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;
+Example
+&lt;/summary&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
+class=&quot;sourceCode css&quot;&gt;&lt;code class=&quot;sourceCode css&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;min-width&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;px&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;)&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb3-2&quot;&gt;  &lt;span class=&quot;co&quot;&gt;/*the style for this class will only be applied when the screen&amp;#39;s width is 500px or more*/&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-3&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;.normal-css&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb3-4&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-5&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-6&quot;&gt;  }&lt;/span&gt;
+&lt;span id=&quot;cb3-7&quot;&gt;}&lt;/span&gt;
+&lt;span id=&quot;cb3-8&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-9&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;orientation&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;portrait&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;)&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb3-10&quot;&gt;  &lt;span class=&quot;co&quot;&gt;/*the style for this class will only be applied when the device is in portrait mode*/&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-11&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;.normal-css&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb3-12&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-13&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;cn&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-14&quot;&gt;  }&lt;/span&gt;
+&lt;span id=&quot;cb3-15&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;p&gt;An example of how to use it in combination with the flexbox layout is
+to position a horizontal line of elements vertically. In the following
+example the boxes will be positioned vertically, since they’re set to
+fill 100% of the flexbox with &lt;code&gt;flex: 100%;&lt;/code&gt;. But if the
+viewport is bigger than 500px they’ll be positioned side by side, since
+they’ll have the property &lt;code&gt;flex: 50%;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Check the following example in a mobile device and in a desktop:&lt;/p&gt;
+&lt;div&gt;
+&lt;style&gt;
+.example { flex: 100%; }
+@media (min-width: 500px) { .example { flex: 50%; } }
+&lt;/style&gt;
+&lt;div style=&quot;background-color: lightblue; width: 100%;&quot;&gt;
+&lt;div style=&quot;display: flex; flex-wrap: wrap;&quot;&gt;
+&lt;p class=&quot;example&quot; style=&quot;background-color: khaki;&quot;&gt;
+This column takes all horizontal space when the container is too small.
+&lt;/p&gt;
+&lt;p class=&quot;example&quot; style=&quot;background-color: palevioletred;&quot;&gt;
+So this one is being pushed to the next row.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;details&gt;
+&lt;summary&gt;
+Example
+&lt;/summary&gt;
+&lt;p&gt;CSS:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
+class=&quot;sourceCode css&quot;&gt;&lt;code class=&quot;sourceCode css&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;.example&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb4-2&quot;&gt;  &lt;span class=&quot;kw&quot;&gt;flex&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-3&quot;&gt;}&lt;/span&gt;
+&lt;span id=&quot;cb4-4&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-5&quot;&gt;&lt;span class=&quot;im&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;min-width&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;px&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;)&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb4-6&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;.example&lt;/span&gt; {&lt;/span&gt;
+&lt;span id=&quot;cb4-7&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;flex&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-8&quot;&gt;  }&lt;/span&gt;
+&lt;span id=&quot;cb4-9&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;HTML:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; style&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;display: flex; flex-wrap: wrap;&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; class&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;    This column takes all horizontal space when the container is too small.&lt;/span&gt;
+&lt;span id=&quot;cb5-4&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; class&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-6&quot;&gt;    So this one is being pushed to the next row.&lt;/span&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-8&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;hr /&gt;
+&lt;p&gt;That’s all for now. I hope you found some of this useful!&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>API discovery in Android Apps and task automation</title>
+    <link href="https://nepo.dev/posts/reverse-engineer-android-app-api.html"/>
+    <id>urn:uuid:dcab5a71-98f5-45df-93ba-1db36cdead74</id>
+    <published>2020-11-06T00:00:00Z</published>
+    <updated>2020-11-06T00:00:00Z</updated>
+    <summary>On how to use a Man-in-the-Middle proxy to reverse engineer
+an otherwise hidden Android App API, and what to do with that. This is
+not a post about app development.</summary>
+    <content type="html">
+&lt;p&gt;Have you ever felt frustrated when using a mobile app because of any
+of the following reasons?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It lacks simple quality of life features like filtering, searching,
+automating actions, etc.&lt;/li&gt;
+&lt;li&gt;It is poorly optimized and it is extremely laggy. Or maybe it takes
+too long to load.&lt;/li&gt;
+&lt;li&gt;It doesn’t show a lot of information on screen, since images and
+buttons have to be BIG for a mobile app. Or the complete opposite, the
+interactable elements are too small or don’t work well. The UX is
+terrible in both cases.&lt;/li&gt;
+&lt;li&gt;It takes up too much space on the phone’s storage.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you can relate with any of those reasons, I’m right there with
+you. You could ditch that application, but if you really want to use it,
+I’ve got good news: there is a way around it. It involves learning about
+cyber-security, reverse engineering an API and automating nearly
+anything that matters in an app.&lt;/p&gt;
+&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Summary:&lt;/strong&gt; We will perform a MITM attack by installing
+a custom CA in an Android emulator and scripting the API requests we
+intercept. If you understand that, go to the &lt;a
+href=&quot;#setting-up-emulator-and-app&quot;&gt;next section&lt;/a&gt; already.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Normally we can’t see the traffic coming out of an App. It’s
+&lt;strong&gt;encrypted&lt;/strong&gt;, and therefore it looks like random garbage
+to us. This keeps your information safe, at least during the transaction
+(what each ends does with the information and how they protect it is a
+different matter).&lt;/p&gt;
+&lt;p&gt;You might have heard about &lt;strong&gt;digital certificates&lt;/strong&gt;.
+They are what make this encryption possible, and in order to know what
+certificates you can trust or not your devices depend on a
+&lt;strong&gt;Certificate Authority&lt;/strong&gt; (CA). These are actors that can
+create digital certificates&lt;/p&gt;
+&lt;p&gt;But anyone can &lt;em&gt;be&lt;/em&gt; a CA, or they can create one at least, so
+how do we know which CAs can we trust or not? Usually, your
+devices/applications come with a hardcoded set of CAs they trust by
+default. This is a &lt;em&gt;good enough&lt;/em&gt; measure that &lt;em&gt;mostly
+works&lt;/em&gt;, although these CAs then become very high value targets for
+hackers and you can believe some have been compromised before.&lt;/p&gt;
+&lt;p&gt;So, back to our little project. We want to be able to snoop into what
+our target app and their backend are talking about. In order to do that,
+we are going to force an Android emulator into sending all its network
+traffic through us and then make it think it can trust us. How we will
+do that is by installing our own certificate as one of those default
+CAs. This way, we will be able to understand the encrypted HTTPS
+messages any app sends and receives. This is what is known as a
+&lt;strong&gt;“Man in the Middle attack”&lt;/strong&gt; (MITM) in
+cyber-security.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_diagram.jpg&quot;
+alt=&quot;Drawing of man in the middle attack&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;Drawing of man in the middle
+attack&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;When we are able to understand what app and backend are saying to
+each other, we will begin investigating the now exposed API. If we’re
+lucky, we might even have the chance to automate our daily app usage
+into a script. That way we won’t even have to open the app again.&lt;/p&gt;
+&lt;p&gt;This post will be split in 3 parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#setting-up-emulator-and-app&quot;&gt;Setting up the
+emulator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#setting-up-the-proxy&quot;&gt;Configuring MITM proxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#exploitation&quot;&gt;Investigating the API and
+automating&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;setting-up-emulator-and-app&quot;&gt;Setting up emulator and app&lt;/h2&gt;
+&lt;h3 id=&quot;install-the-tools&quot;&gt;Install the tools&lt;/h3&gt;
+&lt;p&gt;If you don’t have the Android platform tools, we will install them
+now. I’m using Arch, so I will use these AUR packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a
+href=&quot;https://aur.archlinux.org/android-sdk.git&quot;&gt;https://aur.archlinux.org/android-sdk.git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a
+href=&quot;https://aur.archlinux.org/android-sdk-platform-tools.git&quot;&gt;https://aur.archlinux.org/android-sdk-platform-tools.git&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can install them like:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre class=&quot;sourceCode sh&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;git&lt;/span&gt; clone https://aur.archlinux.org/android-sdk.git&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;&lt;span class=&quot;bu&quot;&gt;cd&lt;/span&gt; android-sdk&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;&lt;span class=&quot;ex&quot;&gt;makepkg&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-si&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-4&quot;&gt;&lt;span class=&quot;bu&quot;&gt;cd&lt;/span&gt; ..&lt;/span&gt;
+&lt;span id=&quot;cb1-5&quot;&gt;&lt;span class=&quot;fu&quot;&gt;git&lt;/span&gt; clone https://aur.archlinux.org/android-sdk-platform-tools.git&lt;/span&gt;
+&lt;span id=&quot;cb1-6&quot;&gt;&lt;span class=&quot;bu&quot;&gt;cd&lt;/span&gt; android-sdk-platform-tools&lt;/span&gt;
+&lt;span id=&quot;cb1-7&quot;&gt;&lt;span class=&quot;ex&quot;&gt;makepkg&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-si&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It shouldn’t be too difficult to find out how to install them on
+another platform. For instance, if you’re on Ubuntu, you can just
+do:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre class=&quot;sourceCode sh&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;sudo&lt;/span&gt; apt update &lt;span class=&quot;kw&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;sudo&lt;/span&gt; apt install android-sdk&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;On Mac (assuming you have &lt;a href=&quot;https://brew.sh/&quot;&gt;Brew&lt;/a&gt;
+installed):&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre class=&quot;sourceCode sh&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;brew&lt;/span&gt; tap caskroom/cask&lt;/span&gt;
+&lt;span id=&quot;cb3-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;brew&lt;/span&gt; cask install android-sdk&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;install-the-system-image&quot;&gt;Install the system image&lt;/h3&gt;
+&lt;p&gt;Once we have the tools we need, we can download the system image.
+Since we want to download an app from the Play Store, we will need that
+the image we use includes the Google API. We want to find a an image
+containing “google_apis”, but not “google_apis_playstore”. Why not get
+the one that comes with the Play Store pre-installed, you ask? Well,
+those are production builds and we won’t be able to root them. We will
+need rooting our emulator later.&lt;/p&gt;
+&lt;p&gt;I chose the “android-25” one, but you can choose another one if you
+want.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;sdkmanager&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;--list&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;google_apis&amp;quot;&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;#select another image from this list if you want&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;sudo&lt;/span&gt; sdkmanager &lt;span class=&quot;at&quot;&gt;--install&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;system-images;android-25;google_apis;x86_64&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;create-the-avd&quot;&gt;Create the AVD&lt;/h3&gt;
+&lt;p&gt;After accepting the license and waiting for the download to finish,
+we can finally create our AVD.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;avdmanager&lt;/span&gt; create avd &lt;span class=&quot;at&quot;&gt;--name&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;mitm-emulator&amp;quot;&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;--package&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;system-images;android-25;google_apis;x86_64&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And open it with:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb6&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb6-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;emulator&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-avd&lt;/span&gt; mitm-emulator &lt;span class=&quot;kw&quot;&gt;&amp;amp;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;installing-google-play&quot;&gt;Installing Google Play&lt;/h3&gt;
+&lt;p&gt;Download Open GApps for your system image from &lt;a
+href=&quot;https://opengapps.org/&quot;&gt;https://opengapps.org/&lt;/a&gt;. We will need
+them to download the target app from the Play Store. We can extract it
+with:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb7&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb7-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;unzip&lt;/span&gt; open_gapps-&lt;span class=&quot;pp&quot;&gt;*&lt;/span&gt;.zip &lt;span class=&quot;st&quot;&gt;&amp;#39;Core/*&amp;#39;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;rm&lt;/span&gt; Core/setup&lt;span class=&quot;pp&quot;&gt;*&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-3&quot;&gt;&lt;span class=&quot;ex&quot;&gt;lzip&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-d&lt;/span&gt; Core/&lt;span class=&quot;pp&quot;&gt;*&lt;/span&gt;.lz&lt;/span&gt;
+&lt;span id=&quot;cb7-4&quot;&gt;&lt;span class=&quot;cf&quot;&gt;for&lt;/span&gt; f &lt;span class=&quot;kw&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;ls&lt;/span&gt; Core/&lt;span class=&quot;pp&quot;&gt;*&lt;/span&gt;.tar&lt;span class=&quot;va&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cf&quot;&gt;do&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-5&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-x&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;--strip-components&lt;/span&gt; 2 &lt;span class=&quot;at&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;$f&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-6&quot;&gt;&lt;span class=&quot;cf&quot;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then, we run our emulator and install the packages:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb8&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb8-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;emulator&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-avd&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;mitm-emulator&amp;quot;&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-writable-system&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;&amp;amp;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Wait for the loading to finish. As soon as the home screen is shown,
+copy the Open GApps folders to your system.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb9&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb9-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; root&lt;/span&gt;
+&lt;span id=&quot;cb9-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; remount&lt;/span&gt;
+&lt;span id=&quot;cb9-3&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; push etc /system&lt;/span&gt;
+&lt;span id=&quot;cb9-4&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; push framework /system&lt;/span&gt;
+&lt;span id=&quot;cb9-5&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; push app /system&lt;/span&gt;
+&lt;span id=&quot;cb9-6&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; push priv-app /system&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We can now restart the emulator.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb10&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb10-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; shell stop&lt;/span&gt;
+&lt;span id=&quot;cb10-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; shell start&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;After the loading finishes, you will see the Play Store in your home
+screen.&lt;/p&gt;
+&lt;h3 id=&quot;install-the-target-app&quot;&gt;Install the target app&lt;/h3&gt;
+&lt;p&gt;This should be the easiest step. Just log into the Play Store and
+download the target app.&lt;/p&gt;
+&lt;p&gt;Make sure you can open it before proceeding.&lt;/p&gt;
+&lt;h2 id=&quot;setting-up-the-proxy&quot;&gt;Setting up the proxy&lt;/h2&gt;
+&lt;h3 id=&quot;install-mitm-proxy&quot;&gt;Install MITM proxy&lt;/h3&gt;
+&lt;p&gt;Now we will install and configure our proxy. We will be using
+&lt;strong&gt;&lt;a href=&quot;https://mitmproxy.org&quot;&gt;mitmproxy&lt;/a&gt;&lt;/strong&gt;, an MIT
+licensed open source tool built just for MITM attacks.&lt;/p&gt;
+&lt;p&gt;It can easily be installed from Arch’s official repositories
+with:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb11&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb11-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;pacman&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-Sy&lt;/span&gt; mitmproxy&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It seems on Ubuntu you will need to install pip and then install
+mitmproxy using it.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb12&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb12-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;sudo&lt;/span&gt; apt install python3-pip&lt;/span&gt;
+&lt;span id=&quot;cb12-2&quot;&gt;&lt;span class=&quot;fu&quot;&gt;sudo&lt;/span&gt; pip3 install mitmproxy&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;On Mac, just use Brew again:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb13&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb13-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;brew&lt;/span&gt; install mitmproxy&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To test it out, let’s start the emulator and open its settings by
+clicking on the 3 dots button. Then, navigate to the
+&lt;strong&gt;settings&lt;/strong&gt; section, select the &lt;strong&gt;Proxy tab&lt;/strong&gt;
+and configure it to use &lt;code&gt;http://127.0.0.1:8080&lt;/code&gt; as a proxy,
+like in the image below.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/emulator_proxy_config.png&quot;
+alt=&quot;a screenshot shows the emulator proxy configured to use http://127.0.0.1:8080&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows the emulator proxy
+configured to use http://127.0.0.1:8080&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Run mitmproxy listening in 127.0.0.1:8080 in a terminal, like
+this:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb14&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb14-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;mitmproxy&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;--listen-host&lt;/span&gt; 127.0.0.1 &lt;span class=&quot;at&quot;&gt;--listen-port&lt;/span&gt; 8080&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We can now go back to the emulator and navigate anywhere. You will
+see it’s almost as if your device lost connection, and if you try to use
+a web browser, a warning about your connection not being private will
+appear.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert00.png&quot;
+class=&quot;center&quot; style=&quot;height:400px;&quot;
+alt=&quot;a screenshot shows chrome browser warning the user its connection is not private&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows chrome browser warning
+the user its connection is not private&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;This happens because mitmproxy signs HTTPS traffic with its own
+certificate. Since the emulator doesn’t trust that certificate (yet), it
+won’t even accept that response! If you go to the terminal where you
+launched mitmproxy, you should see something like this. Notice all the
+traffic is HTTP, there are no HTTPS messages.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert01.png&quot;
+alt=&quot;a screenshot shows a get request to http google, redirected to https&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows a get request to http
+google, redirected to https&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/mitm_no_cert02.png&quot;
+alt=&quot;a screenshot shows more detail on the get request to http google&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows more detail on the get
+request to http google&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;To continue, we will need to make the emulator trust mitmproxy’s
+Certificate Authority.&lt;/p&gt;
+&lt;h3 id=&quot;install-the-certificate-authority&quot;&gt;Install the Certificate
+Authority&lt;/h3&gt;
+&lt;p&gt;The way mitmproxy works is it has its own Certificate Authority. It
+uses it to generate certificates on the fly for whatever external
+resource the emulator asks for. It then uses those certificates to
+encrypt the messages sent to it, making it seem like the emulator is
+talking with the real server. In reality, though, it is decrypting and
+encrypting all the messages with its own certificates, so it knows
+&lt;strong&gt;everything&lt;/strong&gt; the client and server are talking about. And
+neither of them knows it is spying on them.&lt;/p&gt;
+&lt;p&gt;If you read the documentation for mitmproxy you will see there are
+official instructions on how to install the certificate on mobile
+devices: you visit “&lt;code&gt;mitm.it&lt;/code&gt;” in the browser, download the
+certificate and install it. Then you can see decrypted HTTPS traffic in
+mitmproxy… but just the traffic generated by the browser.&lt;/p&gt;
+&lt;p&gt;If we want to read HTTPS traffic from native apps, we need to install
+it as a &lt;strong&gt;system certificate&lt;/strong&gt;. We will need root
+privileges for that, so we will launch the emulator specifying:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb15&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb15-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;emulator&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-avd&lt;/span&gt; mitm-emulator &lt;span class=&quot;at&quot;&gt;-writable-system&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;&amp;amp;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb15-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; root&lt;/span&gt;
+&lt;span id=&quot;cb15-3&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; remount&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now we need to find our certificate file. If you are using Linux, it
+will be in the &lt;code&gt;~/.mitmproxy/&lt;/code&gt; folder. Let’s save it to a
+variable named “CA”:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb16&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb16-1&quot;&gt;&lt;span class=&quot;va&quot;&gt;CA&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;~/.mitmproxy/mitmproxy-ca-cert.pem&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We just need to copy that file into the emulator’s trusted CAs
+folder, but it needs to be named with a special value. The filename must
+be the hash of the certificate itself. You can calculate it with the
+following command:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb17&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb17-1&quot;&gt;&lt;span class=&quot;va&quot;&gt;HASH&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;ex&quot;&gt;openssl&lt;/span&gt; x509 &lt;span class=&quot;at&quot;&gt;-noout&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-subject_hash_old&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-in&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$CA&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;But since mitmproxy uses the same default certificate everywhere, we
+know the value should be &lt;code&gt;c8750f0d&lt;/code&gt;, so you can skip this
+step and just use that value. You can always come back and use the
+previous line to recalculate the value if it doesn’t work 😛&lt;/p&gt;
+&lt;p&gt;So you can just do:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb18&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb18-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; push &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$CA&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt; /system/etc/security/cacerts/c8750f0d.0&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If you try to load a website now, it should load correctly and you
+should see traffic being detected by mitmproxy. Moreover, if you try to
+open the target app, you should see its traffic too!
+Congratulations!&lt;/p&gt;
+&lt;p&gt;Don’t forget to unroot the device before you continue.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb19&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb19-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;adb&lt;/span&gt; unroot&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;exploitation&quot;&gt;Exploitation&lt;/h2&gt;
+&lt;h3 id=&quot;investigating-the-api&quot;&gt;Investigating the API&lt;/h3&gt;
+&lt;p&gt;To begin, let’s just use the app normally. Create an account with
+username and password (avoid authenticating with Google or Facebook for
+now, you don’t want to have to deal with OAuth). Log in, search and
+browse some items… We just want to generate some traffic so that we can
+inspect it later.&lt;/p&gt;
+&lt;p&gt;Now we can go back to our terminal and check the messages mitmproxy
+caught. We have to locate the traffic from the target app. To do so,
+just browse the captured requests list and see if any URL matches the
+app’s domain. Alternatively, you could look for endpoints that match
+actions you performed (like a login, search, etc.).&lt;/p&gt;
+&lt;p&gt;If you’re lucky, your target API will use a human-readable document
+format like JSON or XML, instead of protobuf. We are lucky and our
+target uses JSON.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img
+src=&quot;$BASE_URL$/imgs/reverse-engineer-android-app-api/response_censored.png&quot;
+alt=&quot;a screenshot shows how an intercepted response looks in mitmproxy&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;a screenshot shows how an intercepted
+response looks in mitmproxy&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;This means we can easily replicate that request in the terminal.&lt;/p&gt;
+&lt;p&gt;In the terminal running mitmproxy, enter &lt;code&gt;w&lt;/code&gt;. You will
+enter export mode. If you then type
+&lt;code&gt;export.clip curl @focus&lt;/code&gt;, your request will be replicated as
+a curl command and it will be copied to your clipboard. You can then
+paste it on your terminal to see if it works.&lt;/p&gt;
+&lt;p&gt;For my particular case I had to make 2 changes for it to work:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Remove the &lt;code&gt;:authority&lt;/code&gt; pseudo-header that looked like
+&lt;code&gt;-H &#39;:authority: domainname.com&#39;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Change the IP address for it’s domain name in the URL
+(&lt;code&gt;https://1.2.3.4/v1/endpoint&lt;/code&gt; =&amp;gt;
+&lt;code&gt;https://domainname.com/v1/endpoint&lt;/code&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;automating-queries&quot;&gt;Automating queries&lt;/h3&gt;
+&lt;p&gt;From this point on, it’s just a matter of exploring and seeing what
+can you do with the endpoints you discover. It’s just like learning any
+regular new API.&lt;/p&gt;
+&lt;p&gt;For example, I wanted to automate a search for a restaurant. It has
+to be near me (&amp;lt;1km), it cannot be a bakery and I just want to know
+the name, price and pickup time.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb20&quot;&gt;&lt;pre
+class=&quot;sourceCode bash&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb20-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt; get_store_list()&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-2&quot;&gt;  &lt;span class=&quot;ex&quot;&gt;curl&lt;/span&gt; https://x.x.x.x/get_store_list&lt;span class=&quot;pp&quot;&gt;?&lt;/span&gt;...&lt;/span&gt;
+&lt;span id=&quot;cb20-3&quot;&gt;&lt;span class=&quot;kw&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-4&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-5&quot;&gt;&lt;span class=&quot;va&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;ex&quot;&gt;get_store_list&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-6&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;.groupings[].items[]&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# get all stores&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-7&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;select(.distance &amp;lt; 1)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# filter out stores further than 1 km away&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-8&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;select(.item.item_category != &amp;quot;BAKED_GOODS&amp;quot;)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# filter out unwanted store categories&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-9&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;ex&quot;&gt;jq&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;#39;(.store.store_name + &amp;quot;, &amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-10&quot;&gt;&lt;span class=&quot;st&quot;&gt;+ (.item.price.minor_units/100 | tostring) + &amp;quot;€, &amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-11&quot;&gt;&lt;span class=&quot;st&quot;&gt;+ .pickup_interval.start)&amp;#39;&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;\\&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# print just the wanted data: store name, price and pickup time&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-12&quot;&gt;&lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;uniq&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# sort and show only unique results&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-13&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-14&quot;&gt;&lt;span class=&quot;ex&quot;&gt;notify-send&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-t&lt;/span&gt; 30000 &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$result&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# send a notification in Linux desktop&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-15&quot;&gt;&lt;span class=&quot;co&quot;&gt;# or&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb20-16&quot;&gt;&lt;span class=&quot;ex&quot;&gt;termux-notification&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;--content&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;$result&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;# send a notification in Android&amp;#39;s Termux&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This shows a simple list like this one as a notification:&lt;/p&gt;
+&lt;pre class=&quot;csv&quot;&gt;&lt;code&gt;&amp;quot;Store name 1, 3.99€, 2020-11-04T19:00:00Z&amp;quot;
+&amp;quot;Store name 2, 4.99€, 2020-11-04T15:00:00Z&amp;quot;
+&amp;quot;Store name 3, 4.99€, 2020-11-04T15:00:00Z&amp;quot;
+&amp;quot;Store name 4, 2.99€, 2020-11-04T19:00:00Z&amp;quot;
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It can be then saved as a script and run as a cron job everyday at
+certain time (lunchtime?). This will notify me about available stores to
+get food from.&lt;/p&gt;
+&lt;p&gt;Do once. Run forever. Ok, run until the API changes or something
+breaks, but still, it’s less worrisome than opening the app and
+searching manually.&lt;/p&gt;
+&lt;h2 id=&quot;links-of-interest&quot;&gt;Links of interest&lt;/h2&gt;
+&lt;p&gt;If you want to know more about this topic, I encourage you to follow
+these links and search for more information.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Setting up mitmproxy for Android emulator, Jonathan Lipps (2019 Apr
+3): &lt;a
+href=&quot;https://appiumpro.com/editions/63-capturing-android-emulator-network-traffic-with-appium&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Installing Open GApps, Daishi Kato (2017 Mar 6): &lt;a
+href=&quot;https://medium.com/@dai_shi/installing-google-play-services-on-an-android-studio-emulator-fffceb2c28a1&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Why you need a Google API image, “oenpelli” on StackOverflow (2014
+Jul 18): &lt;a href=&quot;https://stackoverflow.com/a/24817495&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;mitmproxy docs: &lt;a
+href=&quot;https://docs.mitmproxy.org/stable/&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>A universal document language</title>
+    <link href="https://nepo.dev/posts/universal-document-language.html"/>
+    <id>urn:uuid:708e86b3-a0ce-4bab-b9d7-312c602478f8</id>
+    <published>2020-08-12T00:00:00Z</published>
+    <updated>2020-08-12T00:00:00Z</updated>
+    <summary>On how to use Markdown and Pandoc to generate documents in
+multiple formats (HTML, PDF, DOC, PPT, ODT…)</summary>
+    <content type="html">
+&lt;p&gt;I love Markdown. It’s a simple to use, minimalist markup language.
+It’s completely text based, so it’s very lightweight and it works
+extremely well when used with a VCS like Git. Here is an example:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre class=&quot;sourceCode md&quot;&gt;&lt;code class=&quot;sourceCode markdown&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;---&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;&lt;span class=&quot;an&quot;&gt;title:&lt;/span&gt;&lt;span class=&quot;co&quot;&gt; &amp;#39;My document&amp;#39;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;&lt;span class=&quot;an&quot;&gt;author:&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-4&quot;&gt;&lt;span class=&quot;co&quot;&gt;* John Doe&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-5&quot;&gt;&lt;span class=&quot;co&quot;&gt;---&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-6&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-7&quot;&gt;Paragraph&lt;/span&gt;
+&lt;span id=&quot;cb1-8&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-9&quot;&gt;&lt;span class=&quot;ss&quot;&gt;* &lt;/span&gt;List item 1&lt;/span&gt;
+&lt;span id=&quot;cb1-10&quot;&gt;&lt;span class=&quot;ss&quot;&gt;* &lt;/span&gt;List item 2&lt;/span&gt;
+&lt;span id=&quot;cb1-11&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-12&quot;&gt;&lt;span class=&quot;fu&quot;&gt;## Section 2&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-13&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-14&quot;&gt;Another paragraph&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And not only can you use it for text files, you can use it to
+generate other types of documents as well.&lt;/p&gt;
+&lt;h2 id=&quot;converting-documents&quot;&gt;Converting documents&lt;/h2&gt;
+&lt;p&gt;There are multiple tools to achieve this, but today I want to talk
+about &lt;strong&gt;&lt;a href=&quot;https://pandoc.org/&quot;&gt;Pandoc&lt;/a&gt;&lt;/strong&gt;. Pandoc
+is a &lt;strong&gt;universal document converter&lt;/strong&gt;. It allows converting
+from and to different formats, like from Open/Libre Office’s ODT to
+Microsoft Word’s DOCX or viceversa. From word processor formats like the
+previous 2, to HTML, PDF, Slides, Wiki, TeX… and the best of all: it
+allows converting to and from &lt;strong&gt;Markdown&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Why is this good? Well, you can write a document in Markdown and
+maintain a local git repository for it, so you can keep a
+&lt;strong&gt;history&lt;/strong&gt; of the changes you made. And then you can
+&lt;strong&gt;convert&lt;/strong&gt; it to a &lt;strong&gt;PDF/Word&lt;/strong&gt; format, so a
+colleague can read your notes in visual form. With the same file, you
+can even convert it to a &lt;strong&gt;slideshow&lt;/strong&gt; format, so you can
+present it in front of people. Need to add this info in a web page? You
+just convert it to &lt;strong&gt;HTML&lt;/strong&gt;. It is &lt;em&gt;extremely&lt;/em&gt;
+flexible. And if you already take notes in Markdown, the process to
+adapt your notes to another format/document is trivially easy and
+quick.&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre class=&quot;sourceCode sh&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Markdown to ODT&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-2&quot;&gt;&lt;span class=&quot;ex&quot;&gt;pandoc&lt;/span&gt; document.md &lt;span class=&quot;at&quot;&gt;-o&lt;/span&gt; &lt;/span&gt;
+&lt;span id=&quot;cb2-3&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-4&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Markdown to PDF (using xelatex)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-5&quot;&gt;&lt;span class=&quot;ex&quot;&gt;pandoc&lt;/span&gt; document.md &lt;span class=&quot;at&quot;&gt;--pdf-engine&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;xelatex &lt;span class=&quot;at&quot;&gt;-o&lt;/span&gt; document.pdf&lt;/span&gt;
+&lt;span id=&quot;cb2-6&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-7&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Markdown to HTML&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-8&quot;&gt;&lt;span class=&quot;co&quot;&gt;# -s (for standalone) is optional, used to generate tags &lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-9&quot;&gt;&lt;span class=&quot;co&quot;&gt;# like the headers, body, etc. and make a whole HTML file&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-10&quot;&gt;&lt;span class=&quot;ex&quot;&gt;pandoc&lt;/span&gt; document.md &lt;span class=&quot;at&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-o&lt;/span&gt; document.html&lt;/span&gt;
+&lt;span id=&quot;cb2-11&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-12&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Markdown to slideshow (using Beamer)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-13&quot;&gt;&lt;span class=&quot;ex&quot;&gt;pandoc&lt;/span&gt; document.md &lt;span class=&quot;at&quot;&gt;-t&lt;/span&gt; beamer &lt;span class=&quot;at&quot;&gt;-o&lt;/span&gt; slides.pdf&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Not convinced yet? What if I told you you could automate the styling
+of the document? That would allow you to &lt;strong&gt;focus on the
+content&lt;/strong&gt; and leave the formatting to Pandoc. That can be easily
+achieved with a custom template.&lt;/p&gt;
+&lt;h1 id=&quot;writing-your-own-template&quot;&gt;Writing your own template&lt;/h1&gt;
+&lt;p&gt;Writing your own template is easy to do. Let’s take an HTML template
+as an example. We start by making a dummy HTML:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-3&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; rel&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; type&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-4&quot;&gt;&lt;span class=&quot;ot&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-5&quot;&gt;&lt;span class=&quot;ot&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;er&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Title&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Lorem ipsum...&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-9&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-10&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then we can use the default template as a reference to start building
+our own. You can use the &lt;code&gt;-D&lt;/code&gt; option to get the standard
+template for a format, like this:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre class=&quot;sourceCode sh&quot;&gt;&lt;code class=&quot;sourceCode bash&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;ex&quot;&gt;pandoc&lt;/span&gt; &lt;span class=&quot;at&quot;&gt;-D&lt;/span&gt; html &lt;span class=&quot;op&quot;&gt;&amp;gt;&lt;/span&gt; template.html&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;From the get go, we see properties like “author-meta”, “date-meta” or
+“keywords”. To keep this post short I’ll just stick to the “title” and
+“body”, but you can &lt;a
+href=&quot;https://pandoc.org/MANUAL.html#variables&quot;&gt;read the official
+documentation&lt;/a&gt; if you want to see all you can do with it. You can
+also use conditionals, loops and embed templates on other templates, if
+you need to do something more complex. But let’s go back to our
+example.&lt;/p&gt;
+&lt;p&gt;To use these properties in our document, we can use either of two
+formats:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$prop$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;${prop}&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So to add the title and the content of our document to our HTML
+template, we just need to do:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; rel&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; type&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-4&quot;&gt;&lt;span class=&quot;ot&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-5&quot;&gt;&lt;span class=&quot;ot&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;er&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;${title}&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;${body}&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-9&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-10&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And, using the example Markdown document at the beginning of the
+article, the resulting HTML would look like:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb6&quot;&gt;&lt;pre
+class=&quot;sourceCode html&quot;&gt;&lt;code class=&quot;sourceCode html&quot;&gt;&lt;span id=&quot;cb6-1&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-3&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; rel&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt; type&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-4&quot;&gt;&lt;span class=&quot;ot&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;er&quot;&gt;...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-5&quot;&gt;&lt;span class=&quot;ot&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;er&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;My document&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Paragraph&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-9&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-10&quot;&gt;      &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;List item 1&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-11&quot;&gt;      &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;List item 2&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-12&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-13&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h2&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Section 2&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;h2&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-14&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;Another paragraph&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-15&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-16&quot;&gt;&lt;span class=&quot;dt&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The best part is that you don’t even need to write your own template.
+You can just search for more on the Internet. There is a selection of
+them in &lt;a
+href=&quot;https://github.com/jgm/pandoc/wiki/User-contributed-templates&quot;&gt;Pandoc’s
+official repository&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;The key takeaway from this post is this: Markdown emphasizes focusing
+on the content, not the style. Pandoc allows us to keep these two tasks
+separated. By using it, we can write our documents in Markdown and rely
+on our template to apply the style in the end, automatically.&lt;/p&gt;
+    </content>
+  </entry>
+</feed>
+
