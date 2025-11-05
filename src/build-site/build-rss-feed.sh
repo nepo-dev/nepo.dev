@@ -42,14 +42,17 @@ generate_feed() {
   BASE_URL_REPLACE_KEYWORD_REGEX='\$BASE_URL\$'
   DATE_REPLACE_KEYWORD='\$LAST_UPDATED_DATE\$'
 
-  feed_content="$(cat - | sed -z 's/\n/\\n/g')"
+  tempfile=$(mktemp)
+  gen_feed_content > $tempfile #| sed -z 's/\n/\\n/g' > $tempfile
+
   last_update="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
   cat "$FEED_TEMPLATE" | \
-    sed "s|$DATE_REPLACE_KEYWORD|$last_update|" | \
-    sed "s|$BASE_URL_REPLACE_KEYWORD_REGEX|$BASE_URL|g" | \
-    awk -vcontent="$feed_content" "/$CONTENT_REPLACE_KEYWORD/{print content;print;next}1" | \
-    grep -v "$CONTENT_REPLACE_KEYWORD"
+  sed "s|$DATE_REPLACE_KEYWORD|$last_update|" | \
+  sed "s|$BASE_URL_REPLACE_KEYWORD_REGEX|$BASE_URL|g" | \
+  sed -e "/$CONTENT_REPLACE_KEYWORD/r $tempfile" -e "/$CONTENT_REPLACE_KEYWORD/d"
+
+  #rm $tempfile
 }
 
-gen_feed_content | generate_feed
+generate_feed
