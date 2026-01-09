@@ -11,7 +11,7 @@ export BASE_URL
 BUILD_DIR="$SCRIPT_FOLDER/build"
 PROJECT_ROOT="$SCRIPT_FOLDER/../.."
 
-CATEGORIES=(tech food life)
+CATEGORIES=(tech life)
 
 main() {
   # Setup
