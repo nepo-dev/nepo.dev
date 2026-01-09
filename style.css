@@ -85,8 +85,17 @@ footer {
 }
 
 .description-photo-container {
-  align-self: center;
-  grid-row: 2;
+  grid-row: 4;
+  grid-column: span 2;
+
+  /*center image*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 42px;
+
+  padding: 16px;
+  padding-bottom: 0;
 }
 
 .description-photo {
@@ -98,24 +107,6 @@ footer {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-}
-
-.description-text-container {
-  grid-row: 2;
-  display: grid;
-  place-items: center;
-  word-wrap: anywhere;
-}
-
-.description-text-container > h1 {
-  position: relative;
-  margin: 0;
-  top: 50%;
-  transform: translateY(-30%);
-}
-
-.description-text-container > p {
-  padding: 0 10px 0 10px;
 }
 
 .description-name {
@@ -140,6 +131,11 @@ footer {
 .description-links > a > img {
   height: 28px;
   width: 28px;
+}
+
+.description-job {
+  grid-row: 2;
+  grid-column: span 2;
 }
 
 /*MENU, CATEGORY BUTTONS*/
