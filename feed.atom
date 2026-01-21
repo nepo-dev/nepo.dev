@@ -3,12 +3,266 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2026-01-12T20:37:28Z</updated>
+  <updated>2026-01-21T17:28:46Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>Caso de estudio: Espresso Framework</title>
+    <link href="https://nepo.dev/posts/espresso.html"/>
+    <id>urn:uuid:1040853a-1971-4f74-9a78-d4a7ccd1b0b8</id>
+    <published>2026-01-21T00:00:00Z</published>
+    <updated>2026-01-21T11:00:00Z</updated>
+    <summary>Analizamos algunos conceptos que maneja Espresso, un
+framework de testing para apps Android, para aprender qué herramientas
+usa. Así podemos implementarlas y utilizarlas en nuestros
+proyectos.</summary>
+    <content type="html">
+&lt;p&gt;En este artículo analizaremos algunos conceptos que maneja &lt;a
+href=&quot;https://developer.android.com/training/testing/espresso&quot;&gt;Espresso&lt;/a&gt;,
+un framework de testing para aplicaciones Android, para escribir y
+optimizar tests en Android.&lt;/p&gt;
+&lt;p&gt;El objetivo es entender la idea general de estos conceptos, para
+poder recrearlos en nuestros proyectos. Así podemos añadirlos a nuestra
+caja de herramientas y usarlos cuando lo necesitemos. ¡Vamos a ello!&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota: &lt;/strong&gt; todos los ejemplos de código de este artículo
+están escritos en Kotlin.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;qué-es-espresso&quot;&gt;¿Qué es Espresso?&lt;/h2&gt;
+&lt;p&gt;Antes de entrar con los conceptos, definamos Espresso. Como dije
+antes, es un framework de testing para Android. Está pensado para hacer
+&lt;strong&gt;UI testing&lt;/strong&gt;, un tipo de testing de alto nivel en el que
+interactuamos con la aplicación realizando las acciones que haría el
+usuario final en la aplicación: tocar botones, leer textos, deslizar la
+pantalla.&lt;/p&gt;
+&lt;p&gt;Un detalle importante que separa a Espresso de otro tipo de
+frameworks es que sus tests son de &lt;strong&gt;caja blanca/gris&lt;/strong&gt; (al
+contrario de Selenium/Appium, por ejemplo, que son de caja negra). Esto
+significa que tenemos acceso al código de la aplicación, por lo que
+podemos hacer optimizaciones interesantes que nos &lt;strong&gt;facilitan
+escribir tests&lt;/strong&gt; y mejoran su &lt;strong&gt;fiabilidad&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;matchers-actions-assertions---bdd&quot;&gt;Matchers, Actions, Assertions
+-&amp;gt; BDD&lt;/h3&gt;
+&lt;p&gt;Son la versión de BDD de Espresso. Match-Act-Assert son lo mismo que
+Given-When-Then, pero están integrados en el propio framework, por lo
+que el propio framework te hace organizar tus interacciones con la
+aplicación como escenarios de BDD.&lt;/p&gt;
+&lt;p&gt;Un detalle chulo de los ViewMatchers y ViewAssertions de Espresso es
+que usan los &lt;a href=&quot;https://hamcrest.org/&quot;&gt;matchers de Hamcrest&lt;/a&gt;,
+lo cual nos garantiza el acceso a un lenguaje (&lt;a
+href=&quot;https://en.wikipedia.org/wiki/Domain-specific_language&quot;&gt;DSL&lt;/a&gt;)
+super rico y flexible. En los ViewMatchers se usan para encontrar
+elementos de forma flexible y en las ViewAssertions para hacer
+comprobaciones sobre ellos. Estos matchers permiten combinarse entre sí
+para formar expresiones complejas y que dejan clara la intención. Por
+ejemplo, podemos buscar un elemento por su ID, porque no hay nada más
+claro que eso, queremos &lt;em&gt;ese&lt;/em&gt; elemento en concreto:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;onView&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;withId&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;R&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;login_button&lt;span class=&quot;op&quot;&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;También podemos encontrarlos basándonos, por ejemplo, en su posición
+en el DOMTree o su contenido y propiedades. Imaginad que tenemos un
+mensaje de error que es hijo del botón de login y no tiene ID. Podríamos
+encontrarlo de esta manera:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb2&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb2-1&quot;&gt;allOf&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-2&quot;&gt;    isDescendantOfA&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;R&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;login_button&lt;span class=&quot;op&quot;&gt;),&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-3&quot;&gt;    withText&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;containsString&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;R&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;text&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;login_error_message&lt;span class=&quot;op&quot;&gt;))&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb2-4&quot;&gt;&lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Fijaos que tenemos acceso a los &lt;em&gt;resource files&lt;/em&gt;
+(&lt;code&gt;R&lt;/code&gt;) de Android. ¡Es genial para el testing poder reutilizar
+las partes que forman la aplicación! Si un developer cambia el texto del
+error, el test ni se enteraría y seguiría funcionando. Lo cual es genial
+si no estás verificando ese texto en concreto.&lt;/p&gt;
+&lt;p&gt;Si combinamos esto con un &lt;a
+href=&quot;https://martinfowler.com/bliki/PageObject.html&quot;&gt;patrón Page
+Object&lt;/a&gt;, podemos organizar la interacción con la aplicación en una
+capa abstracta y reutilizable. De esta manera, conseguimos también que
+nuestros tests no tengan conceptos del framework de testing y no estén
+acoplados a él:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb3&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb3-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt; LoginPage &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-2&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-3&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;loginButton&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; onView&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;withId&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;R&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;login_button&lt;span class=&quot;op&quot;&gt;))&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-4&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;errorMessage&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; allOf&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-5&quot;&gt;        isDescendantOfA&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;R&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;login_button&lt;span class=&quot;op&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-6&quot;&gt;        withText&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;containsString&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;))&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-7&quot;&gt;    &lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-8&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-9&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-10&quot;&gt;        loginButton&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;click&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-11&quot;&gt;    &lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-12&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-13&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;checkHasError&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;errorText&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-14&quot;&gt;        errorMessage&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;check&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-15&quot;&gt;            allOf&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-16&quot;&gt;                isDisplayed&lt;span class=&quot;op&quot;&gt;(),&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-17&quot;&gt;                withText&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;containsString&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;errorText&lt;span class=&quot;op&quot;&gt;))&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-18&quot;&gt;            &lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-19&quot;&gt;        &lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-20&quot;&gt;    &lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-21&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb3-22&quot;&gt;&lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb4&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb4-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt; LoginTest &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-2&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-3&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;loginPage&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; LoginPage&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-4&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-5&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;testLoginFailsWithoutCredentials&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-6&quot;&gt;        loginPage&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;login&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-7&quot;&gt;        loginPage&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;checkHasError&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;enter credentials&amp;quot;&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-8&quot;&gt;    &lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb4-9&quot;&gt;&lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;idling-resources&quot;&gt;Idling Resources&lt;/h3&gt;
+&lt;p&gt;Los &lt;a
+href=&quot;https://developer.android.com/training/testing/espresso/idling-resource&quot;&gt;Idling
+Resources&lt;/a&gt; son un mecanismo que tiene Espresso para esperar a que
+terminen procesos lentos.&lt;/p&gt;
+&lt;p&gt;Siempre digo que hay que evitar &lt;code&gt;wait&lt;/code&gt; y
+&lt;code&gt;sleep&lt;/code&gt; con una unidad de tiempo hardcodeada. Esto acaba
+siendo un &lt;code&gt;magic number&lt;/code&gt; que &lt;strong&gt;no explica la
+intención&lt;/strong&gt; que tenemos detrás de esa espera, así que
+&lt;strong&gt;está condenado a quedar desactualizado&lt;/strong&gt; y sin
+explicación. En lugar de eso, deberíamos esperar de forma explícita a
+que cambien las condiciones necesarias para seguir ejecutando el test.
+Por ejemplo, si acabamos de rellenar un formulario de login, no
+deberíamos esperar 3 o 7 segundos, deberíamos esperar a que cargue la
+página de bienvenida.&lt;/p&gt;
+&lt;p&gt;Los Idling Resources integran un patrón de multithreading
+directamente con el framework de test: un &lt;a
+href=&quot;https://en.wikipedia.org/wiki/Semaphore_(programming)&quot;&gt;semáforo&lt;/a&gt;.
+Nos dice cuándo la ejecución debe esperar (luz roja 🔴) y cuándo puede
+continuar (luz verde 🟢).&lt;/p&gt;
+&lt;p&gt;Dicho de otra forma, es un chivato que le dice a Espresso cuándo debe
+esperarse antes de seguir ejecutando el test. Vamos a ver esto con un
+ejemplo.&lt;/p&gt;
+&lt;h4 id=&quot;ejemplo-cliente-http&quot;&gt;Ejemplo: Cliente HTTP&lt;/h4&gt;
+&lt;p&gt;Si nuestra aplicación usa un cliente HTTP, como por ejemplo &lt;a
+href=&quot;https://github.com/square/okhttp&quot;&gt;OkHttp&lt;/a&gt;, podemos querer
+detener la ejecución del test mientras se están mandando mensajes al
+backend (o, mejor aún, a un servidor HTTP mock).&lt;/p&gt;
+&lt;p&gt;En el caso de OkHttp podemos usar el concepto de los
+&lt;code&gt;Interceptor&lt;/code&gt;, una clase que escucha a cada
+petición-respuesta que hagamos y que nos permite reaccionar a ellas.
+Esto se vería así cuando creamos la instancia del cliente:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb5&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb5-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;httpClient&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt; OkHttpClient &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; OkHttpClient&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;Builder&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-2&quot;&gt;    &lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;addInterceptor&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;IdlingResourceInterceptor&lt;span class=&quot;op&quot;&gt;())&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb5-3&quot;&gt;    &lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;build&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Y esta sería la clase, ya con su &lt;code&gt;IdlingResource&lt;/code&gt; que
+contará cuántas peticiones faltan por resolver:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb6&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb6-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt; IdlingResourceInterceptor&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;Interceptor&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-2&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-3&quot;&gt;    &lt;span class=&quot;at&quot;&gt;@Override&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-4&quot;&gt;    &lt;span class=&quot;at&quot;&gt;@Throws&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;IOException&lt;span class=&quot;op&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt;)&lt;/span&gt;
+&lt;span id=&quot;cb6-5&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;fun&lt;/span&gt; intercept&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;va&quot;&gt;Interceptor&lt;/span&gt;.&lt;span class=&quot;va&quot;&gt;Chain&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;chain&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;dt&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-6&quot;&gt;        &lt;span class=&quot;co&quot;&gt;// A request is received, therefore we increase the count&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-7&quot;&gt;        request&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt; Request &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; chain&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;request&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-8&quot;&gt;        countingIdlingResource&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;increment&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-9&quot;&gt;        &lt;/span&gt;
+&lt;span id=&quot;cb6-10&quot;&gt;        &lt;span class=&quot;co&quot;&gt;// A request is resolved, therefore we decrease the count&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-11&quot;&gt;        response&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt; Response &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; chain&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;proceed&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;request&lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-12&quot;&gt;        countingIdlingResource&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;decrement&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-13&quot;&gt;        &lt;/span&gt;
+&lt;span id=&quot;cb6-14&quot;&gt;        &lt;span class=&quot;kw&quot;&gt;return&lt;/span&gt; response&lt;/span&gt;
+&lt;span id=&quot;cb6-15&quot;&gt;    &lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-16&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-17&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;companion&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-18&quot;&gt;        &lt;span class=&quot;kw&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;countingIdlingResource&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt; CountingIdlingResource &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; CountingIdlingResource&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-19&quot;&gt;    &lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb6-20&quot;&gt;&lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Fijaos que hemos hecho que el &lt;code&gt;IdlingResource&lt;/code&gt; sea
+estático (en Kotlin esto se hace con el &lt;code&gt;companion object&lt;/code&gt;).
+Esto es porque aún no hemos acabado: para que Espresso sepa a qué
+&lt;code&gt;IdlingResource&lt;/code&gt; hay que esperar, hace falta registrarlos
+desde la clase del test. Esto lo podemos hacer de esta manera:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb7&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb7-1&quot;&gt;&lt;span class=&quot;kw&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;setUp&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-2&quot;&gt;    Espresso&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;registerIdlingResource&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-3&quot;&gt;        IdlingResourceInterceptor&lt;span class=&quot;op&quot;&gt;.&lt;/span&gt;countingIdlingResource&lt;/span&gt;
+&lt;span id=&quot;cb7-4&quot;&gt;    &lt;span class=&quot;op&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb7-5&quot;&gt;&lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Si no queréis estar copiando código de un test
+a otro, recomiendo usar una clase de Test base que se encargue de
+registrar todos los &lt;code&gt;IdlingResource&lt;/code&gt; necesarios de nuestra
+aplicación.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;¡Y bam! Así de fácil los tests esperan a que la aplicación deje de
+estar ocupada para continuar. En cuanto la aplicación empieza a mandar
+peticiones por internet, el número se incrementa, deteniendo la
+ejecución. Espresso sólo seguirá ejecutando las instrucciones del test
+cuando este número vuelva a bajar a 0.&lt;/p&gt;
+&lt;h3 id=&quot;intents-para-lanzar-view-específica&quot;&gt;Intents para lanzar View
+específica&lt;/h3&gt;
+&lt;p&gt;En muchos progamas y juegos nos encontramos con que hay un único
+punto de entrada. La aplicación empieza en la pantalla principal y hay
+que seguir un recorrido de pasos para llegar a la vista que queremos
+probar.&lt;/p&gt;
+&lt;p&gt;Esto es bastante problemático para los tests, porque implica que
+cuando más profundo en la aplicación esté una vista, más dependencias
+tiene el test que la verifica. Si tenemos que hacer una prueba de unas
+opciones escondidas en un menú al que sólo se puede acceder después de
+un login, el test fallará si cambia el login o la forma de acceder al
+menú.&lt;/p&gt;
+&lt;p&gt;Espresso utiliza dos conceptos para evitar eso:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Android configuran las vistas de las aplicaciones en &lt;a
+href=&quot;https://developer.android.com/guide/components/activities/intro-activities&quot;&gt;Activities&lt;/a&gt;.
+Cada una puede lanzarse por separado y podemos inyectarle los datos
+necesarios para popularla (por ejemplo, el usuario que ha hecho
+login).&lt;/li&gt;
+&lt;li&gt;Las &lt;a
+href=&quot;https://junit.org/junit4/javadoc/4.12/org/junit/Rule.html&quot;&gt;Rules&lt;/a&gt;
+son una herramienta de JUnit (versión 4, se renombraron a
+&lt;code&gt;ExtendWith&lt;/code&gt; y &lt;code&gt;RegisterExtension&lt;/code&gt; en versiones
+posteriores). Usan reflection para ejecutar código antes y después del
+test. En concreto, Espresso tiene la &lt;a
+href=&quot;https://developer.android.com/guide/components/activities/testing&quot;&gt;ActivityScenarioRule&lt;/a&gt;,
+que lanza una Activity al empezar el test y la cierra al
+terminarlo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Aprovechando estas dos ideas, nos queda una sintaxis muy
+recogida:&lt;/p&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb8&quot;&gt;&lt;pre
+class=&quot;sourceCode kotlin&quot;&gt;&lt;code class=&quot;sourceCode kotlin&quot;&gt;&lt;span id=&quot;cb8-1&quot;&gt;&lt;span class=&quot;at&quot;&gt;@RunWith&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;AndroidJUnit4&lt;span class=&quot;op&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt;)&lt;/span&gt;
+&lt;span id=&quot;cb8-2&quot;&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt; InstrumentedTest &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-3&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-4&quot;&gt;    &lt;span class=&quot;at&quot;&gt;@get&lt;/span&gt;&lt;span class=&quot;op&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;at&quot;&gt;Rule&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-5&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;va&quot;&gt;activityScenarioRule&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;=&lt;/span&gt; ActivityScenarioRule&lt;span class=&quot;op&quot;&gt;(&lt;/span&gt;LoginActivity&lt;span class=&quot;op&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;class&lt;/span&gt;.java)&lt;/span&gt;
+&lt;span id=&quot;cb8-6&quot;&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-7&quot;&gt;    @Test&lt;/span&gt;
+&lt;span id=&quot;cb8-8&quot;&gt;    &lt;span class=&quot;kw&quot;&gt;fun&lt;/span&gt; myTestMethod&lt;span class=&quot;op&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;op&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-9&quot;&gt;        &lt;span class=&quot;co&quot;&gt;// ...&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-10&quot;&gt;    &lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb8-11&quot;&gt;&lt;span class=&quot;op&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Declaramos la Rule como campo de clase y así no “ensuciamos” el
+código de setup/teardown con código para abrir la aplicación. Como norma
+general, siempre que podáis separar la lógica del test (ej. “hacer
+login”, “saltar”, “abrir un menú”…) de la lógica del framework (ej.
+conceptos como “label” o métodos como “sendKeys” en
+&lt;code&gt;getUserLabel().sendKeys(username)&lt;/code&gt;). Igual que con el &lt;a
+href=&quot;https://martinfowler.com/bliki/PageObject.html&quot;&gt;Page Object
+Pattern&lt;/a&gt; del que hablábamos antes.&lt;/p&gt;
+&lt;p&gt;Además, al abrir la vista directamente sin tener que pasar por todas
+las anteriores nos libramos de las dependencias que podrían romper
+nuestro test. Así conseguimos que el test sea más rápido y menos
+flaky.&lt;/p&gt;
+&lt;h2 id=&quot;cierre&quot;&gt;Cierre&lt;/h2&gt;
+&lt;p&gt;No tengo ninguna conclusión, pero quería dejar claro que el post
+termina aquí y así.&lt;/p&gt;
+&lt;p&gt;Llevaba mucho tiempo queriendo escribir este post, porque trabajé con
+Espresso durante años y quería compartir mi apreciación por algunas
+ideas que me parecen buenas. Espero que podáis reutilizar estas ideas en
+los frameworks de testing de vuestros proyectos.&lt;/p&gt;
+&lt;p&gt;Me planteé escribir otros posts antes para presentar los conceptos
+poco a poco, pero no tenía ganas de escribir esas guías y por eso lo fui
+dejando pasar 😄&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>Escribir sobre escribir</title>
     <link href="https://nepo.dev/posts/escribir-sobre-escribir.html"/>
@@ -67,9 +321,9 @@ escoger cómo se presenta?&lt;/p&gt;
 &lt;p&gt;En &lt;a
 href=&quot;https://henry.codes/writing/a-website-to-destroy-all-websites/&quot;&gt;“A
 website to destroy all websites”&lt;/a&gt;, Henry Desroches apunta a las
-herramientas que no están pensadas para escalar, y que sí diseñadas para
-mejorar la autonomía y creatividad de sus usuarias, como la forma de
-resistir a las grandes plataformas. De nuevo, los espacios
+herramientas que no están pensadas para escalar, y que sí están
+diseñadas para mejorar la autonomía y creatividad de sus usuarias, como
+la forma de resistir a las grandes plataformas. De nuevo, los espacios
 personales:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Schumacher’s concept of “intermediate technology” introduced in his
@@ -96,8 +350,8 @@ website to destroy all websites”&lt;/a&gt;&lt;/p&gt;
 &lt;em&gt;“patio trasero”&lt;/em&gt; privado en el que cuidar de tus plantas y pasar
 el rato con tus pensamientos. Pero estos artículos me hicieron pensar en
 ello como en un jardín público, como los jardines de Montjuïc o El
-Retiro. Lugares diseñado para ser transitados y compartidos. Saliendo de
-la metáfora, una página en la que mostrar lo que te interesa y te
+Retiro. Lugares diseñados para ser transitados y compartidos. Saliendo
+de la metáfora, una página en la que mostrar lo que te interesa y te
 preocupa, y donde hacer comunidad también.&lt;/p&gt;
 &lt;p&gt;Quizá lo que me faltaba entender era la parte de “personal” del
 concepto “web personal”.&lt;/p&gt;

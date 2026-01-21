@@ -1,0 +1,447 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<!-- Primary Meta Tags -->
+	<title>Blog — Nepo</title>
+	<meta name="title" content="Caso de estudio: Espresso Framework">
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="Analizamos algunos conceptos que
+maneja Espresso, un framework de testing para apps Android, para
+aprender qué herramientas usa. Así podemos implementarlas y utilizarlas
+en nuestros proyectos.">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://nepo-dev.github.io/">
+	<meta property="og:title" content="Caso de estudio: Espresso Framework">
+	<meta property="og:description" content="Analizamos algunos conceptos
+que maneja Espresso, un framework de testing para apps Android, para
+aprender qué herramientas usa. Así podemos implementarlas y utilizarlas
+en nuestros proyectos.">
+		<meta property="og:image" content="https://nepo.dev/imgs/espresso/portada.jpg">
+		<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://nepo-dev.github.io/">
+	<meta property="twitter:title" content="Caso de estudio: Espresso
+Framework">
+	<meta property="twitter:description" content="Analizamos algunos
+conceptos que maneja Espresso, un framework de testing para apps
+Android, para aprender qué herramientas usa. Así podemos implementarlas
+y utilizarlas en nuestros proyectos.">
+		<meta property="twitter:image" content="https://nepo.dev/imgs/espresso/portada.jpg">
+	
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://nepo.dev/style.css" />
+	<link rel="alternate" type="application/rss+xml" title="Nepo's blog" href="https://nepo.dev/feed.atom" />
+</head>
+<body class="holy-grail">
+
+	<div class="mobile-header">
+		<div class="description-photo-container">
+			<a href="https://nepo.dev/index.html">
+				<div class="description-photo"></div>
+			</a>
+		</div>
+		<h2 class="description-name">¡Hola, soy Nepo!</h2>
+		<div class="description-links">
+			<a href="https://gamedev.lgbt/@nepo" rel="me">
+				<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+			</a>
+			<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+				<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+			</a>
+			<a href="https://github.com/nepo-dev/">
+				<img src="https://nepo.dev/imgs/icon-github.svg"/>
+			</a>
+			<a href="https://edearth.itch.io/">
+				<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+			</a>
+			<a href="https://www.linkedin.com/in/nepo/">
+				<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+			</a>
+		</div>
+	</div>
+
+<header>	
+	<img class="preview-image" src="https://nepo.dev/imgs/espresso/portada.jpg">
+</header>
+
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">¡Hola, soy Nepo!</h2>
+			<div class="description-job">
+				<p>Escribo sobre juegos, software, QA, tecnología.</p>
+				<p>Trabajo en <a href="https://nokorpo.com">@nokorpo</a>. ¡Contáctanos si necesitas ayuda con tu proyecto!</p>
+			</div>
+			<div class="description-links">
+				<a href="https://gamedev.lgbt/@nepo" rel="me">
+					<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+				</a>
+				<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+					<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+				</a>
+				<a href="https://github.com/nepo-dev/">
+					<img src="https://nepo.dev/imgs/icon-github.svg"/>
+				</a>
+				<a href="https://edearth.itch.io/">
+					<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+				</a>
+				<a href="https://www.linkedin.com/in/nepo/">
+					<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+				</a>
+			</div>
+			<div class="description-photo-container">
+				<a href="https://nepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+
+		</div>
+	</div> 
+
+	<main>
+
+<article>
+  <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
+  <h2 class="title tech-highlight">Caso de estudio: Espresso
+Framework</h2>
+  <div class="article-info">
+    <a class="article-date" href="https://nepo.dev/index.html">← volver a la lista de artículos</a>
+    <p class="article-date">2026-01-21</p>
+  </div>
+  <div class="article-content">
+    <p><p>En este artículo analizaremos algunos conceptos que maneja <a
+href="https://developer.android.com/training/testing/espresso">Espresso</a>,
+un framework de testing para aplicaciones Android, para escribir y
+optimizar tests en Android.</p>
+<p>El objetivo es entender la idea general de estos conceptos, para
+poder recrearlos en nuestros proyectos. Así podemos añadirlos a nuestra
+caja de herramientas y usarlos cuando lo necesitemos. ¡Vamos a ello!</p>
+<blockquote>
+<p><strong>Nota: </strong> todos los ejemplos de código de este artículo
+están escritos en Kotlin.</p>
+</blockquote>
+<h2 id="qué-es-espresso">¿Qué es Espresso?</h2>
+<p>Antes de entrar con los conceptos, definamos Espresso. Como dije
+antes, es un framework de testing para Android. Está pensado para hacer
+<strong>UI testing</strong>, un tipo de testing de alto nivel en el que
+interactuamos con la aplicación realizando las acciones que haría el
+usuario final en la aplicación: tocar botones, leer textos, deslizar la
+pantalla.</p>
+<p>Un detalle importante que separa a Espresso de otro tipo de
+frameworks es que sus tests son de <strong>caja blanca/gris</strong> (al
+contrario de Selenium/Appium, por ejemplo, que son de caja negra). Esto
+significa que tenemos acceso al código de la aplicación, por lo que
+podemos hacer optimizaciones interesantes que nos <strong>facilitan
+escribir tests</strong> y mejoran su <strong>fiabilidad</strong>.</p>
+<h3 id="matchers-actions-assertions---bdd">Matchers, Actions, Assertions
+-&gt; BDD</h3>
+<p>Son la versión de BDD de Espresso. Match-Act-Assert son lo mismo que
+Given-When-Then, pero están integrados en el propio framework, por lo
+que el propio framework te hace organizar tus interacciones con la
+aplicación como escenarios de BDD.</p>
+<p>Un detalle chulo de los ViewMatchers y ViewAssertions de Espresso es
+que usan los <a href="https://hamcrest.org/">matchers de Hamcrest</a>,
+lo cual nos garantiza el acceso a un lenguaje (<a
+href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL</a>)
+super rico y flexible. En los ViewMatchers se usan para encontrar
+elementos de forma flexible y en las ViewAssertions para hacer
+comprobaciones sobre ellos. Estos matchers permiten combinarse entre sí
+para formar expresiones complejas y que dejan clara la intención. Por
+ejemplo, podemos buscar un elemento por su ID, porque no hay nada más
+claro que eso, queremos <em>ese</em> elemento en concreto:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>onView<span class="op">(</span>withId<span class="op">(</span>R<span class="op">.</span>id<span class="op">.</span>login_button<span class="op">))</span></span></code></pre></div>
+<p>También podemos encontrarlos basándonos, por ejemplo, en su posición
+en el DOMTree o su contenido y propiedades. Imaginad que tenemos un
+mensaje de error que es hijo del botón de login y no tiene ID. Podríamos
+encontrarlo de esta manera:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>allOf<span class="op">(</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    isDescendantOfA<span class="op">(</span>R<span class="op">.</span>id<span class="op">.</span>login_button<span class="op">),</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    withText<span class="op">(</span>containsString<span class="op">(</span>R<span class="op">.</span>text<span class="op">.</span>login_error_message<span class="op">))</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span></code></pre></div>
+<p>Fijaos que tenemos acceso a los <em>resource files</em>
+(<code>R</code>) de Android. ¡Es genial para el testing poder reutilizar
+las partes que forman la aplicación! Si un developer cambia el texto del
+error, el test ni se enteraría y seguiría funcionando. Lo cual es genial
+si no estás verificando ese texto en concreto.</p>
+<p>Si combinamos esto con un <a
+href="https://martinfowler.com/bliki/PageObject.html">patrón Page
+Object</a>, podemos organizar la interacción con la aplicación en una
+capa abstracta y reutilizable. De esta manera, conseguimos también que
+nuestros tests no tengan conceptos del framework de testing y no estén
+acoplados a él:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LoginPage <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">loginButton</span> <span class="op">=</span> onView<span class="op">(</span>withId<span class="op">(</span>R<span class="op">.</span>id<span class="op">.</span>login_button<span class="op">))</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">errorMessage</span> <span class="op">=</span> allOf<span class="op">(</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        isDescendantOfA<span class="op">(</span>R<span class="op">.</span>id<span class="op">.</span>login_button<span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        withText<span class="op">(</span>containsString<span class="op">(</span><span class="st">&quot;error&quot;</span><span class="op">))</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> <span class="fu">login</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        loginButton<span class="op">.</span>click<span class="op">()</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> <span class="fu">checkHasError</span><span class="op">(</span><span class="va">errorText</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        errorMessage<span class="op">.</span>check<span class="op">(</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            allOf<span class="op">(</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                isDisplayed<span class="op">(),</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                withText<span class="op">(</span>containsString<span class="op">(</span>errorText<span class="op">))</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="op">)</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">)</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LoginTest <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">loginPage</span> <span class="op">=</span> LoginPage<span class="op">()</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> <span class="fu">testLoginFailsWithoutCredentials</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        loginPage<span class="op">.</span>login<span class="op">()</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        loginPage<span class="op">.</span>checkHasError<span class="op">(</span><span class="st">&quot;enter credentials&quot;</span><span class="op">)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="idling-resources">Idling Resources</h3>
+<p>Los <a
+href="https://developer.android.com/training/testing/espresso/idling-resource">Idling
+Resources</a> son un mecanismo que tiene Espresso para esperar a que
+terminen procesos lentos.</p>
+<p>Siempre digo que hay que evitar <code>wait</code> y
+<code>sleep</code> con una unidad de tiempo hardcodeada. Esto acaba
+siendo un <code>magic number</code> que <strong>no explica la
+intención</strong> que tenemos detrás de esa espera, así que
+<strong>está condenado a quedar desactualizado</strong> y sin
+explicación. En lugar de eso, deberíamos esperar de forma explícita a
+que cambien las condiciones necesarias para seguir ejecutando el test.
+Por ejemplo, si acabamos de rellenar un formulario de login, no
+deberíamos esperar 3 o 7 segundos, deberíamos esperar a que cargue la
+página de bienvenida.</p>
+<p>Los Idling Resources integran un patrón de multithreading
+directamente con el framework de test: un <a
+href="https://en.wikipedia.org/wiki/Semaphore_(programming)">semáforo</a>.
+Nos dice cuándo la ejecución debe esperar (luz roja 🔴) y cuándo puede
+continuar (luz verde 🟢).</p>
+<p>Dicho de otra forma, es un chivato que le dice a Espresso cuándo debe
+esperarse antes de seguir ejecutando el test. Vamos a ver esto con un
+ejemplo.</p>
+<h4 id="ejemplo-cliente-http">Ejemplo: Cliente HTTP</h4>
+<p>Si nuestra aplicación usa un cliente HTTP, como por ejemplo <a
+href="https://github.com/square/okhttp">OkHttp</a>, podemos querer
+detener la ejecución del test mientras se están mandando mensajes al
+backend (o, mejor aún, a un servidor HTTP mock).</p>
+<p>En el caso de OkHttp podemos usar el concepto de los
+<code>Interceptor</code>, una clase que escucha a cada
+petición-respuesta que hagamos y que nos permite reaccionar a ellas.
+Esto se vería así cuando creamos la instancia del cliente:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">httpClient</span><span class="op">:</span> OkHttpClient <span class="op">=</span> OkHttpClient<span class="op">.</span>Builder<span class="op">()</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>addInterceptor<span class="op">(</span>IdlingResourceInterceptor<span class="op">())</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>build<span class="op">()</span></span></code></pre></div>
+<p>Y esta sería la clase, ya con su <code>IdlingResource</code> que
+contará cuántas peticiones faltan por resolver:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> IdlingResourceInterceptor<span class="op">:</span> <span class="dt">Interceptor</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Throws</span><span class="op">(</span>IOException<span class="op">::</span><span class="kw">class</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> intercept<span class="op">(</span><span class="va">Interceptor</span>.<span class="va">Chain</span> <span class="va">chain</span><span class="op">):</span> <span class="dt">Response</span> <span class="op">{</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// A request is received, therefore we increase the count</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        request<span class="op">:</span> Request <span class="op">=</span> chain<span class="op">.</span>request<span class="op">()</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        countingIdlingResource<span class="op">.</span>increment<span class="op">()</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// A request is resolved, therefore we decrease the count</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        response<span class="op">:</span> Response <span class="op">=</span> chain<span class="op">.</span>proceed<span class="op">(</span>request<span class="op">)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        countingIdlingResource<span class="op">.</span>decrement<span class="op">()</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> response</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">companion</span> <span class="kw">object</span> <span class="op">{</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">val</span> <span class="va">countingIdlingResource</span><span class="op">:</span> CountingIdlingResource <span class="op">=</span> CountingIdlingResource<span class="op">()</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Fijaos que hemos hecho que el <code>IdlingResource</code> sea
+estático (en Kotlin esto se hace con el <code>companion object</code>).
+Esto es porque aún no hemos acabado: para que Espresso sepa a qué
+<code>IdlingResource</code> hay que esperar, hace falta registrarlos
+desde la clase del test. Esto lo podemos hacer de esta manera:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">setUp</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    Espresso<span class="op">.</span>registerIdlingResource<span class="op">(</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        IdlingResourceInterceptor<span class="op">.</span>countingIdlingResource</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<blockquote>
+<p><strong>Nota:</strong> Si no queréis estar copiando código de un test
+a otro, recomiendo usar una clase de Test base que se encargue de
+registrar todos los <code>IdlingResource</code> necesarios de nuestra
+aplicación.</p>
+</blockquote>
+<p>¡Y bam! Así de fácil los tests esperan a que la aplicación deje de
+estar ocupada para continuar. En cuanto la aplicación empieza a mandar
+peticiones por internet, el número se incrementa, deteniendo la
+ejecución. Espresso sólo seguirá ejecutando las instrucciones del test
+cuando este número vuelva a bajar a 0.</p>
+<h3 id="intents-para-lanzar-view-específica">Intents para lanzar View
+específica</h3>
+<p>En muchos progamas y juegos nos encontramos con que hay un único
+punto de entrada. La aplicación empieza en la pantalla principal y hay
+que seguir un recorrido de pasos para llegar a la vista que queremos
+probar.</p>
+<p>Esto es bastante problemático para los tests, porque implica que
+cuando más profundo en la aplicación esté una vista, más dependencias
+tiene el test que la verifica. Si tenemos que hacer una prueba de unas
+opciones escondidas en un menú al que sólo se puede acceder después de
+un login, el test fallará si cambia el login o la forma de acceder al
+menú.</p>
+<p>Espresso utiliza dos conceptos para evitar eso:</p>
+<ul>
+<li>Android configuran las vistas de las aplicaciones en <a
+href="https://developer.android.com/guide/components/activities/intro-activities">Activities</a>.
+Cada una puede lanzarse por separado y podemos inyectarle los datos
+necesarios para popularla (por ejemplo, el usuario que ha hecho
+login).</li>
+<li>Las <a
+href="https://junit.org/junit4/javadoc/4.12/org/junit/Rule.html">Rules</a>
+son una herramienta de JUnit (versión 4, se renombraron a
+<code>ExtendWith</code> y <code>RegisterExtension</code> en versiones
+posteriores). Usan reflection para ejecutar código antes y después del
+test. En concreto, Espresso tiene la <a
+href="https://developer.android.com/guide/components/activities/testing">ActivityScenarioRule</a>,
+que lanza una Activity al empezar el test y la cierra al
+terminarlo.</li>
+</ul>
+<p>Aprovechando estas dos ideas, nos queda una sintaxis muy
+recogida:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@RunWith</span><span class="op">(</span>AndroidJUnit4<span class="op">::</span><span class="kw">class</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> InstrumentedTest <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@get</span><span class="op">:</span><span class="at">Rule</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">activityScenarioRule</span> <span class="op">=</span> ActivityScenarioRule<span class="op">(</span>LoginActivity<span class="op">::</span><span class="kw">class</span>.java)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    @Test</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> myTestMethod<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Declaramos la Rule como campo de clase y así no “ensuciamos” el
+código de setup/teardown con código para abrir la aplicación. Como norma
+general, siempre que podáis separar la lógica del test (ej. “hacer
+login”, “saltar”, “abrir un menú”…) de la lógica del framework (ej.
+conceptos como “label” o métodos como “sendKeys” en
+<code>getUserLabel().sendKeys(username)</code>). Igual que con el <a
+href="https://martinfowler.com/bliki/PageObject.html">Page Object
+Pattern</a> del que hablábamos antes.</p>
+<p>Además, al abrir la vista directamente sin tener que pasar por todas
+las anteriores nos libramos de las dependencias que podrían romper
+nuestro test. Así conseguimos que el test sea más rápido y menos
+flaky.</p>
+<h2 id="cierre">Cierre</h2>
+<p>No tengo ninguna conclusión, pero quería dejar claro que el post
+termina aquí y así.</p>
+<p>Llevaba mucho tiempo queriendo escribir este post, porque trabajé con
+Espresso durante años y quería compartir mi apreciación por algunas
+ideas que me parecen buenas. Espero que podáis reutilizar estas ideas en
+los frameworks de testing de vuestros proyectos.</p>
+<p>Me planteé escribir otros posts antes para presentar los conceptos
+poco a poco, pero no tenía ganas de escribir esas guías y por eso lo fui
+dejando pasar 😄</p></p>
+  </div>
+</article>
+
+	</main>
+
+	<div class="right-sidebar"></div>
+	<div class="kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img class="wobble-on-hover" src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<div class="footer-kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<footer>
+		<p>Volver a la <a href="https://nepo.dev/index.html">lista de artículos</a></p>
+	</footer>
+</body>
+</html>
