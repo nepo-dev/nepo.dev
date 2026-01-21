@@ -27,7 +27,7 @@ En su ensayo ["Contra el algoritmo: cultivar ideas en vez de likes"](https://min
 
 Por ejemplo, para este blog yo tengo unos ficheros en mi ordenador con el contenido de los posts y otros que definen cómo se ve el blog. Puedo dedicarle tiempo a ponerlo bonito, a escribir algo nuevo, a corregir algo antiguo con lo que he aprendido, a reordenar los párrafos para ver si se entiende mejor... mientras que en las redes principales sólo puedes postear y borrar. ¿Cómo podemos pensar en ese "contenido" como nuestro si no tenemos control para modificarlo, ni mucho menos para escoger cómo se presenta?
 
-En ["A website to destroy all websites"](https://henry.codes/writing/a-website-to-destroy-all-websites/), Henry Desroches apunta a las herramientas que no están pensadas para escalar, y que sí diseñadas para mejorar la autonomía y creatividad de sus usuarias, como la forma de resistir a las grandes plataformas. De nuevo, los espacios personales:
+En ["A website to destroy all websites"](https://henry.codes/writing/a-website-to-destroy-all-websites/), Henry Desroches apunta a las herramientas que no están pensadas para escalar, y que sí están diseñadas para mejorar la autonomía y creatividad de sus usuarias, como la forma de resistir a las grandes plataformas. De nuevo, los espacios personales:
 
 > Schumacher’s concept of “intermediate technology” introduced in his 1973 book _Small Is Beautiful: A Study of Economics As If People Mattered_, convivial tools are sustainable, energy-efficient (though often labor intensive), local-first, and designed primarily to enhance the autonomy and creativity of their users. Illich cites specifically hand tools, bicycles, and telephones as examples, but with its enormous capacity for interoperability and extensibility, the Internet is the perfect workshed in which to design our own Tools For Conviviality.
 >
@@ -37,7 +37,7 @@ En ["A website to destroy all websites"](https://henry.codes/writing/a-website-t
 >
 > — Henry Desroches (henry.codes), ["A website to destroy all websites"](https://henry.codes/writing/a-website-to-destroy-all-websites/)
 
-Yo entendía el concepto de jardín digital como una especie de _"patio trasero"_ privado en el que cuidar de tus plantas y pasar el rato con tus pensamientos. Pero estos artículos me hicieron pensar en ello como en un jardín público, como los jardines de Montjuïc o El Retiro. Lugares diseñado para ser transitados y compartidos. Saliendo de la metáfora, una página en la que mostrar lo que te interesa y te preocupa, y donde hacer comunidad también.
+Yo entendía el concepto de jardín digital como una especie de _"patio trasero"_ privado en el que cuidar de tus plantas y pasar el rato con tus pensamientos. Pero estos artículos me hicieron pensar en ello como en un jardín público, como los jardines de Montjuïc o El Retiro. Lugares diseñados para ser transitados y compartidos. Saliendo de la metáfora, una página en la que mostrar lo que te interesa y te preocupa, y donde hacer comunidad también.
 
 Quizá lo que me faltaba entender era la parte de "personal" del concepto "web personal". 
 
