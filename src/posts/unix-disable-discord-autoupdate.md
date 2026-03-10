@@ -54,7 +54,7 @@ Este es mi fichero `settings.json`, de referencia:
 }
 ```
 
-<details>
+</details>
 
 Ahora Discord debería de actualizarse sólo cuando lo actualices con el gestor de paquetes de tu distro. Y si no quieres hacer esto, siempre te queda entrar desde el navegador 😛
 
