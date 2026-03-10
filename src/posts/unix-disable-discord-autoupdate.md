@@ -13,7 +13,7 @@ abstract: Un truco chulo ("neat trick", "*nix-trick...") para evitar los updates
 
 Si te mueves en el mundo gamedev o de gaming es bastante probable que tengas que usar la aplicación de Discord. Puede gustarte más o menos, pero al final es donde se encuentra la mayor parte de la comunidad. El problema es que en Linux, cada vez que detecta una nueva versión, pide que te descargues un archivo `.deb` de su web y que lo instales manualmente. ¡Como si estuviéramos en la prehistoria (es decir, en Windows)!
 
-Si sólo te interesa cómo desactivar eso, salta el [apartado de desactivar auto-update](#desactivar auto-update).
+Si sólo te interesa cómo desactivar eso, salta el [apartado de desactivar auto-update](#desactivar-auto-update).
 
 ## ¿Por qué es un problema? (opinión)
 
