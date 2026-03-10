@@ -3,12 +3,100 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2026-01-21T17:28:46Z</updated>
+  <updated>2026-03-10T22:04:43Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>*nix trick: desactivar auto-updates de Discord</title>
+    <link href="https://nepo.dev/posts/unix-disable-discord-autoupdate.html"/>
+    <id>urn:uuid:f65b4de3-0a81-4182-a081-089c493ebdb6</id>
+    <published>2026-03-10T00:00:00Z</published>
+    <updated>2026-03-10T11:00:00Z</updated>
+    <summary>Un truco chulo (“neat trick”, “*nix-trick…“) para evitar
+los updates automáticos de Discord en Linux.</summary>
+    <content type="html">
+&lt;p&gt;Si te mueves en el mundo gamedev o de gaming es bastante probable que
+tengas que usar la aplicación de Discord. Puede gustarte más o menos,
+pero al final es donde se encuentra la mayor parte de la comunidad. El
+problema es que en Linux, cada vez que detecta una nueva versión, pide
+que te descargues un archivo &lt;code&gt;.deb&lt;/code&gt; de su web y que lo
+instales manualmente. ¡Como si estuviéramos en la prehistoria (es decir,
+en Windows)!&lt;/p&gt;
+&lt;p&gt;Si sólo te interesa cómo desactivar eso, salta el &lt;a
+href=&quot;#desactivar%20auto-update&quot;&gt;apartado de desactivar
+auto-update&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;por-qué-es-un-problema-opinión&quot;&gt;¿Por qué es un problema?
+(opinión)&lt;/h2&gt;
+&lt;p&gt;Esto es super molesto porque la filosofía de Linux respecto a
+instalar el software y actualizarlo es completamente distinta a lo que
+quieren las empresas. Para empezar, no descargas cosas de su web
+directamente, sinó de un repositorio de programas gestionado y mantenido
+(normalmente) por los desarrolladores de tu &lt;a
+href=&quot;https://es.wikipedia.org/wiki/Distribuci%C3%B3n_Linux&quot;&gt;distro&lt;/a&gt;.
+Nada de descargar un ejecutable de una web random que hace el setup, eso
+es super inseguro y por eso Windows tiene mala fama por tener muchos
+virus. En Linux usamos gestores de paquetes como &lt;code&gt;apt&lt;/code&gt; o
+&lt;code&gt;pacman&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Pero la parte más hiriente es que en Linux &lt;strong&gt;tú
+decides&lt;/strong&gt; cuándo instalas y actualizas. ¿Sabéis cuando queréis
+encender o apagar un PC con Windows/Mac y a veces te toca esperar hasta
+30 minutos (¡si no más!) porque Microsoft/Apple decidieron que hoy
+tocaba update? Eso en Linux no existe. El sistema de avisa de que hay
+actualizaciones y tú, desde la terminal o un botón visual, decides
+cuándo vas a actualizarlo.&lt;/p&gt;
+&lt;p&gt;Eso es así en la mayoría de programas, pero eso a Discord no le
+parece bien, porque es una empresa que quiere tener el mayor control
+posible de cómo se comporta tu máquina. Cuando abres Discord, este se
+conecta a un servidor para verificar si hay actualizaciones nuevas. Y si
+las hay, te avisa de que tienes que actualizar la versión realizando un
+proceso super manual. Esto es inseguro, igual que en Windows, además de
+muy molesto. La gente que usamos Linux lo hacemos porque huímos de estas
+situaciones en las que perdemos el control de nuestro propio hardware.
+Por eso os comparto cómo desactivar este auto-update.&lt;/p&gt;
+&lt;h2 id=&quot;desactivar-auto-update&quot;&gt;Desactivar auto-update&lt;/h2&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Localizar la carpeta de configuración de Discord. Normalmente está
+en &lt;code&gt;~/.config/discord/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Dentro, hay un fichero &lt;code&gt;settings.json&lt;/code&gt;. Ábrelo con tu
+editor de texto favorito. Si no existe créalo.&lt;/li&gt;
+&lt;li&gt;Añade la línea &lt;code&gt;&quot;SKIP_HOST_UPDATE&quot;: true,&lt;/code&gt;. Ten en cuenta
+que es un &lt;a href=&quot;https://es.wikipedia.org/wiki/JSON&quot;&gt;fichero JSON&lt;/a&gt;,
+así que tiene que estar entre un &lt;code&gt;{&lt;/code&gt; y un &lt;code&gt;}&lt;/code&gt; que
+debería estar ya en el fichero.&lt;/li&gt;
+&lt;li&gt;Cierra Discord y vuelve a abrirlo.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Este es mi fichero &lt;code&gt;settings.json&lt;/code&gt;, de referencia:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;
+settings.json
+&lt;/summary&gt;
+&lt;div class=&quot;sourceCode&quot; id=&quot;cb1&quot;&gt;&lt;pre
+class=&quot;sourceCode json&quot;&gt;&lt;code class=&quot;sourceCode json&quot;&gt;&lt;span id=&quot;cb1-1&quot;&gt;&lt;span class=&quot;fu&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-2&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;BACKGROUND_COLOR&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;#2c2d32&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-3&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;IS_MAXIMIZED&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-4&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;IS_MINIMIZED&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-5&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;SKIP_HOST_UPDATE&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-6&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;WINDOW_BOUNDS&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-7&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1880&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-8&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-9&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;quot;width&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1796&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-10&quot;&gt;    &lt;span class=&quot;dt&quot;&gt;&amp;quot;height&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1035&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-11&quot;&gt;  &lt;span class=&quot;fu&quot;&gt;},&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-12&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;chromiumSwitches&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;{},&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-13&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;offloadAdmControls&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-14&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;enableHardwareAcceleration&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-15&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;asyncVideoInputDeviceInit&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-16&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;enableLibOpenH264Electron&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;false&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&quot;cb1-17&quot;&gt;&lt;span class=&quot;fu&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;details&gt;
+&lt;p&gt;Ahora Discord debería de actualizarse sólo cuando lo actualices con
+el gestor de paquetes de tu distro. Y si no quieres hacer esto, siempre
+te queda entrar desde el navegador 😛&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>Caso de estudio: Espresso Framework</title>
     <link href="https://nepo.dev/posts/espresso.html"/>

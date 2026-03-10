@@ -1,0 +1,282 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<!-- Primary Meta Tags -->
+	<title>Blog — Nepo</title>
+	<meta name="title" content="*nix trick: desactivar auto-updates de
+Discord">
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="Un truco chulo (“neat trick”,
+“*nix-trick…“) para evitar los updates automáticos de Discord en
+Linux.">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://nepo-dev.github.io/">
+	<meta property="og:title" content="*nix trick: desactivar auto-updates
+de Discord">
+	<meta property="og:description" content="Un truco chulo (“neat trick”,
+“*nix-trick…“) para evitar los updates automáticos de Discord en
+Linux.">
+		<meta property="og:image" content="https://nepo.dev/imgs/nix-tricks-discord-autoupdate/portada.jpg">
+		<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://nepo-dev.github.io/">
+	<meta property="twitter:title" content="*nix trick: desactivar
+auto-updates de Discord">
+	<meta property="twitter:description" content="Un truco chulo (“neat
+trick”, “*nix-trick…“) para evitar los updates automáticos de Discord en
+Linux.">
+		<meta property="twitter:image" content="https://nepo.dev/imgs/nix-tricks-discord-autoupdate/portada.jpg">
+	
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://nepo.dev/style.css" />
+	<link rel="alternate" type="application/rss+xml" title="Nepo's blog" href="https://nepo.dev/feed.atom" />
+</head>
+<body class="holy-grail">
+
+	<div class="mobile-header">
+		<div class="description-photo-container">
+			<a href="https://nepo.dev/index.html">
+				<div class="description-photo"></div>
+			</a>
+		</div>
+		<h2 class="description-name">¡Hola, soy Nepo!</h2>
+		<div class="description-links">
+			<a href="https://gamedev.lgbt/@nepo" rel="me">
+				<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+			</a>
+			<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+				<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+			</a>
+			<a href="https://github.com/nepo-dev/">
+				<img src="https://nepo.dev/imgs/icon-github.svg"/>
+			</a>
+			<a href="https://edearth.itch.io/">
+				<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+			</a>
+			<a href="https://www.linkedin.com/in/nepo/">
+				<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+			</a>
+		</div>
+	</div>
+
+<header>	
+	<img class="preview-image" src="https://nepo.dev/imgs/nix-tricks-discord-autoupdate/portada.jpg">
+</header>
+
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">¡Hola, soy Nepo!</h2>
+			<div class="description-job">
+				<p>Escribo sobre juegos, software, QA, tecnología.</p>
+				<p>Trabajo en <a href="https://nokorpo.com">@nokorpo</a>. ¡Contáctanos si necesitas ayuda con tu proyecto!</p>
+			</div>
+			<div class="description-links">
+				<a href="https://gamedev.lgbt/@nepo" rel="me">
+					<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+				</a>
+				<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+					<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+				</a>
+				<a href="https://github.com/nepo-dev/">
+					<img src="https://nepo.dev/imgs/icon-github.svg"/>
+				</a>
+				<a href="https://edearth.itch.io/">
+					<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+				</a>
+				<a href="https://www.linkedin.com/in/nepo/">
+					<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+				</a>
+			</div>
+			<div class="description-photo-container">
+				<a href="https://nepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+
+		</div>
+	</div> 
+
+	<main>
+
+<article>
+  <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
+  <h2 class="title tech-highlight">*nix trick: desactivar auto-updates
+de Discord</h2>
+  <div class="article-info">
+    <a class="article-date" href="https://nepo.dev/index.html">← volver a la lista de artículos</a>
+    <p class="article-date">2026-03-10</p>
+  </div>
+  <div class="article-content">
+    <p><p>Si te mueves en el mundo gamedev o de gaming es bastante
+probable que tengas que usar la aplicación de Discord. Puede gustarte
+más o menos, pero al final es donde se encuentra la mayor parte de la
+comunidad. El problema es que en Linux, cada vez que detecta una nueva
+versión, pide que te descargues un archivo <code>.deb</code> de su web y
+que lo instales manualmente. ¡Como si estuviéramos en la prehistoria (es
+decir, en Windows)!</p>
+<p>Si sólo te interesa cómo desactivar eso, salta el <a
+href="#desactivar%20auto-update">apartado de desactivar
+auto-update</a>.</p>
+<h2 id="por-qué-es-un-problema-opinión">¿Por qué es un problema?
+(opinión)</h2>
+<p>Esto es super molesto porque la filosofía de Linux respecto a
+instalar el software y actualizarlo es completamente distinta a lo que
+quieren las empresas. Para empezar, no descargas cosas de su web
+directamente, sinó de un repositorio de programas gestionado y mantenido
+(normalmente) por los desarrolladores de tu <a
+href="https://es.wikipedia.org/wiki/Distribuci%C3%B3n_Linux">distro</a>.
+Nada de descargar un ejecutable de una web random que hace el setup, eso
+es super inseguro y por eso Windows tiene mala fama por tener muchos
+virus. En Linux usamos gestores de paquetes como <code>apt</code> o
+<code>pacman</code>.</p>
+<p>Pero la parte más hiriente es que en Linux <strong>tú
+decides</strong> cuándo instalas y actualizas. ¿Sabéis cuando queréis
+encender o apagar un PC con Windows/Mac y a veces te toca esperar hasta
+30 minutos (¡si no más!) porque Microsoft/Apple decidieron que hoy
+tocaba update? Eso en Linux no existe. El sistema de avisa de que hay
+actualizaciones y tú, desde la terminal o un botón visual, decides
+cuándo vas a actualizarlo.</p>
+<p>Eso es así en la mayoría de programas, pero eso a Discord no le
+parece bien, porque es una empresa que quiere tener el mayor control
+posible de cómo se comporta tu máquina. Cuando abres Discord, este se
+conecta a un servidor para verificar si hay actualizaciones nuevas. Y si
+las hay, te avisa de que tienes que actualizar la versión realizando un
+proceso super manual. Esto es inseguro, igual que en Windows, además de
+muy molesto. La gente que usamos Linux lo hacemos porque huímos de estas
+situaciones en las que perdemos el control de nuestro propio hardware.
+Por eso os comparto cómo desactivar este auto-update.</p>
+<h2 id="desactivar-auto-update">Desactivar auto-update</h2>
+<ol type="1">
+<li>Localizar la carpeta de configuración de Discord. Normalmente está
+en <code>~/.config/discord/</code></li>
+<li>Dentro, hay un fichero <code>settings.json</code>. Ábrelo con tu
+editor de texto favorito. Si no existe créalo.</li>
+<li>Añade la línea <code>"SKIP_HOST_UPDATE": true,</code>. Ten en cuenta
+que es un <a href="https://es.wikipedia.org/wiki/JSON">fichero JSON</a>,
+así que tiene que estar entre un <code>{</code> y un <code>}</code> que
+debería estar ya en el fichero.</li>
+<li>Cierra Discord y vuelve a abrirlo.</li>
+</ol>
+<p>Este es mi fichero <code>settings.json</code>, de referencia:</p>
+<details>
+<summary>
+settings.json
+</summary>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;BACKGROUND_COLOR&quot;</span><span class="fu">:</span> <span class="st">&quot;#2c2d32&quot;</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;IS_MAXIMIZED&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;IS_MINIMIZED&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;SKIP_HOST_UPDATE&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;WINDOW_BOUNDS&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;x&quot;</span><span class="fu">:</span> <span class="dv">1880</span><span class="fu">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;y&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;width&quot;</span><span class="fu">:</span> <span class="dv">1796</span><span class="fu">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;height&quot;</span><span class="fu">:</span> <span class="dv">1035</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;chromiumSwitches&quot;</span><span class="fu">:</span> <span class="fu">{},</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;offloadAdmControls&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;enableHardwareAcceleration&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;asyncVideoInputDeviceInit&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;enableLibOpenH264Electron&quot;</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<details>
+<p>Ahora Discord debería de actualizarse sólo cuando lo actualices con
+el gestor de paquetes de tu distro. Y si no quieres hacer esto, siempre
+te queda entrar desde el navegador 😛</p></p>
+  </div>
+</article>
+
+	</main>
+
+	<div class="right-sidebar"></div>
+	<div class="kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img class="wobble-on-hover" src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<div class="footer-kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<footer>
+		<p>Volver a la <a href="https://nepo.dev/index.html">lista de artículos</a></p>
+	</footer>
+</body>
+</html>
