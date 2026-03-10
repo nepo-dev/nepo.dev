@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2026-03-10T22:04:43Z</updated>
+  <updated>2026-03-10T22:07:18Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -91,7 +91,7 @@ class=&quot;sourceCode json&quot;&gt;&lt;code class=&quot;sourceCode json&quot;&
 &lt;span id=&quot;cb1-15&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;asyncVideoInputDeviceInit&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;,&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb1-16&quot;&gt;  &lt;span class=&quot;dt&quot;&gt;&amp;quot;enableLibOpenH264Electron&amp;quot;&lt;/span&gt;&lt;span class=&quot;fu&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;false&lt;/span&gt;&lt;/span&gt;
 &lt;span id=&quot;cb1-17&quot;&gt;&lt;span class=&quot;fu&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;details&gt;
+&lt;/details&gt;
 &lt;p&gt;Ahora Discord debería de actualizarse sólo cuando lo actualices con
 el gestor de paquetes de tu distro. Y si no quieres hacer esto, siempre
 te queda entrar desde el navegador 😛&lt;/p&gt;
