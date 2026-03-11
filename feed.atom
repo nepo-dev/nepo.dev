@@ -3,7 +3,7 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2026-03-10T22:07:18Z</updated>
+  <updated>2026-03-10T22:18:10Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
@@ -26,7 +26,7 @@ que te descargues un archivo &lt;code&gt;.deb&lt;/code&gt; de su web y que lo
 instales manualmente. ¡Como si estuviéramos en la prehistoria (es decir,
 en Windows)!&lt;/p&gt;
 &lt;p&gt;Si sólo te interesa cómo desactivar eso, salta el &lt;a
-href=&quot;#desactivar%20auto-update&quot;&gt;apartado de desactivar
+href=&quot;#desactivar-auto-update&quot;&gt;apartado de desactivar
 auto-update&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;por-qué-es-un-problema-opinión&quot;&gt;¿Por qué es un problema?
 (opinión)&lt;/h2&gt;
