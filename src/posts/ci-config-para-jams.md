@@ -37,6 +37,8 @@ Lo que sigue es sólo una lista de instrucciones rápidas si ya sabes qué hay q
 
 Sube los cambios al repositorio y ya está listo para usar.
 
+> ¿No te funciona? ¡Quizá estás usando una versión nueva de Godot que no tiene imagen de Docker! [Aquí tienes un artículo]($BASE_URL$/blog/posts/ci-config-para-jams-2.html) que te explica más al detalle cómo funciona esto para que puedas actualizarlo.
+
 ## Probando que funciona
 
 Esto puede hacerlo cualquier persona con acceso al repositorio, no sólo les programadores:
@@ -114,3 +116,8 @@ El último paso es decirle a Godot cómo y dónde tiene que generar esa build de
 El fichero `main.yml` está configurado para que la build se exporte a una carpeta específica, por lo que tendrás que configurar el "export path" para que sea `build/index.html`. Ahí es donde se creará la build. No es por nada que necesite GitHub ni Godot. Es que usé ese directorio en `main.yml` y es más fácil dejarlo como está que modificarlo cada vez que crees un nuevo proyecto.
 
 Una vez hecho esto, ya habrás terminado. ¡Lo único que te queda es [probar que funciona](#probando-que-funciona)!
+
+### Más
+
+Si quieres aprender más en profundidad cómo funciona esto, he escrito un [artículo complementario]($BASE_URL$/blog/posts/ci-config-para-jams-2.html) que explica cómo funciona Docker y cómo puedes crear tu propia imagen de Docker para hacer cosas en el CI. ¡Espero que te sirva!
+
