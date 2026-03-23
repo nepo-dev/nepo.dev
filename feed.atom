@@ -3,12 +3,184 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2026-03-10T22:18:10Z</updated>
+  <updated>2026-03-23T12:35:30Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>Configuración de CI pt. 2: Docker, imágenes,
+contenedores</title>
+    <link href="https://nepo.dev/posts/ci-config-para-jams-2.html"/>
+    <id>urn:uuid:90040563-2513-43cf-a6fe-1cd116defdff</id>
+    <published>2026-03-23T00:00:00Z</published>
+    <updated>2026-03-23T11:00:00Z</updated>
+    <summary>Artículo complementario al de Configuración de CI para Jams
+en el que aprenderemos qué es Docker y cómo actualizar nuestro CI para
+que funcione con nuevas versiones de Godot.</summary>
+    <content type="html">
+&lt;p&gt;En un artículo anterior expliqué cómo configurar un workflow de CI
+para hacer una build de un juego de Godot y publicarlo en Itch.io.
+Podéis encontrarlo en &lt;a
+href=&quot;$BASE_URL$/posts/ci-config-para-jams.html&quot;&gt;este enlace&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Varias personas me han comentado que ya no funciona con nuevas
+versiones de Godot. Así que en lugar de actualizar el post con cada
+nueva versión de Godot, voy a explicaros cómo podéis actualizarlo
+vosotres. Así no dependéis de mi para usarlo y aprendéis algo que os
+resultará útil durante mucho tiempo 😄&lt;/p&gt;
+&lt;h3 id=&quot;cómo-actualizar-a-una-nueva-versión-de-godot&quot;&gt;¿Cómo actualizar a
+una nueva versión de Godot?&lt;/h3&gt;
+&lt;p&gt;La respuesta es muy sencilla: para usar una nueva versión de Godot,
+sólo tenemos que descargarla y usarla cuando creamos nuestro juego.&lt;/p&gt;
+&lt;p&gt;Y en principio ya estaría, ¿no? ¿Por qué sigue el artículo?&lt;/p&gt;
+&lt;p&gt;Aunque la respuesta sea muy sencilla, hace falta entender varias
+cosas antes para saber cómo llevarla a cabo. Así es como lo haríamos en
+nuestro ordenador, pero tenemos que recordar que el CI se ejecutan en
+&lt;del&gt;el ordenador de otro&lt;/del&gt; el cloud (en este caso, de Microsoft).
+Es por eso que cuando salió la versión 4.3 de Godot y actualicé mi
+proyecto sin pensar, la build con el CI del artículo anterior (que usaba
+la 4.2.1) falló porque el juego era para una versión superior a la del
+CI.&lt;/p&gt;
+&lt;p&gt;En la definición del workflow de Github Actions hay una variable
+llamada &lt;code&gt;GODOT_VERSION: 4.2.1&lt;/code&gt; y otra llamada
+&lt;code&gt;barichello/godot-ci:4.2.1&lt;/code&gt;. Intenté cambiarlas para que
+usaran la 4.3, pero lanzaba un error porque la versión 4.3 de Godot aún
+no estaba disponible en esa imagen de Docker que uso. Pero espera, ¿qué
+es eso de Docker y de una imagen?&lt;/p&gt;
+&lt;h3 id=&quot;qué-es-docker&quot;&gt;¿Qué es Docker?&lt;/h3&gt;
+&lt;p&gt;Docker, un motor de &lt;strong&gt;virtualización&lt;/strong&gt; usado ampliamente
+en la industria del software. Docker es parecido a una &lt;a
+href=&quot;https://es.wikipedia.org/wiki/M%C3%A1quina_virtual&quot;&gt;máquina
+virtual&lt;/a&gt; (o VM, del inglés Virtual Machine), como cuando usas
+VirtualBox, VMWare o qemu. Esencialmente, es como tener un ordenador
+virtual, que no existe en el mundo físico, dentro de tu PC. Este
+ordenador puede tener su propio disco duro, acceso a red e incluso
+tarjeta gráfica y CPU. Pero estos no tienen porqué existir, sinó que
+nuestro ordenador le reserva un espacio en su disco duro, le comparte la
+conexión a internet y comparte la tarjeta gráfica y CPU con él. Esto nos
+permite controlar el entorno donde se ejecutan nuestros programas. En
+nuestro caso, por ejemplo, nos interesa que esté instalada una versión
+concreta de Godot para poder generar la build.&lt;/p&gt;
+&lt;p&gt;Docker tiene varias ventajas en un entorno de CI respecto a una VM
+clásica. Una de ellas es que Docker es &lt;strong&gt;más ligero&lt;/strong&gt;. Una
+VM requiere su propio sistema operativo y todos los programas que este
+necesita para funcionar. Con Docker se reutilizan partes del sistema
+operativo original, por lo que se inicia más rápido que una VM clásica y
+consume menos recursos.&lt;/p&gt;
+&lt;p&gt;Otra de las ventajas es el concepto de las &lt;em&gt;imágenes&lt;/em&gt;. Si
+tuviéramos que configurar una VM, tendríamos que instalar el sistema
+operativo y luego instalar Godot en él. Pero no hemos tenido que hacer
+nada de eso para nuestro CI. ¿Por qué? Porque la imagen que usamos ya
+los lleva instalados.&lt;/p&gt;
+&lt;h3 id=&quot;qué-es-una-imagen-de-docker-y-un-contenedor&quot;&gt;¿Qué es una imagen
+de Docker? ¿Y un contenedor?&lt;/h3&gt;
+&lt;p&gt;Una &lt;strong&gt;imagen&lt;/strong&gt; es un concepto que usa Docker para
+referirse a un conjunto de instrucciones para configurar un contenedor.
+Este &lt;strong&gt;contenedor&lt;/strong&gt; es el que ejecuta el programa que
+quieres ejecutar. Por hacer un símil, la imagen es como un patrón y el
+contenedor es la ropa que haces con él. Con el mismo patrón (imagen)
+puedes hacer varios pantalones (contenedores).&lt;/p&gt;
+&lt;p&gt;Esencialmente esto nos permite definir en un único sitio qué se
+necesita para generar una build de Godot. Así no tenemos que repetir esa
+instalación cada vez que vamos a hacer una build. Además, si cambia la
+versión de Godot, sólo hay que actualizar la imagen y no tenemos que
+cambiar nada de los diferentes scripts de CI que tengamos en nuestros
+proyectos.&lt;/p&gt;
+&lt;h4 id=&quot;qué-imagen-estoy-usando&quot;&gt;¿Qué imagen estoy usando?&lt;/h4&gt;
+&lt;p&gt;Vamos a empezar aprendiendo a leer la etiqueta de una imagen. En el
+artículo anterior estábamos usando
+&lt;code&gt;barichello/godot-ci:4.2.1&lt;/code&gt;. Esta etiqueta tiene 3 partes: -
+&lt;code&gt;barichello&lt;/code&gt;, es la persona u organización que ha creado esa
+imagen. Normalmente es una cuenta de Github (en este caso, podemos
+agradecerle a &lt;a href=&quot;https://github.com/abarichello/&quot;&gt;esta persona de
+aquí&lt;/a&gt;). - &lt;code&gt;godot-ci&lt;/code&gt; es el nombre de la imagen. Podría ser
+que una misma persona u organización tenga varias imágenes disponibles.
+Por ejemplo, &lt;code&gt;godot-ci&lt;/code&gt; y &lt;code&gt;godot-csharp-ci&lt;/code&gt;. -
+&lt;code&gt;4.2.1&lt;/code&gt; es la versión de la imagen. No tiene porqué coincidir
+con la versión del programa que nos interesa, pero en esta lo hace para
+hacernos la vida más fácil.&lt;/p&gt;
+&lt;p&gt;Vale, entonces alguien que se hace llamar &lt;code&gt;barichello&lt;/code&gt; ha
+creado la imagen de &lt;code&gt;godot-ci&lt;/code&gt; con la versión
+&lt;code&gt;4.2.1&lt;/code&gt;. ¿Podemos usar la &lt;code&gt;4.3&lt;/code&gt;? Depende. En la
+fecha en la que escribo este post, sí, porque ya la ha creado. Pero
+podría ser que tarde en crearla porque está con otras cosas o que no lo
+haga porque ha dejado el desarrollo de videojuegos. Entonces, ¿cómo
+podríamos hacer para crear nuestra propia imagen de Docker y no depender
+de esta persona?&lt;/p&gt;
+&lt;h4 id=&quot;cómo-se-crea-una-imagen-de-docker&quot;&gt;¿Cómo se crea una imagen de
+Docker?&lt;/h4&gt;
+&lt;p&gt;Una imagen se define en un fichero que se llama Dockerfile. Aprender
+la sintaxis y cómo funciona se sale del scope de este artículo. Hay &lt;a
+href=&quot;https://docs.docker.com/&quot;&gt;mucha documentación&lt;/a&gt; al respecto y
+aprenderemos más de ellos que de mi. Pero sí estaría bien que entendamos
+qué hace para desmitificarlo un poco.&lt;/p&gt;
+&lt;p&gt;Vamos a verlo con un ejemplo de Hello World:&lt;/p&gt;
+&lt;pre class=&quot;docker&quot;&gt;&lt;code&gt;FROM ubuntu:latest
+CMD [&amp;quot;echo&amp;quot;, &amp;quot;hello world&amp;quot;]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Este pequeño archivo de texto define una imagen super sencilla. Lo
+único que hace es crear un contenedor con Ubuntu instalado y mostrar un
+hello world en pantalla.&lt;/p&gt;
+&lt;p&gt;Casi todas las imágenes usan otra de base. Hacen esto mediante el
+comando &lt;code&gt;FROM&lt;/code&gt;, que en esta caso le dice que use la última
+imagen de Ubuntu disponible para construir el contenedor que queremos.
+Después, usamos &lt;code&gt;CMD&lt;/code&gt; para ejecutar un comando en la línea de
+comandos. En este caso, sólo hacemos el equivalente a un print,
+&lt;code&gt;echo &quot;hello world&quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Podemos hacer una build de esta imagen con el comando
+&lt;code&gt;docker build -t hello-world&lt;/code&gt; y ejecutarla con
+&lt;code&gt;docker run hello-world&lt;/code&gt;. Entonces deberíamos ver por
+pantalla un “hello world”.&lt;/p&gt;
+&lt;p&gt;Volviendo al CI de Godot, la &lt;a
+href=&quot;https://github.com/abarichello/godot-ci/blob/master/Dockerfile&quot;&gt;imagen
+de Docker de &lt;code&gt;barichello&lt;/code&gt;&lt;/a&gt; es una imagen que usa ubuntu de
+base, que instala Godot para poder hacer builds y que además tiene el &lt;a
+href=&quot;https://itch.io/docs/butler/&quot;&gt;Butler de itchio&lt;/a&gt; para poder
+subir la build. Si a &lt;code&gt;barichello&lt;/code&gt; le diera por dejar de
+actualizarla, sólo tendríamos que hacer un fork y actualizar los
+comandos para instalar la nueva versión de Godot por nuestra cuenta.&lt;/p&gt;
+&lt;h3 id=&quot;dockerhub&quot;&gt;Dockerhub&lt;/h3&gt;
+&lt;p&gt;Hay una última pieza del puzzle que hace falta conocer, pero no tan
+al detalle como el resto. Docker no tiene ni idea de qué es GitHub, y
+hay imágenes de Docker que se mantienen en otros servidores de Git
+(Gitlab o BitBucket, por ejemplo), ¿así que cómo sabe Docker que tiene
+que descargar la imagen de una cuenta de Github que se llama
+&lt;code&gt;barichello&lt;/code&gt;?&lt;/p&gt;
+&lt;p&gt;La respuesta es que no tiene que saberlo porque no tiene que bajarse
+nada de Github. Cuando creas una imagen la subes a un repositorio
+centralizado de imágenes de Docker. El que se usa por defecto es
+&lt;strong&gt;DockerHub&lt;/strong&gt;, pero hay otros, como el de Github o incluso
+algunos que puedes hostear en tu propia red.&lt;/p&gt;
+&lt;p&gt;DockerHub tiene además una interfaz web en la que puedes buscar
+imágenes de Docker (y sus versiones). Así puedes descubrir otras
+imágenes con características distintas, como la versión de Godot de C#,
+o quizá algo de Unity.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img src=&quot;$BASE_URL$/imgs/ci-config-para-jams-2/dockerhub.png&quot;
+alt=&quot;foto de unos resultados en el buscador de imágenes de Docker de DockerHub&quot; /&gt;
+&lt;figcaption aria-hidden=&quot;true&quot;&gt;foto de unos resultados en el buscador de
+imágenes de Docker de DockerHub&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Dicho esto, no os fiéis de cualquier imagen que veáis. Yo uso la de
+&lt;code&gt;barichello&lt;/code&gt; porque es la imagen de Godot más conocida, tiene
+buena documentación y su código está disponible y visible de forma
+abierta en &lt;a href=&quot;https://github.com/abarichello/godot-ci&quot;&gt;su
+repositorio en GitHub&lt;/a&gt;. Cualquier persona podría crear una imagen que
+mande una copia del proyecto a su servidor y publicarla, así que
+investigad y vigilad con qué usáis.&lt;/p&gt;
+&lt;h2 id=&quot;cierre&quot;&gt;Cierre&lt;/h2&gt;
+&lt;p&gt;No tengo ninguna conclusión para este artículo, sólo quiero invitaros
+a crear vuestras propias imágenes de Docker. O, como mínimo, que sepáis
+cómo investigar o actualizar si estáis usando alguna y deja de
+funcionaros.&lt;/p&gt;
+&lt;p&gt;Por si acaso repito que el repositorio donde se define la imagen de
+&lt;code&gt;godot-ci&lt;/code&gt; de &lt;code&gt;barichello&lt;/code&gt; está &lt;a
+href=&quot;https://github.com/abarichello/godot-ci&quot;&gt;aquí&lt;/a&gt;, así que os
+animo también a leer la documentación y ver qué se puede hacer con ella.
+¡La podéis usar incluso para proyectos de Android o que usen la versión
+de C# de Godot!&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>*nix trick: desactivar auto-updates de Discord</title>
     <link href="https://nepo.dev/posts/unix-disable-discord-autoupdate.html"/>
@@ -966,6 +1138,13 @@ de esa configuración deja &lt;code&gt;Web&lt;/code&gt;, y como export path ponl
 &lt;code&gt;build/index.html&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Sube los cambios al repositorio y ya está listo para usar.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;¿No te funciona? ¡Quizá estás usando una versión nueva de Godot que
+no tiene imagen de Docker! &lt;a
+href=&quot;$BASE_URL$/blog/posts/ci-config-para-jams-2.html&quot;&gt;Aquí tienes un
+artículo&lt;/a&gt; que te explica más al detalle cómo funciona esto para que
+puedas actualizarlo.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&quot;probando-que-funciona&quot;&gt;Probando que funciona&lt;/h2&gt;
 &lt;p&gt;Esto puede hacerlo cualquier persona con acceso al repositorio, no
 sólo les programadores:&lt;/p&gt;
@@ -1101,6 +1280,12 @@ dejarlo como está que modificarlo cada vez que crees un nuevo
 proyecto.&lt;/p&gt;
 &lt;p&gt;Una vez hecho esto, ya habrás terminado. ¡Lo único que te queda es &lt;a
 href=&quot;#probando-que-funciona&quot;&gt;probar que funciona&lt;/a&gt;!&lt;/p&gt;
+&lt;h3 id=&quot;más&quot;&gt;Más&lt;/h3&gt;
+&lt;p&gt;Si quieres aprender más en profundidad cómo funciona esto, he escrito
+un &lt;a href=&quot;$BASE_URL$/blog/posts/ci-config-para-jams-2.html&quot;&gt;artículo
+complementario&lt;/a&gt; que explica cómo funciona Docker y cómo puedes crear
+tu propia imagen de Docker para hacer cosas en el CI. ¡Espero que te
+sirva!&lt;/p&gt;
     </content>
   </entry>
   <entry>

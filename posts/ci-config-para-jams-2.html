@@ -1,0 +1,298 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<!-- Primary Meta Tags -->
+	<title>Blog — Nepo</title>
+	<meta name="title" content="Configuración de CI pt. 2: Docker, imágenes,
+contenedores">
+	<meta name="author" content="Juan Antonio Nepormoseno Rosales" />
+	<meta name="description" content="Artículo complementario al de
+Configuración de CI para Jams en el que aprenderemos qué es Docker y
+cómo actualizar nuestro CI para que funcione con nuevas versiones de
+Godot.">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://nepo-dev.github.io/">
+	<meta property="og:title" content="Configuración de CI pt. 2: Docker,
+imágenes, contenedores">
+	<meta property="og:description" content="Artículo complementario al de
+Configuración de CI para Jams en el que aprenderemos qué es Docker y
+cómo actualizar nuestro CI para que funcione con nuevas versiones de
+Godot.">
+		<meta property="og:image" content="https://nepo.dev/imgs/ci-config-para-jams-2/portada.jpg">
+		<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://nepo-dev.github.io/">
+	<meta property="twitter:title" content="Configuración de CI pt. 2:
+Docker, imágenes, contenedores">
+	<meta property="twitter:description" content="Artículo complementario al
+de Configuración de CI para Jams en el que aprenderemos qué es Docker y
+cómo actualizar nuestro CI para que funcione con nuevas versiones de
+Godot.">
+		<meta property="twitter:image" content="https://nepo.dev/imgs/ci-config-para-jams-2/portada.jpg">
+	
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://nepo.dev/style.css" />
+	<link rel="alternate" type="application/rss+xml" title="Nepo's blog" href="https://nepo.dev/feed.atom" />
+</head>
+<body class="holy-grail">
+
+	<div class="mobile-header">
+		<div class="description-photo-container">
+			<a href="https://nepo.dev/index.html">
+				<div class="description-photo"></div>
+			</a>
+		</div>
+		<h2 class="description-name">¡Hola, soy Nepo!</h2>
+		<div class="description-links">
+			<a href="https://gamedev.lgbt/@nepo" rel="me">
+				<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+			</a>
+			<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+				<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+			</a>
+			<a href="https://github.com/nepo-dev/">
+				<img src="https://nepo.dev/imgs/icon-github.svg"/>
+			</a>
+			<a href="https://edearth.itch.io/">
+				<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+			</a>
+			<a href="https://www.linkedin.com/in/nepo/">
+				<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+			</a>
+		</div>
+	</div>
+
+<header>	
+	<img class="preview-image" src="https://nepo.dev/imgs/ci-config-para-jams-2/portada.jpg">
+</header>
+
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">¡Hola, soy Nepo!</h2>
+			<div class="description-job">
+				<p>Escribo sobre juegos, software, QA, tecnología.</p>
+				<p>Trabajo en <a href="https://nokorpo.com">@nokorpo</a>. ¡Contáctanos si necesitas ayuda con tu proyecto!</p>
+			</div>
+			<div class="description-links">
+				<a href="https://gamedev.lgbt/@nepo" rel="me">
+					<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+				</a>
+				<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+					<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+				</a>
+				<a href="https://github.com/nepo-dev/">
+					<img src="https://nepo.dev/imgs/icon-github.svg"/>
+				</a>
+				<a href="https://edearth.itch.io/">
+					<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+				</a>
+				<a href="https://www.linkedin.com/in/nepo/">
+					<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+				</a>
+			</div>
+			<div class="description-photo-container">
+				<a href="https://nepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+
+		</div>
+	</div> 
+
+	<main>
+
+<article>
+  <h2 class="title tech-highlight">Configuración de CI pt. 2: Docker,
+imágenes, contenedores</h2>
+  <div class="article-info">
+    <a class="article-date" href="https://nepo.dev/index.html">← volver a la lista de artículos</a>
+    <p class="article-date">2026-03-23</p>
+  </div>
+  <div class="article-content">
+    <p><p>En un artículo anterior expliqué cómo configurar un workflow
+de CI para hacer una build de un juego de Godot y publicarlo en Itch.io.
+Podéis encontrarlo en <a
+href="https://nepo.dev/posts/ci-config-para-jams.html">este enlace</a>.</p>
+<p>Varias personas me han comentado que ya no funciona con nuevas
+versiones de Godot. Así que en lugar de actualizar el post con cada
+nueva versión de Godot, voy a explicaros cómo podéis actualizarlo
+vosotres. Así no dependéis de mi para usarlo y aprendéis algo que os
+resultará útil durante mucho tiempo 😄</p>
+<h3 id="cómo-actualizar-a-una-nueva-versión-de-godot">¿Cómo actualizar a
+una nueva versión de Godot?</h3>
+<p>La respuesta es muy sencilla: para usar una nueva versión de Godot,
+sólo tenemos que descargarla y usarla cuando creamos nuestro juego.</p>
+<p>Y en principio ya estaría, ¿no? ¿Por qué sigue el artículo?</p>
+<p>Aunque la respuesta sea muy sencilla, hace falta entender varias
+cosas antes para saber cómo llevarla a cabo. Así es como lo haríamos en
+nuestro ordenador, pero tenemos que recordar que el CI se ejecutan en
+<del>el ordenador de otro</del> el cloud (en este caso, de Microsoft).
+Es por eso que cuando salió la versión 4.3 de Godot y actualicé mi
+proyecto sin pensar, la build con el CI del artículo anterior (que usaba
+la 4.2.1) falló porque el juego era para una versión superior a la del
+CI.</p>
+<p>En la definición del workflow de Github Actions hay una variable
+llamada <code>GODOT_VERSION: 4.2.1</code> y otra llamada
+<code>barichello/godot-ci:4.2.1</code>. Intenté cambiarlas para que
+usaran la 4.3, pero lanzaba un error porque la versión 4.3 de Godot aún
+no estaba disponible en esa imagen de Docker que uso. Pero espera, ¿qué
+es eso de Docker y de una imagen?</p>
+<h3 id="qué-es-docker">¿Qué es Docker?</h3>
+<p>Docker, un motor de <strong>virtualización</strong> usado ampliamente
+en la industria del software. Docker es parecido a una <a
+href="https://es.wikipedia.org/wiki/M%C3%A1quina_virtual">máquina
+virtual</a> (o VM, del inglés Virtual Machine), como cuando usas
+VirtualBox, VMWare o qemu. Esencialmente, es como tener un ordenador
+virtual, que no existe en el mundo físico, dentro de tu PC. Este
+ordenador puede tener su propio disco duro, acceso a red e incluso
+tarjeta gráfica y CPU. Pero estos no tienen porqué existir, sinó que
+nuestro ordenador le reserva un espacio en su disco duro, le comparte la
+conexión a internet y comparte la tarjeta gráfica y CPU con él. Esto nos
+permite controlar el entorno donde se ejecutan nuestros programas. En
+nuestro caso, por ejemplo, nos interesa que esté instalada una versión
+concreta de Godot para poder generar la build.</p>
+<p>Docker tiene varias ventajas en un entorno de CI respecto a una VM
+clásica. Una de ellas es que Docker es <strong>más ligero</strong>. Una
+VM requiere su propio sistema operativo y todos los programas que este
+necesita para funcionar. Con Docker se reutilizan partes del sistema
+operativo original, por lo que se inicia más rápido que una VM clásica y
+consume menos recursos.</p>
+<p>Otra de las ventajas es el concepto de las <em>imágenes</em>. Si
+tuviéramos que configurar una VM, tendríamos que instalar el sistema
+operativo y luego instalar Godot en él. Pero no hemos tenido que hacer
+nada de eso para nuestro CI. ¿Por qué? Porque la imagen que usamos ya
+los lleva instalados.</p>
+<h3 id="qué-es-una-imagen-de-docker-y-un-contenedor">¿Qué es una imagen
+de Docker? ¿Y un contenedor?</h3>
+<p>Una <strong>imagen</strong> es un concepto que usa Docker para
+referirse a un conjunto de instrucciones para configurar un contenedor.
+Este <strong>contenedor</strong> es el que ejecuta el programa que
+quieres ejecutar. Por hacer un símil, la imagen es como un patrón y el
+contenedor es la ropa que haces con él. Con el mismo patrón (imagen)
+puedes hacer varios pantalones (contenedores).</p>
+<p>Esencialmente esto nos permite definir en un único sitio qué se
+necesita para generar una build de Godot. Así no tenemos que repetir esa
+instalación cada vez que vamos a hacer una build. Además, si cambia la
+versión de Godot, sólo hay que actualizar la imagen y no tenemos que
+cambiar nada de los diferentes scripts de CI que tengamos en nuestros
+proyectos.</p>
+<h4 id="qué-imagen-estoy-usando">¿Qué imagen estoy usando?</h4>
+<p>Vamos a empezar aprendiendo a leer la etiqueta de una imagen. En el
+artículo anterior estábamos usando
+<code>barichello/godot-ci:4.2.1</code>. Esta etiqueta tiene 3 partes: -
+<code>barichello</code>, es la persona u organización que ha creado esa
+imagen. Normalmente es una cuenta de Github (en este caso, podemos
+agradecerle a <a href="https://github.com/abarichello/">esta persona de
+aquí</a>). - <code>godot-ci</code> es el nombre de la imagen. Podría ser
+que una misma persona u organización tenga varias imágenes disponibles.
+Por ejemplo, <code>godot-ci</code> y <code>godot-csharp-ci</code>. -
+<code>4.2.1</code> es la versión de la imagen. No tiene porqué coincidir
+con la versión del programa que nos interesa, pero en esta lo hace para
+hacernos la vida más fácil.</p>
+<p>Vale, entonces alguien que se hace llamar <code>barichello</code> ha
+creado la imagen de <code>godot-ci</code> con la versión
+<code>4.2.1</code>. ¿Podemos usar la <code>4.3</code>? Depende. En la
+fecha en la que escribo este post, sí, porque ya la ha creado. Pero
+podría ser que tarde en crearla porque está con otras cosas o que no lo
+haga porque ha dejado el desarrollo de videojuegos. Entonces, ¿cómo
+podríamos hacer para crear nuestra propia imagen de Docker y no depender
+de esta persona?</p>
+<h4 id="cómo-se-crea-una-imagen-de-docker">¿Cómo se crea una imagen de
+Docker?</h4>
+<p>Una imagen se define en un fichero que se llama Dockerfile. Aprender
+la sintaxis y cómo funciona se sale del scope de este artículo. Hay <a
+href="https://docs.docker.com/">mucha documentación</a> al respecto y
+aprenderemos más de ellos que de mi. Pero sí estaría bien que entendamos
+qué hace para desmitificarlo un poco.</p>
+<p>Vamos a verlo con un ejemplo de Hello World:</p>
+<pre class="docker"><code>FROM ubuntu:latest
+CMD [&quot;echo&quot;, &quot;hello world&quot;]</code></pre>
+<p>Este pequeño archivo de texto define una imagen super sencilla. Lo
+único que hace es crear un contenedor con Ubuntu instalado y mostrar un
+hello world en pantalla.</p>
+<p>Casi todas las imágenes usan otra de base. Hacen esto mediante el
+comando <code>FROM</code>, que en esta caso le dice que use la última
+imagen de Ubuntu disponible para construir el contenedor que queremos.
+Después, usamos <code>CMD</code> para ejecutar un comando en la línea de
+comandos. En este caso, sólo hacemos el equivalente a un print,
+<code>echo "hello world"</code>.</p>
+<p>Podemos hacer una build de esta imagen con el comando
+<code>docker build -t hello-world</code> y ejecutarla con
+<code>docker run hello-world</code>. Entonces deberíamos ver por
+pantalla un “hello world”.</p>
+<p>Volviendo al CI de Godot, la <a
+href="https://github.com/abarichello/godot-ci/blob/master/Dockerfile">imagen
+de Docker de <code>barichello</code></a> es una imagen que usa ubuntu de
+base, que instala Godot para poder hacer builds y que además tiene el <a
+href="https://itch.io/docs/butler/">Butler de itchio</a> para poder
+subir la build. Si a <code>barichello</code> le diera por dejar de
+actualizarla, sólo tendríamos que hacer un fork y actualizar los
+comandos para instalar la nueva versión de Godot por nuestra cuenta.</p>
+<h3 id="dockerhub">Dockerhub</h3>
+<p>Hay una última pieza del puzzle que hace falta conocer, pero no tan
+al detalle como el resto. Docker no tiene ni idea de qué es GitHub, y
+hay imágenes de Docker que se mantienen en otros servidores de Git
+(Gitlab o BitBucket, por ejemplo), ¿así que cómo sabe Docker que tiene
+que descargar la imagen de una cuenta de Github que se llama
+<code>barichello</code>?</p>
+<p>La respuesta es que no tiene que saberlo porque no tiene que bajarse
+nada de Github. Cuando creas una imagen la subes a un repositorio
+centralizado de imágenes de Docker. El que se usa por defecto es
+<strong>DockerHub</strong>, pero hay otros, como el de Github o incluso
+algunos que puedes hostear en tu propia red.</p>
+<p>DockerHub tiene además una interfaz web en la que puedes buscar
+imágenes de Docker (y sus versiones). Así puedes descubrir otras
+imágenes con características distintas, como la versión de Godot de C#,
+o quizá algo de Unity.</p>
+<figure>
+<img src="https://nepo.dev/imgs/ci-config-para-jams-2/dockerhub.png"
+alt="foto de unos resultados en el buscador de imágenes de Docker de DockerHub" />
+<figcaption aria-hidden="true">foto de unos resultados en el buscador de
+imágenes de Docker de DockerHub</figcaption>
+</figure>
+<p>Dicho esto, no os fiéis de cualquier imagen que veáis. Yo uso la de
+<code>barichello</code> porque es la imagen de Godot más conocida, tiene
+buena documentación y su código está disponible y visible de forma
+abierta en <a href="https://github.com/abarichello/godot-ci">su
+repositorio en GitHub</a>. Cualquier persona podría crear una imagen que
+mande una copia del proyecto a su servidor y publicarla, así que
+investigad y vigilad con qué usáis.</p>
+<h2 id="cierre">Cierre</h2>
+<p>No tengo ninguna conclusión para este artículo, sólo quiero invitaros
+a crear vuestras propias imágenes de Docker. O, como mínimo, que sepáis
+cómo investigar o actualizar si estáis usando alguna y deja de
+funcionaros.</p>
+<p>Por si acaso repito que el repositorio donde se define la imagen de
+<code>godot-ci</code> de <code>barichello</code> está <a
+href="https://github.com/abarichello/godot-ci">aquí</a>, así que os
+animo también a leer la documentación y ver qué se puede hacer con ella.
+¡La podéis usar incluso para proyectos de Android o que usen la versión
+de C# de Godot!</p></p>
+  </div>
+</article>
+
+	</main>
+
+	<div class="right-sidebar"></div>
+	<div class="kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img class="wobble-on-hover" src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<div class="footer-kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<footer>
+		<p>Volver a la <a href="https://nepo.dev/index.html">lista de artículos</a></p>
+	</footer>
+</body>
+</html>
