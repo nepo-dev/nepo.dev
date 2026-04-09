@@ -1,0 +1,384 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://nepo.dev/style.css" />
+	<link rel="alternate" type="application/rss+xml" title="Nepo's blog" href="https://nepo.dev/feed.atom" />
+</head>
+<body class="holy-grail">
+
+	<div class="mobile-header">
+		<div class="description-photo-container">
+			<a href="https://nepo.dev/index.html">
+				<div class="description-photo"></div>
+			</a>
+		</div>
+		<h2 class="description-name">¡Hola, soy Nepo!</h2>
+		<div class="description-links">
+			<a href="https://gamedev.lgbt/@nepo" rel="me">
+				<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+			</a>
+			<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+				<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+			</a>
+			<a href="https://github.com/nepo-dev/">
+				<img src="https://nepo.dev/imgs/icon-github.svg"/>
+			</a>
+			<a href="https://edearth.itch.io/">
+				<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+			</a>
+			<a href="https://www.linkedin.com/in/nepo/">
+				<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+			</a>
+		</div>
+	</div>
+
+
+	<div class="sidebar">
+		<div class="description-container">
+			<h2 class="description-name">¡Hola, soy Nepo!</h2>
+			<div class="description-job">
+				<p>Escribo sobre juegos, software, QA, tecnología.</p>
+				<p>Trabajo en <a href="https://nokorpo.com">@nokorpo</a>. ¡Contáctanos si necesitas ayuda con tu proyecto!</p>
+			</div>
+			<div class="description-links">
+				<a href="https://gamedev.lgbt/@nepo" rel="me">
+					<img src="https://nepo.dev/imgs/icon-mastodon.svg"/>
+				</a>
+				<a href="https://bsky.app/profile/nepo-dev.bsky.social">
+					<img src="https://nepo.dev/imgs/icon-bluesky.svg" />
+				</a>
+				<a href="https://github.com/nepo-dev/">
+					<img src="https://nepo.dev/imgs/icon-github.svg"/>
+				</a>
+				<a href="https://edearth.itch.io/">
+					<img src="https://nepo.dev/imgs/icon-itchio.svg"/>
+				</a>
+				<a href="https://www.linkedin.com/in/nepo/">
+					<img src="https://nepo.dev/imgs/icon-linkedin.svg"/>
+				</a>
+			</div>
+			<div class="description-photo-container">
+				<a href="https://nepo.dev/index.html">
+					<div class="description-photo"></div>
+				</a>
+			</div>
+
+		</div>
+	</div> 
+
+	<main>
+
+	<div>
+		<link rel="stylesheet" href="https://nepo.dev/libs/splide/splide-skyblue.min.css">
+		<script src="https://nepo.dev/libs/splide/splide.min.js"></script>
+		<script>
+			document.addEventListener( 'DOMContentLoaded', function() {
+				const splideConfig = {
+					type   : 'slide',
+					focus  : 'center',
+					gap    : '1em',
+					autoWidth: true,
+					arrows : false,
+				}
+
+				const carouselList = [
+					document.getElementById('infinigrass-carousel'),
+					document.getElementById('rat-and-furrius-carousel'),
+					document.getElementById('accidente-carousel'),
+					document.getElementById('michiball-carousel'),
+					document.getElementById('gato-carousel'),
+					document.getElementById('gdsnap-carousel'),
+				]
+
+				for (const element of carouselList) {
+					new Splide(element, splideConfig).mount();
+				}
+			});
+		</script>
+
+		<div>
+
+			<h1 style="font-size: xx-large;">PORTFOLIO</h1>
+
+			<p style="margin-top: 18px;">Hi! If you're reading this you might be considering hiring me. Thank you! ❤️</p>
+			<p>In this page you will find a list of projects I've worked on so you can see how I work and what I'm passionate about.</p>
+
+			<h2>Selected works</h2>
+
+			<p>If you're just interested in the projects, you can scroll down or just click <a href="#gato">here</a>. But I would be amiss if I didn't also recommend some of my talks, articles and other things I do. If you're curious about anything, <b>click on a box to open it!</b></p>
+			<ul style="list-style-type: none;">
+
+				<li>
+					<details>
+						<summary style="background-color: var(--background-alt">My talk for Guadalindie</summary>
+						<p>This talk for <a href="https://guadalindie.com/">Guadalindie</a> is titled <a href="https://www.youtube.com/watch?v=nFDMHPCCoEU">"QA for indies"</a>. It's a primer on QA basics which aims to improve the quality of your project without dedicating a lot of resources. We can do this by focusing on 3 main topics: communication, testing and automation. More resources and links can be found in its <a href="https://nokorpo.com/blog/2025/05/11/qa-para-indies-companion">companion blog post</a>.</p>
+					<div style="display: grid; grid-template-columns: auto auto;">
+						<img style="grid-column-start: 1; grid-column-end: 3;" src="https://nepo.dev/imgs/portfolio/guadalindie1.png"/>
+						<br />
+						<img style="grid-column: 1;" src="https://nepo.dev/imgs/portfolio/guadalindie2.jpg"/>
+						<img style="grid-column: 2;" src="https://nepo.dev/imgs/portfolio/guadalindie3.png"/>
+					</div>
+				</li>
+
+				<li>
+					<details>
+						<summary style="background-color: var(--background-alt">This blog post about configuring a simple CI environment</summary>
+						<p>I wrote a blog post about <a href="https://nepo.dev/posts/ci-config-para-jams.html">configuring a simple continuous integration (CI) environment</a>. By following this article you can end up automating the build and publishing your Godot game on Itch.io in an hour or less! This introduces people to concepts like Continuous Integration, automation, build configurations, API tokens and shell scripting.</p>
+				</li>
+
+				<li>
+					<details>
+						<summary style="background-color: var(--background-alt">I'm co-organizing a Barcelona Game Creators, a monthly meetup</summary>
+						<p><a href="https://www.meetup.com/barcelona-game-creators/">Barcelona Game Creators</a> is a monthly meetup where local gamedevs can give short presentations to share learnings/progress and meet other gamedevs and network.</p>
+						<div style="display:flex;">
+							<img style="width: 50%;" src="https://nepo.dev/imgs/portfolio/bgc1.webp" />
+							<img style="width: 50%;"  src="https://nepo.dev/imgs/portfolio/bgc2.webp" />
+						</div>
+				</li>
+
+				<li>
+					<details>
+						<summary style="background-color: var(--background-alt">Do you just want to play something I've made?</summary>
+						<p>I can recommend these games. They are all playable in the browser and have a short playtime duration between 5-10 minutes.</p>
+						<ul>
+							<li><a href="#infinigrass">Infinigrass</a> (<a href="https://antimundo.itch.io/infinigrass">🎮️ play it!</a>)</li>
+							<li><a href="#rat-and-furrius">Rat and Furrius</a> (<a href="https://antimundo.itch.io/rat-and-furrius">🎮️ play it!</a>)</li>
+							<li><a href="#accidente">La causa del accidente que causó el incendio</a> (<a href="https://spainwheretalentignites.com/game/">🎮️ play it!</a>)</li>
+						</ul>
+				</li>
+
+			</ul>
+		</div>
+
+		<br/>
+		<hr/>
+		<br/>
+
+		<div>
+			<h2 id="gato">GATO (Godot Accessibility Toolkit)</h2>
+			<p>This is a <i>(yet to be released)</i> collection of demos, documentation and plugins that aims to make implementing <b>accessibility</b> features <b>easier for Godot games</b>.</p>
+			<p>In this project I'm the lead programmer. We've had 2 people learning programming with us and I've mentored them, doing pair programming and teaching them concepts they need to know to work on the game.</p>
+			<a class="portfolio-badge" href="https://nokorpo.com/projects/gato">
+				<div>
+					<span>🌐 Website</span>
+				</div>
+			</a>
+			<section class="splide" id="gato-carousel" aria-label="Michiball screenshots">
+				<div class="splide__track">
+					<div class="splide__list">
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/gato1.svg" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/gato2.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/gato3.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/gato4.png" class="screenshot_slide"/>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div>
+			<h2 id="michiball">Michiball</h2>
+			<p>This was the first project we started as Nokorpo, after the jams. We wanted a small game we could finish in some months and publish in Steam quickly, since our goal was to learn as much as possible.</p>
+			<p>Since this is our first big project, we worked together early on to define our standards: how we would write and architect code, how we work as a team, our responsibilities... This was also when we started writing automated tests for our games.</p>
+
+			<div style="display:flex; justify-content: right;">
+				<a class="portfolio-badge" href="https://nokorpo.com/projects/michiball">
+					<div style="margin-right: 20px;">
+						<span>🌐 Website</span>
+					</div>
+				</a>
+				<a class="portfolio-badge" href="https://store.steampowered.com/app/3129180/Michiball/">
+					<div>
+						<span><img style="height: 1.25rem; padding: 4px;" src="https://nepo.dev/imgs/portfolio/steam_icon_logo.svg">Steam</span>
+					</div>
+				</a>
+			</div>
+
+			<section class="splide" id="michiball-carousel" aria-label="Michiball screenshots">
+				<div class="splide__track">
+					<div class="splide__list">
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/michiball1.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/michiball2.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/michiball3.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/michiball4.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/michiball5.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/michiball6.png" class="screenshot_slide"/>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div>
+			<h2 id="accidente">La causa del accidente que provocó el incendio</h2>
+			<p>This is a project we made in Nokorpo for ICEX (the Spanish Institute for Foreign Trade). They made a campaign to promote audiovisual talent from Spain, which included <a href="https://spainwheretalentignites.com/audiovisual-from-spain-presents/">a short movie</a> and the <a href="https://spainwheretalentignites.com/game/">short game we made</a>.</p>
+			<p>I wrote most of the code for this project and focused on writing tools to help our game designer to iterate fast.</p>
+
+			<a class="portfolio-badge" href="https://spainwheretalentignites.com/game/">
+				<div>
+					<span>🎮️ Play it here!</span>
+				</div>
+			</a>
+			<section class="splide" id="accidente-carousel" aria-label="La causa del accidente que provocó el incendio screenshots">
+				<div class="splide__track">
+					<div class="splide__list">
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente1.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente2.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente3.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente4.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente5.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente6.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente7.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/accidente8.png" class="screenshot_slide"/>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div>
+			<h2 id="infinigrass">Infinigrass</h2>
+			<p>A jam game made in 3 days for Mermelada Jam 2024. Achieved 1st 🥇 place in the "Art" and "Fun" categories.  An incremental design in a very short experience (10 minutes).</p>
+			<p>I made the game and sound design for this one, as well as coding.</p>
+
+			<a class="portfolio-badge" href="https://antimundo.itch.io/infinigrass">
+				<div>
+					<span>🎮️ Play it here!</span>
+				</div>
+			</a>
+			<section class="splide" id="infinigrass-carousel" aria-label="Infinigrass screenshots">
+				<div class="splide__track">
+					<div class="splide__list">
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/infinigrass1.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/infinigrass2.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/infinigrass3.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/infinigrass4.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/infinigrass5.png" class="screenshot_slide"/>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div>
+			<h2 id="rat-and-furrius">Rat and Furrius</h2>
+			<p>Anoter jam game made in 3 days for Mermelada Jam 2023. Achieved 2nd place 🥈 in the "Innovation" and "Fun" categories. Very quick and engaging gameplay.</p>
+			<p>For this game I mostly worked in programming and production. Also worked very closely with the game designer to prepare the tools they needed as well as helping to iterate quickly during polishing.</p>
+
+			<a class="portfolio-badge" href="https://antimundo.itch.io/rat-and-furrius">
+				<div>
+					<span>🎮️ Play it here!</span>
+				</div>
+			</a>
+			<section class="splide" id="rat-and-furrius-carousel" aria-label="Rat and furrius screenshots">
+				<div class="splide__track">
+					<div class="splide__list">
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/rat_furrius1.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/rat_furrius2.jpg" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/rat_furrius3.jpg" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/rat_furrius4.jpg" class="screenshot_slide"/>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div>
+			<h2 id="gdsnap">GDSnap</h2>
+			<p>This is a tool for enabling Screenshot Testing in Godot. I made it as a proof of concept and shared it in the Guadalindie talk. The maintainers for some testing plugins have gotten in contact with us to integrate it with their plugins, so it will soon have more development.</p>
+
+			<a class="portfolio-badge" href="https://github.com/Nokorpo/GDSnap">
+				<div>
+					<span>💻️ Check the code here!</span>
+				</div>
+			</a>
+			<section class="splide" id="gdsnap-carousel" aria-label="GDSnap screenshots">
+				<div class="splide__track">
+					<div class="splide__list">
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/gdsnap1.png" class="screenshot_slide"/>
+						</div>
+						<div class="splide__slide">
+							<img src="https://nepo.dev/imgs/portfolio/gdsnap2.png" class="screenshot_slide"/>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+	</div>
+
+
+	</main>
+
+	<div class="right-sidebar"></div>
+	<div class="kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img class="wobble-on-hover" src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<div class="footer-kofi-donations">
+		<p>¿Te gustó lo que leíste?</p>
+		<a href="https://ko-fi.com/jnepo" target="_blank">
+			<img src="https://nepo.dev/imgs/kofi-button.webp" />
+		</a>
+	</div>
+	<footer>
+		<p>Volver a la <a href="https://nepo.dev/index.html">lista de artículos</a></p>
+	</footer>
+</body>
+</html>
