@@ -302,6 +302,44 @@ footer > p {
   margin: 0;
 }
 
+.splide__list {
+  height: inherit !important; /*fixes a bug where the carousel dots show waaaay below the carousel*/
+}
+
+.screenshot_slide {
+  height: 15rem;
+}
+
+.portfolio-badge {
+  display: flex;
+  text-decoration: none !important;
+  margin: 20px 0;
+  justify-content: right;
+}
+
+.portfolio-badge > div {
+  margin-left: auto;
+  border: 2px solid #17bee5;
+  background-color: #17bee5;
+  border-radius: 30px;
+  cursor: pointer;
+  padding: 0.8em 1.2em 0.8em 1em;
+  transition: all ease-in-out 0.2s;
+  font-size: 16px;
+}
+
+.portfolio-badge > div > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 600;
+}
+
+.portfolio-badge > div:hover {
+  background-color: #219eba;
+}
+
 /* Responsive layout - makes a one column layout (100%) instead of a two-column/multiple-column layout */
 @media (max-width: 700px) {
   .sidebar {

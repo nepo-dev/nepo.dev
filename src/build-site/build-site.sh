@@ -37,6 +37,10 @@ main() {
   echo "Generating index.html"
   build-index.sh <<< "$post_list" > "$BUILD_DIR/index.html"
 
+  # Build portfolio file
+  echo "Generating portfolio.html"
+  build-portfolio.sh > "$BUILD_DIR/portfolio.html"
+
   # Build subscribe form file
   echo "Generating subscribe.html"
   build-subscribe.sh > "$BUILD_DIR/subscribe.html"
@@ -58,6 +62,7 @@ main() {
   rm "$PROJECT_ROOT/index.html" || true
   mv "$BUILD_DIR/index.html" "$PROJECT_ROOT/index.html"
   mv "$BUILD_DIR/subscribe.html" "$PROJECT_ROOT/subscribe.html"
+  mv "$BUILD_DIR/portfolio.html" "$PROJECT_ROOT/portfolio.html"
   if [ -z "$DEBUG" ]; then
     for category in ${CATEGORIES[@]}; do
       rm "$PROJECT_ROOT/$category.html" || true
