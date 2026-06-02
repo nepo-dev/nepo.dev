@@ -3,12 +3,167 @@
 
   <title>Nepo's blog</title>
   <link href="https://nepo.dev"/>
-  <updated>2026-04-09T22:33:50Z</updated>
+  <updated>2026-06-02T01:55:19Z</updated>
   <author>
     <name>Juan Antonio Nepormoseno Rosales</name>
   </author>
   <id>urn:uuid:d1ef2b92-d2f5-468c-9b12-9104d4e28b5b</id>
 
+  <entry>
+    <title>Sobre la necesidad de un manifiesto de juegos
+alternativos</title>
+    <link href="https://nepo.dev/posts/necesidad-de-manifiesto-juegos-alternativos.html"/>
+    <id>urn:uuid:09839019-4381-4b29-8d69-14cef9956b63</id>
+    <published>2026-06-01T00:00:00Z</published>
+    <updated>2026-06-01T00:00:00Z</updated>
+    <summary>El AAA y el indie han fallado al videojuego como medio
+cultural. Necesitamos separar el acceso a los juegos alternativos de las
+métricas y lógicas comerciales.</summary>
+    <content type="html">
+&lt;p&gt;Quiero compartir &lt;strong&gt;mi&lt;/strong&gt; perspectiva (pesimista, hastiada
+y enfadada) del medio de los videojuegos y de qué podemos hacer en el
+futuro cercano para &lt;strong&gt;cambiar&lt;/strong&gt; las cosas (y también qué
+cosas se están haciendo ahora).&lt;/p&gt;
+&lt;p&gt;Voy a escribir un poco de contexto por si no conoces el estado
+actual, pero si ya estás metide en esto de los juegos, salta
+directamente &lt;a href=&quot;#distribución-alternativa&quot;&gt;a la segunda
+sección&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;el-fracaso-del-indie-un-poco-de-contexto&quot;&gt;El fracaso del indie:
+un poco de contexto&lt;/h3&gt;
+&lt;p&gt;No pienso explicar por qué &lt;strong&gt;el AAA es un error en sí
+mismo&lt;/strong&gt;. Busca sagas famosas con mil títulos como Call of Duty,
+juegos como servicio como Fortnite, el delisting de Spec Ops: The Line y
+la iniciativa Stop Killing Games, y la cantidad de despidos en la
+industria en los últimos años y &lt;strong&gt;fórmate una opinión si no la
+tienes ya&lt;/strong&gt;. No sé si contamos Roblox como AAA, pero por echarle
+pimienta al asunto busca casos de explotación infantil en Roblox&lt;/p&gt;
+&lt;p&gt;Donde podemos entrar a discutir un poco más es con los
+&lt;strong&gt;videojuegos indie&lt;/strong&gt;. Empezaron como algo nuevo que
+prometía un futuro brillante durante la década de los 2000. Recuerdo con
+nostalgia títulos como Cave Story o Yume Nikki (y la cantidad de juegos
+de RPG Maker que inspiró, como Ib o Ao Oni). Pero esos brotes iniciales
+han sido aplastados por toda la gente que ha venido a intentar andar el
+mismo camino que otros, buscando dinero o fama en un campo cada vez más
+asfixiado y agotado. Y como no conservamos la historia del medio, cada
+vez acceder a esos títulos iniciales es más dificil&lt;/p&gt;
+&lt;p&gt;A falta de una palabra mejor, se ha optimizado y gentrificado el
+término “indie” hasta hacer que &lt;strong&gt;carezca de significado&lt;/strong&gt;.
+Ya no existe lo “indie” como alternativa al AAA. Existe el
+&lt;strong&gt;“indie” como aspiración a ser AAA&lt;/strong&gt;. Ni siquiera son
+caras opuestas de una misma moneda, son la misma cara pero con monedas
+de valores distintos (céntimos/euros vs billetes de 500)&lt;/p&gt;
+&lt;p&gt;Voy a usar el término &lt;strong&gt;“videojuego alternativo”&lt;/strong&gt; para
+referirme a la idea vaga de videojuegos &lt;strong&gt;“no
+comerciales”&lt;/strong&gt;. Ese tipo de juego tan difícil de definir que a
+veces es más corto, a veces es más personal, y que no tiene cabida en
+las plataformas y eventos comerciales. Quiero decir, hay gente muy lista
+bastante enfadada por el poco hueco que este tiene en ferias y otros
+eventos, incluyendo los digitales&lt;/p&gt;
+&lt;h3 id=&quot;distribución-alternativa&quot;&gt;Distribución alternativa&lt;/h3&gt;
+&lt;p&gt;Uno de los principales problemas que le veo al indie es que, al usar
+las mismas plataformas de distribución que lo comercial, &lt;strong&gt;mide su
+éxito por las mismas métricas que el juego comercial&lt;/strong&gt;: cantidad
+de ventas, cantidad de jugadores concurrentes, reviews de players o en
+medios…&lt;/p&gt;
+&lt;p&gt;No sólo eso, sinó que ese ecosistema favorece que quien es comercial.
+Quien optimiza por esas métricas va a sobrevivir y seguir publicando
+juegos. Por lo que con el tiempo esas métricas hacen que los juegos no
+comerciales se vean desplazados y no tengan cabida&lt;/p&gt;
+&lt;p&gt;Creo que es imposible que tengamos una comunidad unida si seguimos
+configurando nuestra visión del éxito a las lógicas capitalistas. Y, por
+lo tanto, creo que &lt;strong&gt;deberíamos definir cómo debería
+verse&lt;/strong&gt; una distribución alternativa:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;¿Qué métricas debería usar? *&lt;/li&gt;
+&lt;li&gt;¿Quién las usaría?&lt;/li&gt;
+&lt;li&gt;¿Qué formato tendrían?&lt;/li&gt;
+&lt;li&gt;¿De qué manera podemos llegar a conseguir una distribución así?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;* (no me vale “ninguna” porque entonces todo el mundo usará las que
+nos vienen dadas por defecto por el sistema existente, las
+comerciales)&lt;/p&gt;
+&lt;p&gt;Conozco personas y grupos en varios lugares de España que considero
+que son como lo que en inglés llaman &lt;em&gt;grassroots community&lt;/em&gt;.
+Gente que apoya asistiendo a eventos, compartiendo y recomendando juegos
+por el boca-oreja, haciendo fanzines, organizando eventos para que esta
+comunidad arraigue y pueda crecer, etc. Quizá veo un paralelismo no
+tanto con el punk, que me me parece que fue muy autodestructivo (o
+miope, que no quiso mirar al futuro), sinó con lo que fue el rock
+alternativo de los 80-90. Un ejemplo que conozco: R.E.M. se pudo
+sostener en parte psoer haber crecido en las radios de estudiantes de
+universidades de EEUU. Radios quizá sin muchos recursos, pero que
+tampoco están ligadas a las lógicas comerciales&lt;/p&gt;
+&lt;p&gt;Ya &lt;strong&gt;existen plataformas&lt;/strong&gt; para distribuir videojuegos
+que &lt;strong&gt;no están ligadas a estas métricas comerciales&lt;/strong&gt;
+(ventas, tiempo de juego, reviews…). Por cercanía, se me ocurren los
+fanzines de &lt;a
+href=&quot;https://videojoc-fanziner-fanzin-juganer.aixeta.cat/&quot;&gt;“Videojoc
+fanziner fanzín juganer”&lt;/a&gt; y &lt;a
+href=&quot;https://payhip.com/AquarellaVirtual&quot;&gt;“Aquarel·la digital”&lt;/a&gt;, el
+&lt;a href=&quot;https://www.cotxeres-casinet.cat/activitats/clubdejoc/&quot;&gt;Club de
+joc del centro cívico Cotxeres-Casinet de Sants&lt;/a&gt; o los muchos clubs
+de juego que han salido de este, eventos como el cancelado por la
+Generalitat &lt;a
+href=&quot;https://www.diba.cat/documents/d/biblioteques/ficcio-en-joc-cas_digital_vf-1&quot;&gt;“Ficció
+en Joc”&lt;/a&gt; o &lt;a href=&quot;https://www.instagram.com/play.utopia/&quot;&gt;“Play
+Utopia”&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Aún así, me pregunto cómo podrían ser otras plataformas que quieran
+cumplir este fin. Una cosa que tengo clara es que &lt;strong&gt;no puede haber
+recomendación algorítmica&lt;/strong&gt;. Las recomendaciones deberían ser
+&lt;strong&gt;humanas y orgánicas&lt;/strong&gt;. Curadores y amigues que te hablan
+de algo que les ha gustado. Por eso al pensar en estas plataformas
+pienso en páginas web personales, con artículos hablando de los juegos
+que han marcado a las jugadoras, reviews sin puntuación y listas hechas
+a mano. Quizá incluso podrían existir curadoras de
+&lt;strong&gt;museos&lt;/strong&gt; que compartan juegos relacionados con una
+exposición, o &lt;strong&gt;ayuntamientos&lt;/strong&gt; que en su lista promocionen
+juegos hechos en su localidad&lt;/p&gt;
+&lt;h3 id=&quot;cambiar-el-mundo&quot;&gt;Cambiar el mundo&lt;/h3&gt;
+&lt;p&gt;He estado en reuniones, grupos de chat, en documentos compartidos… y
+en todos surgen muchas ideas que acaban quedándose en el tintero (¡ojo!
+¡también hay otras muchas que salen adelante y son maravillas!). Todas
+estas cosas están muy bien y son necesarias para &lt;strong&gt;tejer
+redes&lt;/strong&gt;, saber &lt;strong&gt;qué se está haciendo en otros
+lugares&lt;/strong&gt; y poder &lt;strong&gt;desarrollar el pensamiento&lt;/strong&gt;,
+pero opino que hace falta concretar esas ideas que quedan en el aire si
+queremos avanzar. Creo que hace falta una &lt;strong&gt;propuesta
+inicial&lt;/strong&gt; que se pueda &lt;strong&gt;criticar y cambiar&lt;/strong&gt; si
+queremos aterrizar las ideas y llegar a conseguir un cambio real&lt;/p&gt;
+&lt;p&gt;Soy muy fan del modelo &lt;a
+href=&quot;https://en.wikipedia.org/wiki/Request_for_Comments&quot;&gt;RFC (Request
+For Comments)&lt;/a&gt;, que se usa para definir los estándares que mueven el
+Internet. La idea principal es super simple: un &lt;strong&gt;documento de
+texto&lt;/strong&gt; explicando una propuesta se &lt;strong&gt;comparte&lt;/strong&gt; con
+un grupo de gente técnica. Estas &lt;strong&gt;escriben notas&lt;/strong&gt; sobre
+el documento, &lt;strong&gt;proponen cambios y argumentan&lt;/strong&gt; por qué
+debería escribirse/hacerse de una forma u otra hasta que llegan a un
+&lt;strong&gt;consenso&lt;/strong&gt; (o a un “no estoy de acuerdo pero prefiero que
+pasemos a la acción en lugar de bloquear la conversación con este
+detalle”)&lt;/p&gt;
+&lt;p&gt;Que históricamente se haya usado para documentar proyectos muy
+técnicos no quita que sea una herramienta maravillosa de comunicación y
+para &lt;strong&gt;llegar a un consenso en otros ámbitos&lt;/strong&gt;. No sólo
+puede usarse para temas técnicos, creo que puede usarse para organizar a
+cualquier grupo de forma asíncrona. Además, una ventaja maravillosa es
+que al final queda un documento con el consenso al que se ha llegado,
+por lo que cualquier persona que se una después de su creación puede
+leerlo y adscribirse al mismo. &lt;strong&gt;Preservamos un histórico&lt;/strong&gt;
+para el futuro, cosa que esos medios inmediatos (reuniones, grupos de
+chat…) no hacen&lt;/p&gt;
+&lt;p&gt;Por ejemplo, si queremos ponernos de acuerdo en qué término usar para
+hablar de juegos pequeños y no comerciales (juego alternativo, indie,
+jueguito, arte interactivo…), o en cómo tienen que ser las plataformas
+de curación y distribución que decribía antes, no se me ocurre mejor
+formato que este. La comunidad de expertas interesadas en hablar de este
+tema ya la tenemos y la conocemos. Sólo hace falta que alguien escriba
+&lt;strong&gt;un primer borrador&lt;/strong&gt; y lo compartamos entre esta
+comunidad para que lo revisen, critiquen y propongan cambios&lt;/p&gt;
+&lt;p&gt;¿Cómo cambiamos el mundo? Pues creo que paso a paso. Hablando, sí,
+pero también creando un &lt;strong&gt;terreno sólido&lt;/strong&gt; en el que la
+comunidad y sus ideas pueda &lt;strong&gt;arraigar&lt;/strong&gt;. Intentándolo,
+fracasando y corrigiendo&lt;/p&gt;
+    </content>
+  </entry>
   <entry>
     <title>Configuración de CI pt. 2: Docker, imágenes,
 contenedores</title>
